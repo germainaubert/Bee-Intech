@@ -31,7 +31,7 @@ class button():
 	#Permet de savoir si l'utilisateur a le curseur sur le bouton
 	#Retourne True si oui sinon retourne False
 	def is_over(self,pos):
-		if pos[O] >self._x and pos[0] < self._x + self._width:
+		if pos[0] >self._x and pos[0] < self._x + self._width:
 			if pos[1] > self._y and pos[1] < self._y + self._height:
 				return True
 
