@@ -5,8 +5,6 @@ class window():
 
     def __init__(self):
         pygame.init()
-        
-        pygame.display.set_caption(title)
 
         self._w, self._h = self.getSize()
 
@@ -33,6 +31,5 @@ class window():
     def getSize(self):
         return pygame.display.Info().current_w, pygame.display.Info().current_h
 
-        
 pygame.init()
 window()
