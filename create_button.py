@@ -13,7 +13,7 @@ class button():
 		self._text = text
 
 	#Prend en argument la fenetre et si oui ou non le boutton a une bordure
-	def draw(self, window, outline = None):
+	def draw_button(self, window, outline = None):
 
 		#Créer la bordure
 		if outline:
