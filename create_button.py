@@ -2,8 +2,8 @@ import pygame
 
 class button():
 
-	#Prend en argument la couleur, la position x, y, la taille hauteur, largeur et le text
-	def __init__(self, color, x, y, width, height, text = ''):
+	#Prend en argument la couleur, la position x, y, la taille hauteur, largeur, le texte, la police et la taille de la police
+	def __init__(self, color, x, y, width, height, text = '', font = 'comicsans', sizeFont = 50):
 		
 		self._x = x
 		self._y = y
@@ -11,6 +11,8 @@ class button():
 		self._width = width
 		self._height = height
 		self._text = text
+		self._font = font
+		self._sizeFont = sizeFont
 
 	#Prend en argument la fenetre et si oui ou non le boutton a une bordure
 	def draw_button(self, window, outline = None):
@@ -24,7 +26,7 @@ class button():
 
 		# choisi la police du texte et le centre au milieur du boutton
 		if self._text != '':
-			font = pygame.font.SysFont('comicsans',50)
+			font = pygame.font.SysFont(self._font, self._sizeFont)
 			text = font.render(self._text, 1, (0,0,0))
 			window.blit(text, (self._x + (self._width/2 - text.get_width()/2), self._y + (self._height/2 - text.get_height()/2)))
 
