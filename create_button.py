@@ -24,7 +24,7 @@ class button():
 
 		# choisi la police du texte et le centre au milieur du boutton
 		if self._text != '':
-			font = pygame.font.SysFont('comicsans',60)
+			font = pygame.font.SysFont('comicsans',50)
 			text = font.render(self._text, 1, (0,0,0))
 			window.blit(text, (self._x + (self._width/2 - text.get_width()/2), self._y + (self._height/2 - text.get_height()/2)))
 
