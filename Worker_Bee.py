@@ -1,6 +1,6 @@
-from Bees import bees 
+from Bee import bee 
 
-	class worker_bees(bees):
+	class worker_bee(bee):
 
 		def __init__(self)
 
