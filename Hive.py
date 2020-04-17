@@ -1,16 +1,31 @@
+from Bee import bee
+from Worker_Bee import worker_bee 
 
 class hive():
 
-	def __init__(self):
+	#init de la ruche
+	def __init__(self, level = 0, exp = 0, honey = 0, honey_prod = 0, pollen = 0,bees = [], upgrades = []):
 
-		self.level = 0
-		self.exp = 0
-		self.honey = 10
-		self.honey_prod = 15
-		self.pollen = 0
-		self.bees = []
-		self.upgrades = []
+		self._level = level
+		self._exp = exp
+		self._honey = honey
+		self._honey_prod = honey_prod
+		self._pollen = pollen
+		self._bees = bees
+		self._upgrades = upgrades
 
+	# permet d'ajouter au miel la production/s
 	def honey_gain(self):
-		self.honey += self.honey_prod
+		self._honey += self._honey_prod
 
+	# ajoute une abeille a la ruche
+	def add_bee(self,bee):
+		self._bees.append(bee)
+
+	# calcul la production de miel de la ruche
+	def calcul_prod(self):
+		calcul = 0
+		for bee in self._bees:
+			if bee.category() == "worker":
+				calcul += bee._prod - bee._cost
+		return calcul
