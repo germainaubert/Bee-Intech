@@ -1,25 +1,17 @@
 import pygame
 from pygame.locals import *
 from create_button import button
-
+from display import display
 class window():
 
     def __init__(self):
         pygame.init()
         
         self._w, self._h = self.getSize()
-
         self._window = pygame.display.set_mode((self._w, self._h), pygame.FULLSCREEN)
-
         self._title = "comet fall game"
         pygame.display.set_caption(self._title)
-        self.display_menu()
-
-    def display_menu(self):
-        self._background = pygame.image.load('./Images/fond.jpg')
-        self._window.blit(self._background, (0, 0))
-        self._quit_button = button((212,180,0), 1720, 985, 180, 75, 'Quitter', sizeFont=50)
-        self._quit_button.draw_button(self._window)
+        display.display_menu(self)
         
     def main_loop(self):
         run = True
