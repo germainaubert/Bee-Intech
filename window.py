@@ -25,16 +25,18 @@ class window():
         run = True
         while run:
             pygame.display.flip()
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
+            run = self.event_handler(pygame.event.get())      
+            
+    def event_handler(self, event_list, run = True): # suceptible de prendre beaucoup plus d'arguments, nottament pour la gestion des différents boutons 
+        for event in event_list:
+            if event.type == pygame.QUIT:
+                run = False
+                pygame.quit()
+            if event.type == MOUSEBUTTONDOWN:
+                if self._quit_button.is_over(event.pos):
                     run = False
                     pygame.quit()
-                if event.type == MOUSEBUTTONDOWN:
-                    if self._quit_button.is_over(event.pos):
-                        run = False
-                        pygame.quit()
-            
-        
+        return run
                 
     def getSize(self):
         return pygame.display.Info().current_w, pygame.display.Info().current_h
