@@ -1,9 +1,9 @@
 from Bee import bee 
 
-	class worker_bee(bee):
+class worker_bee(bee):
 
-		def __init__(self)
+	def __init__(self, cost = 0, category = None, upgrade = [], prod = 0, bonus_fields = []):
 
-			super().__init__(self)
-			self.prod = 0
-			self.bonus_fields = []
+		super().__init__(cost,category,upgrade)
+		self._prod = prod
+		self._bonus_fields = bonus_fields

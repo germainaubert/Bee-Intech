@@ -1,8 +1,8 @@
 
 class bee():
 
-	def __init__(self):
+	def __init__(self, cost = 0, category = None, upgrade = []):
 
-		self.cost = 0
-		self.category = None
-		self.upgrade = []
+		self._cost = cost
+		self._category = category
+		self._upgrade = upgrade
