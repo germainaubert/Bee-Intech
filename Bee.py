@@ -1,5 +1,5 @@
 
-class bees():
+class bee():
 
 	def __init__(self):
 
