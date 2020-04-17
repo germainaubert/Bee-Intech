@@ -1,7 +1,8 @@
 import pygame
 from create_button import button
 class display():
-    def init(self):
+    
+    def __init__(self):
         button_list = []
     
     def display_menu(self):
