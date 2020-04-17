@@ -25,9 +25,22 @@ class window():
                 run = False
                 pygame.quit()
             if event.type == MOUSEBUTTONDOWN:
-                if self._quit_button.is_over(event.pos):
-                    run = False
-                    pygame.quit()
+                if self._quit_button is not None:
+                    if self._quit_button.is_over(event.pos):
+                        run = False
+                        pygame.quit()
+                if self._launch_game_button is not None:
+                    if self._launch_game_button.is_over(event.pos):
+                        display.display_new_game(self)
+                if self._bees_button is not None:
+                    if self._bees_button.is_over(event.pos):
+                        display.display_management(self)
+                if self._shop_button is not None:
+                    if self._shop_button.is_over(event.pos):
+                        display.display_shop(self)
+                if self._fight_button is not None:
+                    if self._fight_button.is_over(event.pos):
+                        display.display_fight(self)
         return run
                 
     def getSize(self):
