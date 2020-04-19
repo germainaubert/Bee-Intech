@@ -29,14 +29,16 @@ class window():
             if event.type == pygame.QUIT:
                 run = False
                 pygame.quit()
+                break
             if event.type == MOUSEBUTTONDOWN:
                 if self._quit_button is not None:
                     if self._quit_button.is_over(event.pos):
                         run = False
                         pygame.quit()
+                        break
                 if self._launch_game_button is not None:
                     if self._launch_game_button.is_over(event.pos):
-                        display.display_new_game(self)
+                        display.display_new_game(self, self._w, self._h)
                 if self._bees_button is not None:
                     if self._bees_button.is_over(event.pos):
                         display.display_management(self)
