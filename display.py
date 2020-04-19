@@ -39,10 +39,16 @@ class display():
         return surface
 
     def display_management(self):
+        surface = pygame.Surface((1920,1080))
         print("Gestion des Abeilles en developpement!")
+        return surface
     
     def display_shop(self):
+        surface = pygame.Surface((1920,1080))
         print("Magasin en developpement!")
+        return surface
     
     def display_fight(self):
+        surface = pygame.Surface((1920,1080))
         print("Guerre en préparation!")
+        return surface
