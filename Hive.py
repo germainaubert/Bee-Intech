@@ -1,4 +1,3 @@
-
 class hive():
 
 	def __init__(self):
