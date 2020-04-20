@@ -18,6 +18,9 @@ class hive():
 	def honey_gain(self):
 		self._honey += self._honey_prod
 
+	def honey(self):
+		return self._honey
+
 	# ajoute une abeille a la ruche
 	def add_bee(self,bee):
 		self._bees.append(bee)
@@ -29,3 +32,6 @@ class hive():
 			if bee.category() == "worker":
 				calcul += bee._prod - bee._cost
 		return calcul
+
+	def honey_loose(self, amount):
+		self._honey -= amount
