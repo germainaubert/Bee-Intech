@@ -3,13 +3,13 @@ from Bee import bee
 from Worker_Bee import worker_bee 
 
 def test_Bee_init():
-	bee1 = worker_bee(15,"chong",["a"],188,["chong"])
+	bee1 = worker_bee("bee",15,"chong",["a"],188,["chong"])
 	print(f"bee 1 categorie: {bee1._category} prod: {bee1._prod}")
 	
 	bee2 = worker_bee()
 	print(f"bee 2 categorie: {bee2._category} prod: {bee2._prod}")
 
-	bee3 = bee(15,"chong",["a"])
+	bee3 = bee("bee",15,"chong",["a"])
 	print(f"bee 3 categorie: {bee3._category}")
 
 	bee4 = bee()
@@ -23,17 +23,17 @@ def test_hive():
 
 	# créer une ruche, y ajoute une abeille et calcule sa production
 	hive2 =  hive()
-	bee1 = worker_bee(15,"worker",["a"],37,["chong"])
+	bee1 = worker_bee("bee",15,"worker",["a"],37,["chong"])
 	hive2.add_bee(bee1)
 	print(f"la ruche 2 produit {hive2.calcul_prod()} miel")
 	
 	# ajoute une deuxième abeille et calcul a nouveau sa production
-	bee2 = worker_bee(20,"worker",["a"],130,["chong"])
+	bee2 = worker_bee("bee",20,"worker",["a"],130,["chong"])
 	hive2.add_bee(bee2)
 	print(f"la ruche 2 produit {hive2.calcul_prod()} miel")
 
 	# ajoute une troisième abeille et calcul a nouveau sa production
-	bee3 = worker_bee(1000,"worker",["a"],130,["chong"])
+	bee3 = worker_bee("bee",1000,"worker",["a"],130,["chong"])
 	hive2.add_bee(bee3)
 	print(f"la ruche 2 produit {hive2.calcul_prod()} miel")
 

@@ -1,7 +1,7 @@
 import pygame
 from pygame.locals import *
-from Create_button import button
-from Display import display
+from create_button import button
+from display import display
 from math import *
 
 class window():
