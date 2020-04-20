@@ -33,5 +33,7 @@ class hive():
 				calcul += bee._prod - bee._cost
 		return calcul
 
+	# soustrait un montant de miel defini a la ruche
+	# utilse pour les achats par exemple
 	def honey_loose(self, amount):
 		self._honey -= amount
