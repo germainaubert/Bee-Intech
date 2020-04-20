@@ -8,10 +8,17 @@ class window():
 
     def __init__(self):
         pygame.init()
+
+        # Initialisation des boutons
+        self._quit_button = None
+        self._launch_game_button = None
+        self._bees_button = None
+        self._shop_button = None
+        self._fight_button = None
         
         self._w, self._h = self.getSize()
         self._window = pygame.display.set_mode((self._w, self._h), pygame.FULLSCREEN)
-        self._title = "comet fall game"
+        self._title = "BEETTHEFUCKOUTOFMYWIFE"
         pygame.display.set_caption(self._title)
         
         self._surface = display.display_menu(self, self._w, self._h) # _surface est la surface qui doit contenir tout ce qui concerne l'affichage, à bien différencier avec _window
@@ -25,12 +32,15 @@ class window():
             run = self.event_handler(pygame.event.get())      
             
     def event_handler(self, event_list, run = True):
+        
         for event in event_list:
+            print(event)
             if event.type == pygame.QUIT:
                 run = False
                 pygame.quit()
                 break
             if event.type == MOUSEBUTTONDOWN:
+                self._last_button = event.type
                 if self._quit_button is not None:
                     if self._quit_button.is_over(event.pos):
                         run = False
@@ -52,10 +62,6 @@ class window():
                 
     def getSize(self):
         return pygame.display.Info().current_w, pygame.display.Info().current_h
-
-    
-        
-
 
 window = window()
 window.main_loop()
