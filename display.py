@@ -1,5 +1,6 @@
 import pygame
 from create_button import button
+from Shop import shop
 
 class display():
     
@@ -24,7 +25,7 @@ class display():
         self._quit_button = None
         self._launch_game_button = None
         #On redessine le background
-        # self._background.fill((255,255,255))
+        #self._background.fill((255,255,255))
         surface.blit(self._background, (0, 0))
         #Bouton Bees
         self._bees_button = button((212,180,0), 720, 303, 480, 75, w, h, 'Gestion des Abeilles', sizeFont=50)
@@ -42,15 +43,49 @@ class display():
 
     def display_management(self):
         surface = pygame.Surface((1920,1080))
+        self._bees_button = None
+        self._shop_button = None
+        self._fight_button = None
         print("Gestion des Abeilles en developpement!")
         return surface
     
+    def display_shop_bee(self, bee, x, y, filename):
+        font = pygame.font.SysFont('comicsans', 50)
+        bee_shop = bee
+        bee_infos = bee._bee
+        print(dir(bee_infos))
+        name = font.render("Nom :" + str(bee_infos.self), 1, (0,0,0))
+        price = font.render("prix :" + str(bee_shop._price), 1, (0,0,0))
+        if filename is not None:
+            image = pygame.image.load(filename)
+            self.blit(image, (x, y + 50))
+            y += image.get_height()
+        self.blit(name, (x, y + 100))
+        self.blit(price, (x, y + 150))
+
     def display_shop(self):
+        #on redessine la surface
         surface = pygame.Surface((1920,1080))
+        surface.blit(self._background, (0, 0))
+        #desac les buttons
+        self._bees_button = None
+        self._shop_button = None
+        self._fight_button = None
+        # création du texte du shop
         print("Magasin en developpement!")
+        font = pygame.font.SysFont('comicsans', 50)
+        welcome = font.render("Bienvenue dans le magasin", 1, (0,0,0))
+        buy = font.render("Achetez des Abeilles!", 1, (0,0,0))
+        surface.blit(welcome, (150, 120))
+        surface.blit(buy, (150, 170))
+        display.display_shop_bee(surface, shop._bees[0], 150, 220,"./Images/bak.jpg")
+        # 
         return surface
     
     def display_fight(self):
         surface = pygame.Surface((1920,1080))
+        self._bees_button = None
+        self._shop_button = None
+        self._fight_button = None
         print("Guerre en préparation!")
         return surface

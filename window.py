@@ -34,7 +34,7 @@ class window():
     def event_handler(self, event_list, run = True):
         
         for event in event_list:
-            print(event)
+            #print(event)
             if event.type == pygame.QUIT:
                 run = False
                 pygame.quit()
