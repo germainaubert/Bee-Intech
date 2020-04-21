@@ -1,4 +1,3 @@
-from Shop_Bee import shop_bee
 from Hive import hive
 from Worker_Bee import worker_bee
 
@@ -8,7 +7,7 @@ class shop():
 	def __init__(self):
 
 		# liste des abeilles dans le shop
-		self._bees = [shop_bee(worker_bee('hervé2', 'Ah il est cher sa mère', 'worker', 'Le roi, jean jass et caballero', '140', 'bonus_fields'), 150, 0)]
+		self._bees = [worker_bee('hervé2', 'Ah il est cher sa mère', 'worker', 'Le roi, jean jass et caballero', '140', 'bonus_fields', 150, 0)]
 		# liste des upgrades dans le shop
 		upgrades = []
 

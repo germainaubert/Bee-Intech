@@ -49,12 +49,10 @@ class display():
         print("Gestion des Abeilles en developpement!")
         return surface
     
-    def display_shop_bee(self, bee, x, y, filename):
+    def display_shop_bee(self, bee, x, y, filename, w, h):
         font = pygame.font.SysFont('comicsans', 50)
         bee_shop = bee
-        bee_infos = bee._bee
-        print(dir(bee_infos))
-        name = font.render("Nom :" + str(bee_infos.self), 1, (0,0,0))
+        name = font.render("Nom :" + str(bee_shop._name), 1, (0,0,0))
         price = font.render("prix :" + str(bee_shop._price), 1, (0,0,0))
         if filename is not None:
             image = pygame.image.load(filename)
@@ -62,8 +60,11 @@ class display():
             y += image.get_height()
         self.blit(name, (x, y + 100))
         self.blit(price, (x, y + 150))
+        buy_bee_button = button((212,180,0), x, y + 200, 180, 75, w, h,'Acheter', font='comicsans', sizeFont=50)
+        buy_bee_button.draw_button(self)
 
-    def display_shop(self):
+
+    def display_shop(self, w, h):
         #on redessine la surface
         surface = pygame.Surface((1920,1080))
         surface.blit(self._background, (0, 0))
@@ -78,7 +79,7 @@ class display():
         buy = font.render("Achetez des Abeilles!", 1, (0,0,0))
         surface.blit(welcome, (150, 120))
         surface.blit(buy, (150, 170))
-        display.display_shop_bee(surface, shop._bees[0], 150, 220,"./Images/bak.jpg")
+        display.display_shop_bee(surface, shop._bees[0], 150, 220,"./Images/bak.jpg",w ,h)
         # 
         return surface
     

@@ -54,7 +54,7 @@ class window():
                         self._surface = display.display_management(self)
                 if self._shop_button is not None:
                     if self._shop_button.is_over(event.pos):
-                        self._surface = display.display_shop(self)
+                        self._surface = display.display_shop(self, self._w, self._h)
                 if self._fight_button is not None:
                     if self._fight_button.is_over(event.pos):
                         self._surface = display.display_fight(self)
