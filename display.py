@@ -42,7 +42,7 @@ class display():
 
         return surface
 
-    def display_management(self):
+    def display_management(self, w, h):
         surface = pygame.Surface((1920,1080))
         surface.blit(self._background, (0, 0))
         self._bees_button = None
@@ -50,10 +50,16 @@ class display():
         self._fight_button = None
         font = pygame.font.SysFont('comicsans', 50)
         welcome = font.render("Bienvenue dans votre ruche !", 1, (0,0,0))
-        honey = font.render("Miel disponible : " + str(self.hive.honey()), 1, (0,0,0))
+        honey = font.render("Miel disponible : " + str(self.hive._honey), 1, (0,0,0))
+        bees_possessed = font.render("Abeilles posédées : " + str(len(self.hive._bees)), 1, (0,0,0))
         surface.blit(welcome, (150, 120))
         surface.blit(honey, (150, 170))
+        surface.blit(bees_possessed, (150, 220))
         print("Gestion des Abeilles en developpement!")
+        self._get_honey_button = button((255,180,255), 200, 300, 480, 100, w, h, 'Get MIEL', sizeFont=60)
+        self._get_honey_button.draw_button(surface)
+        self._launch_game_button = button((255,180,255), 1700, 300, 480, 100, w, h, 'back', sizeFont=60)
+        self._launch_game_button.draw_button(surface)
         return surface
     
     def display_shop_bee(self, bee, x, y, filename, w, h, button_id):
@@ -75,18 +81,24 @@ class display():
         #on redessine la surface
         surface = pygame.Surface((1920,1080))
         surface.blit(self._background, (0, 0))
+        
         #desac les buttons
         self._bees_button = None
         self._shop_button = None
         self._fight_button = None
         # création du texte du shop
-        print("Magasin en developpement!")
         font = pygame.font.SysFont('comicsans', 50)
+        bees_possessed = font.render("Abeilles posédées : " + str(len(self.hive._bees)), 1, (0,0,0))
+        surface.blit(bees_possessed, (500, 170))
+        print("Magasin en developpement!")
         welcome = font.render("Bienvenue dans le magasin", 1, (0,0,0))
         buy = font.render("Achetez des Abeilles!", 1, (0,0,0))
         surface.blit(welcome, (150, 120))
         surface.blit(buy, (150, 170))
         self._buy_bee_button = display.display_shop_bee(surface, self.shop._bees[0], 150, 220,"./Images/bak.jpg",w ,h, self.shop._bees[0]._name)
+        self._buy_bee_button = display.display_shop_bee(surface, self.shop._bees[1], 550, 220,"./Images/bak.jpg",w ,h, self.shop._bees[1]._name)
+        self._launch_game_button = button((255,180,255), 1700, 300, 480, 100, w, h, 'back', sizeFont=60)
+        self._launch_game_button.draw_button(surface)
         # 
         return surface
     
