@@ -16,3 +16,6 @@ class bee():
 
 	def price(self):
 		return self._price
+
+	def name(self):
+		return self._name

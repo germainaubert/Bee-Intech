@@ -52,8 +52,8 @@ class display():
     def display_shop_bee(self, bee, x, y, filename, w, h):
         font = pygame.font.SysFont('comicsans', 50)
         bee_shop = bee
-        name = font.render("Nom :" + str(bee_shop._name), 1, (0,0,0))
-        price = font.render("prix :" + str(bee_shop._price), 1, (0,0,0))
+        name = font.render("Nom :" + str(bee_shop.name()), 1, (0,0,0))
+        price = font.render("prix :" + str(bee_shop.price()), 1, (0,0,0))
         if filename is not None:
             image = pygame.image.load(filename)
             self.blit(image, (x, y + 50))
@@ -79,7 +79,7 @@ class display():
         buy = font.render("Achetez des Abeilles!", 1, (0,0,0))
         surface.blit(welcome, (150, 120))
         surface.blit(buy, (150, 170))
-        display.display_shop_bee(surface, self.shop._bees[0], 150, 220,"./Images/bak.jpg",w ,h)
+        display.display_shop_bee(surface, self.shop.bees(0), 150, 220,"./Images/bak.jpg",w ,h)
         # 
         return surface
     
