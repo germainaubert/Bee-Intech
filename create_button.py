@@ -3,7 +3,7 @@ import pygame
 class button():
 
 	#Prend en argument la couleur, la position x, y, la taille hauteur, largeur, le texte, la police et la taille de la police
-	def __init__(self, color, x, y, width, height, screen_w, screen_h, text = '', font = 'comicsans', sizeFont = 50):
+	def __init__(self, color, x, y, width, height, screen_w, screen_h, text = '', font = 'comicsans', sizeFont = 50, get = None):
 		
 		self._x = x
 		self._y = y
@@ -16,6 +16,7 @@ class button():
 		# Les attributs suivants correspondent à la résolution réelle de l'écran, sert à la méthode get_real_pos
 		self._screen_w = screen_w
 		self._screen_h = screen_h
+		self._get = get
 
 	#Prend en argument la fenetre et si oui ou non le boutton a une bordure
 	def draw_button(self, surface, outline = None):
@@ -56,5 +57,7 @@ class button():
 		self._x *= self._rap_w
 		self._y *= self._rap_h
 		
+	def get(self):
+		return get
 		
 		

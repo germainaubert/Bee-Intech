@@ -49,7 +49,7 @@ class display():
         print("Gestion des Abeilles en developpement!")
         return surface
     
-    def display_shop_bee(self, bee, x, y, filename, w, h):
+    def display_shop_bee(self, bee, x, y, filename, w, h, button_id):
         font = pygame.font.SysFont('comicsans', 50)
         bee_shop = bee
         name = font.render("Nom :" + str(bee_shop._name), 1, (0,0,0))
@@ -60,9 +60,9 @@ class display():
             y += image.get_height()
         self.blit(name, (x, y + 100))
         self.blit(price, (x, y + 150))
-        buy_bee_button = button((212,180,0), x, y + 200, 180, 75, w, h,'Acheter', font='comicsans', sizeFont=50)
+        buy_bee_button = button((212,180,0), x, y + 200, 180, 75, w, h,'Acheter','comicsans', 50, button_id)
         buy_bee_button.draw_button(self)
-
+        return buy_bee_button
 
     def display_shop(self, w, h):
         #on redessine la surface
@@ -79,7 +79,7 @@ class display():
         buy = font.render("Achetez des Abeilles!", 1, (0,0,0))
         surface.blit(welcome, (150, 120))
         surface.blit(buy, (150, 170))
-        display.display_shop_bee(surface, self.shop._bees[0], 150, 220,"./Images/bak.jpg",w ,h)
+        self._buy_bee_button = display.display_shop_bee(surface, self.shop._bees[0], 150, 220,"./Images/bak.jpg",w ,h, self.shop._bees[0]._name)
         # 
         return surface
     
