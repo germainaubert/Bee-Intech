@@ -1,5 +1,5 @@
 from Bee import bee
-from Worker_Bee import worker_bee 
+from Worker_Bee import worker_bee
 
 class hive():
 

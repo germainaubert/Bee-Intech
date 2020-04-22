@@ -21,4 +21,3 @@ class shop():
 			hive.honey_loose(bee.price())
 		else:
 			return False
-shop = shop()

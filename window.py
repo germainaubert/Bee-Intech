@@ -3,6 +3,8 @@ from pygame.locals import *
 from create_button import button
 from display import display
 from math import *
+from Hive import hive
+from Shop import shop
 
 class window():
 
@@ -48,6 +50,7 @@ class window():
                         break
                 if self._launch_game_button is not None:
                     if self._launch_game_button.is_over(event.pos):
+                        self.game_init()
                         self._surface = display.display_new_game(self, self._w, self._h)
                 if self._bees_button is not None:
                     if self._bees_button.is_over(event.pos):
@@ -62,6 +65,10 @@ class window():
                 
     def getSize(self):
         return pygame.display.Info().current_w, pygame.display.Info().current_h
+
+    def game_init(self):
+        self.hive = hive()
+        self.shop = shop()
 
 window = window()
 window.main_loop()
