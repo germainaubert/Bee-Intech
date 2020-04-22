@@ -79,7 +79,7 @@ class display():
         buy = font.render("Achetez des Abeilles!", 1, (0,0,0))
         surface.blit(welcome, (150, 120))
         surface.blit(buy, (150, 170))
-        display.display_shop_bee(surface, self.shop.bees(0), 150, 220,"./Images/bak.jpg",w ,h)
+        display.display_shop_bee(surface, self.shop.bee(0), 150, 220,"./Images/bak.jpg",w ,h)
         # 
         return surface
     

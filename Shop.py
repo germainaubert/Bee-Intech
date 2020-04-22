@@ -11,7 +11,7 @@ class shop():
 		# liste des upgrades dans le shop
 		upgrades = []
 
-	def bees(self,i):
+	def bee(self,i):
 		return self._bees[i]
 	# Methode d'achat d'un abeille 
 	def buy_bee(self, hive, bee):
