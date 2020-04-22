@@ -7,7 +7,7 @@ class shop():
 	def __init__(self):
 
 		# liste des abeilles dans le shop
-		self._bees = [worker_bee('hervé2', 'Ah il est cher sa mère', 'worker', 'Le roi, jean jass et caballero', '140', 'bonus_fields', 0, 0)]
+		self._bees = [worker_bee('hervé2', 'Ah il est cher sa mère', 'worker', 'Le roi, jean jass et caballero', '140', 'bonus_fields', 150, 0)]
 		# liste des upgrades dans le shop
 		upgrades = []
 
@@ -15,13 +15,11 @@ class shop():
 		return self._bees[i]
 	# Methode d'achat d'un abeille 
 	def buy_bee(self, hive, bee):
-	
+
 		# Fonctionne uniquement si on a assez de miel pour acheter l'abeille sinon retourne False
 		# Ajoute l'abeille a la ruche et soustrait le cout de l'abeille du total de miel
 		if bee.price() < hive.honey():
 			hive.add_bee(bee)
 			hive.honey_loose(bee.price())
-			print("sccoooop")
 		else:
-			print("zblaax")
 			return False
