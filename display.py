@@ -6,16 +6,16 @@ class display():
     def __init__(self):
         button_list = []
         _background = None
-    
+
     def display_menu(self, w, h):
         surface = pygame.Surface((1920,1080))
         self._background = pygame.image.load('./Images/fond.jpg')
         surface.blit(self._background, (0, 0))
         self._quit_button = button((212,180,0), 1720, 985, 180, 75, w, h,'Quitter', font='comicsans', sizeFont=50)
         self._quit_button.draw_button(surface)
-        self._launch_game_button = button((255,180,255), 720, 100, 480, 100, w, h, 'Nouvelle Partie', sizeFont=60)
+        self._launch_game_button = button((255,180,255), 720, 300, 480, 100, w, h, 'Nouvelle Partie', sizeFont=60)
         self._launch_game_button.draw_button(surface)
-
+        
         return surface
     
     def display_new_game(self, w, h):
@@ -38,6 +38,7 @@ class display():
         # Bouton Quitter
         self._quit_button = button((212,180,0), 1720, 985, 180, 75, w, h,'Quitter', font='comicsans', sizeFont=50)
         self._quit_button.draw_button(surface)
+
         return surface
 
     def display_management(self):

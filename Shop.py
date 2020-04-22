@@ -10,7 +10,7 @@ class shop():
 
 	def buy_bee(self, hive, shop_bee):
 
-		if shop_bee.price() > hive.honey():
+		if shop_bee.price() < hive.honey():
 			hive.add_bee(shop_bee.bee())
 			hive.honey_loose(shop_bee.price())
 		else:
