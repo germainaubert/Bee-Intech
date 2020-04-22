@@ -1,17 +1,25 @@
-from Shop_Bee import shop_bee
 from Hive import hive
+from Worker_Bee import worker_bee
 
 class shop():
 
+	# Créer le shop
 	def __init__(self):
 
-		bees = []
+		# liste des abeilles dans le shop
+		self._bees = [worker_bee('hervé2', 'Ah il est cher sa mère', 'worker', 'Le roi, jean jass et caballero', '140', 'bonus_fields', 150, 0)]
+		# liste des upgrades dans le shop
 		upgrades = []
 
-	def buy_bee(self, hive, shop_bee):
+	def bee(self,i):
+		return self._bees[i]
+	# Methode d'achat d'un abeille 
+	def buy_bee(self, hive, bee):
 
-		if shop_bee.price() < hive.honey():
-			hive.add_bee(shop_bee.bee())
-			hive.honey_loose(shop_bee.price())
+		# Fonctionne uniquement si on a assez de miel pour acheter l'abeille sinon retourne False
+		# Ajoute l'abeille a la ruche et soustrait le cout de l'abeille du total de miel
+		if bee.price() < hive.honey():
+			hive.add_bee(bee)
+			hive.honey_loose(bee.price())
 		else:
 			return False

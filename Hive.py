@@ -1,10 +1,10 @@
 from Bee import bee
-from Worker_Bee import worker_bee 
+from Worker_Bee import worker_bee
 
 class hive():
 
 	#init de la ruche
-	def __init__(self, level = 0, exp = 0, honey = 0, honey_prod = 0, pollen = 0,bees = [], upgrades = []):
+	def __init__(self, level = 0, exp = 0, honey = 1, honey_prod = 0, pollen = 0,bees = [], upgrades = []):
 
 		self._level = level
 		self._exp = exp
@@ -33,5 +33,7 @@ class hive():
 				calcul += bee._prod - bee._cost
 		return calcul
 
+	# soustrait un montant de miel defini a la ruche
+	# utilse pour les achats par exemple
 	def honey_loose(self, amount):
 		self._honey -= amount
