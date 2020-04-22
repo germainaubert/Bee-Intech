@@ -1,7 +1,7 @@
 import pygame
 from create_button import button
 from Shop import shop
-
+from Hive import hive
 class display():
     
     def __init__(self):
@@ -43,9 +43,15 @@ class display():
 
     def display_management(self):
         surface = pygame.Surface((1920,1080))
+        surface.blit(self._background, (0, 0))
         self._bees_button = None
         self._shop_button = None
         self._fight_button = None
+        font = pygame.font.SysFont('comicsans', 50)
+        welcome = font.render("Bienvenue dans votre ruche !", 1, (0,0,0))
+        honey = font.render("Miel disponible : " + str(self.hive.honey()), 1, (0,0,0))
+        surface.blit(welcome, (150, 120))
+        surface.blit(honey, (150, 170))
         print("Gestion des Abeilles en developpement!")
         return surface
     
