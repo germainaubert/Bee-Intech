@@ -48,7 +48,7 @@ class display():
         surface = pygame.Surface((1920,1080))
         self._button_dic = {
             "get_honey_button" : button((255,180,255), 200, 300, 480, 100, w, h, 'Get MIEL', sizeFont=60),
-            "launch_game_button" : button((255,180,255), 1700, 300, 480, 100, w, h, 'back', sizeFont=60),
+            "back_button" : button((255,180,255), 1700, 300, 480, 100, w, h, 'back', sizeFont=60),
         }
         surface.blit(self._background, (0, 0))
         font = pygame.font.SysFont('comicsans', 50)
@@ -60,7 +60,7 @@ class display():
         surface.blit(bees_possessed, (150, 220))
         print("Gestion des Abeilles en developpement!")
         self._button_dic['get_honey_button'].draw_button(surface)
-        self._button_dic['launch_game_button'].draw_button(surface)
+        self._button_dic['back_button'].draw_button(surface)
         return surface
     
     def display_shop_bee(self, surface, bee, x, y, filename, w, h, button_id):
@@ -101,7 +101,7 @@ class display():
         self._button_dic = {
             "buy_bee_button" : [],
             "quit_button" : button((212,180,0), 1720, 985, 180, 75, w, h,'Quitter', font='comicsans', sizeFont=50),
-            "launch_game_button" : button((255,180,255), 1700, 300, 480, 100, w, h, 'back', sizeFont=60)
+            "back_button" : button((255,180,255), 1700, 300, 480, 100, w, h, 'back', sizeFont=60)
         }
 
         #self._buy_bee_button = self.display_shop_bee(surface, shop_bees[0], 150, 220,"./Images/bak.jpg",w ,h, shop_bees[0]._name)
@@ -109,7 +109,7 @@ class display():
         # Bouton Quitter
 
         self._button_dic["quit_button"].draw_button(surface)
-        self._button_dic["launch_game_button"].draw_button(surface)
+        self._button_dic["back_button"].draw_button(surface)
         # 
         return surface
     
