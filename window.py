@@ -100,7 +100,7 @@ class window():
 
     def test_bee(self):
         for bee in self.shop._bees:
-            if self._display._button_dic["buy_bee_button"]._get == bee._name:
+            if self._display._button_dic["buy_bee_button"][0]._get == bee._name:
                 shop.buy_bee(self, self.hive, bee)
 
 window = window()

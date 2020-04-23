@@ -106,7 +106,7 @@ class display():
             "launch_game_button" : button((255,180,255), 1700, 300, 480, 100, w, h, 'back', sizeFont=60)
         }
 
-        self._buy_bee_button = self.display_shop_bee(surface, shop_bees[0], 150, 220,"./Images/bak.jpg",w ,h, shop_bees[0]._name)
+        #self._buy_bee_button = self.display_shop_bee(surface, shop_bees[0], 150, 220,"./Images/bak.jpg",w ,h, shop_bees[0]._name)
         self._button_dic["buy_bee_button"].append(self.display_shop_bee(surface, shop_bees[0], 150, 220,"./Images/bak.jpg",w ,h, shop_bees[0]._name))
         # Bouton Quitter
 
