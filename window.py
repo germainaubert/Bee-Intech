@@ -22,6 +22,7 @@ class window():
         self._shop_button = None
         self._fight_button = None
         self._buy_bee_button = None
+        self._get_honey_button = None
         
         self._w, self._h = self.getSize()
         self._window = pygame.display.set_mode((self._w, self._h), pygame.FULLSCREEN)
@@ -74,7 +75,7 @@ class window():
                         break # pour éviter de cliquer sur le prochain bouton
                 if self._bees_button is not None:
                     if self._bees_button.is_over(event.pos):
-                        self._surface = display.display_management(self)
+                        self._surface = display.display_management(self, self._w, self._h)
                         break
                 if self._shop_button is not None:
                     if self._shop_button.is_over(event.pos):
@@ -83,6 +84,10 @@ class window():
                 if self._fight_button is not None:
                     if self._fight_button.is_over(event.pos):
                         self._surface = display.display_fight(self)
+                        break
+                if self._get_honey_button is not None:
+                    if self._get_honey_button.is_over(event.pos):
+                        self.hive.honey_gain()
                         break
                 if self._buy_bee_button is not None:
                     if self._buy_bee_button.is_over(event.pos):

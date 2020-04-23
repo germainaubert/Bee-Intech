@@ -7,7 +7,8 @@ class shop():
 	def __init__(self):
 
 		# liste des abeilles dans le shop
-		self._bees = [worker_bee('hervé2', 'Ah il est cher sa mère', 'worker', 'Le roi, jean jass et caballero', '140', 'bonus_fields', 150, 0)]
+		self._bees = [worker_bee('hervé2', 'Ah il est cher sa mère', 'worker', 'Le roi, jean jass et caballero', '140', 'bonus_fields', 150, 0),
+		worker_bee('hervé3', 'Ah il est cher sa mère', 'worker', 'Le roi, jean jass et caballero', '140', 'bonus_fields', 10, 0)]
 		# liste des upgrades dans le shop
 		upgrades = []
 
@@ -21,7 +22,13 @@ class shop():
 		if bee.price() < hive.honey():
 			hive.add_bee(bee)
 			hive.honey_loose(bee.price())
+<<<<<<< HEAD
 			print("sccoooop")
 		else:
 			print("zblaax")
+=======
+			print('scoop')
+		else:
+			print('zblax')
+>>>>>>> c62580466fb0a3e511b1ac89db9837c018b262df
 			return False
