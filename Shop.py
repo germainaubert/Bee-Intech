@@ -14,15 +14,18 @@ class shop():
 
 	def bee(self,i):
 		return self._bees[i]
+
+	def bees(self):
+		return self._bees
 	# Methode d'achat d'un abeille 
 	def buy_bee(self, hive, bee):
 
 		# Fonctionne uniquement si on a assez de miel pour acheter l'abeille sinon retourne False
 		# Ajoute l'abeille a la ruche et soustrait le cout de l'abeille du total de miel
-		if bee.price() < hive.honey():
+		if bee.price() <= hive.honey():
 			hive.add_bee(bee)
 			hive.honey_loose(bee.price())
-			print('scoop')
+			print(hive._bees[0])
 		else:
 			print('zblax')
 			return False
