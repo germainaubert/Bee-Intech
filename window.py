@@ -74,6 +74,9 @@ class window():
                     if self._display._button_dic["launch_game_button"].is_over(event.pos):
                         self.game_init()
                         self._surface = self._display.display_new_game(self._w, self._h)
+                if "back_button" in self._display._button_dic:
+                    if self._display._button_dic["back_button"].is_over(event.pos):
+                        self._surface = self._display.display_new_game(self._w, self._h)
                 if "bees_button" in self._display._button_dic:
                     if self._display._button_dic["bees_button"].is_over(event.pos):
                         self._surface = self._display.display_management(self._w, self._h, self.hive)
