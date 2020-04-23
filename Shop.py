@@ -22,13 +22,7 @@ class shop():
 		if bee.price() < hive.honey():
 			hive.add_bee(bee)
 			hive.honey_loose(bee.price())
-<<<<<<< HEAD
-			print("sccoooop")
-		else:
-			print("zblaax")
-=======
 			print('scoop')
 		else:
 			print('zblax')
->>>>>>> c62580466fb0a3e511b1ac89db9837c018b262df
 			return False
