@@ -3,7 +3,6 @@ from pygame.locals import *
 from create_button import button
 from display import display
 from live_display import live_display
-from math import *
 from Hive import hive
 from Shop import shop
 
@@ -42,7 +41,7 @@ class window():
         
         run = True
         while run:
-            
+
             # ------------------------ Afficher des données à chaque tick
             jaj = pygame.Surface.copy(self._surface) # pour éviter la shadow copie de l'enfer
             live_surface = self.live_display.give_display(self._live, jaj)
@@ -51,10 +50,8 @@ class window():
             self._window.blit(pygame.transform.scale(live_surface, (self._w, self._h)), (0,0)) # transforme l'image selon la résolution de l'image
             pygame.display.flip()
             run = self.event_handler(pygame.event.get())
-            # self._clock.tick(60)
-            
-            
-        
+            # self._clock.tick(60)     
+
             
     def event_handler(self, event_list, run = True):
         
@@ -90,7 +87,8 @@ class window():
                         self.test_bee()
 
         return run
-                
+
+
     def getSize(self):
         return pygame.display.Info().current_w, pygame.display.Info().current_h
 

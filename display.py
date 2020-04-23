@@ -104,6 +104,12 @@ class display():
         surface.blit(welcome, (150, 120))
         surface.blit(buy, (150, 170))
         self._buy_bee_button = self.display_shop_bee(surface, shop_bees[0], 150, 220,"./Images/bak.jpg",w ,h, shop_bees[0]._name)
+        # Bouton Quitter
+        self._quit_button = button((212,180,0), 1720, 985, 180, 75, w, h,'Quitter', font='comicsans', sizeFont=50)
+        self._quit_button.draw_button(surface)
+        self._buy_bee_button = display.display_shop_bee(surface, self.shop._bees[1], 550, 220,"./Images/bak.jpg",w ,h, self.shop._bees[1]._name)
+        self._launch_game_button = button((255,180,255), 1700, 300, 480, 100, w, h, 'back', sizeFont=60)
+        self._launch_game_button.draw_button(surface)
         # 
         return surface
     
