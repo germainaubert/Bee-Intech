@@ -3,8 +3,8 @@ from Bee import bee
 class worker_bee(bee):
 
 	# init une abeillee productrice
-	def __init__(self,name = None, cost = 0, category = None, upgrade = [], prod = 0, bonus_fields = [], price = 0, required_level = 0):
+	def __init__(self,name = None, cost = 0, category = None, upgrade = [], prod = 0, bonus_fields = [], price = 0, required_level = 0, sprite = None):
 
-		super().__init__( name, cost, category, upgrade, price ,required_level)
+		super().__init__( name, cost, category, upgrade, price ,required_level, sprite)
 		self._prod = prod
 		self._bonus_fields = bonus_fields
