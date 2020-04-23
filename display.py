@@ -44,25 +44,23 @@ class display():
         self._button_dic['quit_button'].draw_button(surface)
         return surface
 
-    def display_management(self, w, h):
+    def display_management(self, w, h, hive):
         surface = pygame.Surface((1920,1080))
-        self._button_dic = {}
+        self._button_dic = {
+            "get_honey_button" : button((255,180,255), 200, 300, 480, 100, w, h, 'Get MIEL', sizeFont=60),
+            "launch_game_button" : button((255,180,255), 1700, 300, 480, 100, w, h, 'back', sizeFont=60),
+        }
         surface.blit(self._background, (0, 0))
-        self._bees_button = None
-        self._shop_button = None
-        self._fight_button = None
         font = pygame.font.SysFont('comicsans', 50)
         welcome = font.render("Bienvenue dans votre ruche !", 1, (0,0,0))
-        honey = font.render("Miel disponible : " + str(self.hive._honey), 1, (0,0,0))
-        bees_possessed = font.render("Abeilles posédées : " + str(len(self.hive._bees)), 1, (0,0,0))
+        honey = font.render("Miel disponible : " + str(hive._honey), 1, (0,0,0))
+        bees_possessed = font.render("Abeilles posédées : " + str(len(hive._bees)), 1, (0,0,0))
         surface.blit(welcome, (150, 120))
         surface.blit(honey, (150, 170))
         surface.blit(bees_possessed, (150, 220))
         print("Gestion des Abeilles en developpement!")
-        self._get_honey_button = button((255,180,255), 200, 300, 480, 100, w, h, 'Get MIEL', sizeFont=60)
-        self._get_honey_button.draw_button(surface)
-        self._launch_game_button = button((255,180,255), 1700, 300, 480, 100, w, h, 'back', sizeFont=60)
-        self._launch_game_button.draw_button(surface)
+        self._button_dic['get_honey_button'].draw_button(surface)
+        self._button_dic['launch_game_button'].draw_button(surface)
         return surface
     
     def display_shop_bee(self, surface, bee, x, y, filename, w, h, button_id):
