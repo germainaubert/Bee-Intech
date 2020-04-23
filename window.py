@@ -22,10 +22,9 @@ class window():
         self._w, self._h = self.getSize()
         self._window = pygame.display.set_mode((self._w, self._h), pygame.FULLSCREEN)
         self._title = "BEETTHEFUCKOUTOFMYWIFE"
+        self._display = display()
         pygame.display.set_caption(self._title)
-        
-        self._surface = display.display_menu(self, self._w, self._h) # _surface est la surface qui doit contenir tout ce qui concerne l'affichage, à bien différencier avec _window
-        
+        self._surface = self._display.display_menu(self._w, self._h) # _surface est la surface qui doit contenir tout ce qui concerne l'affichage, à bien différencier avec _window
         
     def main_loop(self):
         run = True
@@ -43,31 +42,30 @@ class window():
                 pygame.quit()
                 break
             if event.type == MOUSEBUTTONDOWN:
+                #print(self._display._button_dic)
                 self._last_button = event.type
-                if self._quit_button is not None:
-                    if self._quit_button.is_over(event.pos):
+                if "quit_button" in self._display._button_dic:
+                    if self._display._button_dic["quit_button"].is_over(event.pos):
                         run = False
                         pygame.quit()
                         break
-                if self._launch_game_button is not None:
-                    if self._launch_game_button.is_over(event.pos):
+                if "launch_game_button" in self._display._button_dic:
+                    if self._display._button_dic["launch_game_button"].is_over(event.pos):
                         self.game_init()
-                        self._surface = display.display_new_game(self, self._w, self._h)
-                if self._bees_button is not None:
-                    if self._bees_button.is_over(event.pos):
-                        self._surface = display.display_management(self)
-                if self._shop_button is not None:
-                    if self._shop_button.is_over(event.pos):
-                        self._surface = display.display_shop(self, self._w, self._h)
-                if self._fight_button is not None:
-                    if self._fight_button.is_over(event.pos):
-                        self._surface = display.display_fight(self)
-                if self._buy_bee_button is not None:
-                    if self._buy_bee_button.is_over(event.pos):
-                        print('cul')
-                        for bee in self.shop._bees:
-                            if self._buy_bee_button._get == bee._name:
-                                shop.buy_bee(self, self.hive, bee)
+                        self._surface = self._display.display_new_game(self._w, self._h)
+                if "bees_button" in self._display._button_dic:
+                    if self._display._button_dic["bees_button"].is_over(event.pos):
+                        self._surface = self._display.display_management()
+                if "shop_button" in self._display._button_dic:
+                    if self._display._button_dic["shop_button"].is_over(event.pos):
+                        self._surface = self._display.display_shop(self._w, self._h, self.shop.bees())
+                if "fight_button" in self._display._button_dic:
+                    if self._display._button_dic["fight_button"].is_over(event.pos):
+                        self._surface = self._display.display_fight()
+                if "buy_bee_button" in self._display._button_dic:
+                    if self._display._button_dic["buy_bee_button"].is_over(event.pos):
+                        self.test_bee()
+
         return run
                 
     def getSize(self):
@@ -76,6 +74,11 @@ class window():
     def game_init(self):
         self.hive = hive()
         self.shop = shop()
+
+    def test_bee(self):
+        for bee in self.shop._bees:
+            if self._display._button_dic["buy_bee_button"]._get == bee._name:
+                shop.buy_bee(self, self.hive, bee)
 
 window = window()
 window.main_loop()
