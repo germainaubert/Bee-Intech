@@ -20,9 +20,6 @@ class display():
         self._button_dic['quit_button'].draw_button(surface)
         self._button_dic['launch_game_button'].draw_button(surface)
 
-        if "launch_game_button" in self._button_dic:
-            print(self._button_dic)
-
         return surface
     
     def display_new_game(self, w, h):
@@ -80,14 +77,13 @@ class display():
         surface.blit(name, (x, y + 100))
         surface.blit(price, (x, y + 150))
         
-        self._button_dic = {
-            "buy_bee_button" : button((212,180,0), x, y + 200, 180, 75, w, h,'Acheter','comicsans', 50, button_id)
-        }
-        print(self._button_dic)
-        self._button_dic["buy_bee_button"].draw_button(surface)
+        test = button((212,180,0), x, y + 200, 180, 75, w, h,'Acheter','comicsans', 50, button_id)
+        
+        test.draw_button(surface)
 
+        return test
 
-    def display_shop(self, w, h, shop_bees):
+    def display_shop(self, w, h, shop_bees,hive):
         #on redessine la surface
         surface = pygame.Surface((1920,1080))
         surface.blit(self._background, (0, 0))
@@ -96,20 +92,26 @@ class display():
 
         # création du texte du shop
         font = pygame.font.SysFont('comicsans', 50)
-        bees_possessed = font.render("Abeilles posédées : " + str(len(self.hive._bees)), 1, (0,0,0))
+        bees_possessed = font.render("Abeilles posédées : " + str(len(hive._bees)), 1, (0,0,0))
         surface.blit(bees_possessed, (500, 170))
         print("Magasin en developpement!")
         welcome = font.render("Bienvenue dans le magasin", 1, (0,0,0))
         buy = font.render("Achetez des Abeilles!", 1, (0,0,0))
         surface.blit(welcome, (150, 120))
         surface.blit(buy, (150, 170))
+
+        self._button_dic = {
+            "buy_bee_button" : [],
+            "quit_button" : button((212,180,0), 1720, 985, 180, 75, w, h,'Quitter', font='comicsans', sizeFont=50),
+            "launch_game_button" : button((255,180,255), 1700, 300, 480, 100, w, h, 'back', sizeFont=60)
+        }
+
         self._buy_bee_button = self.display_shop_bee(surface, shop_bees[0], 150, 220,"./Images/bak.jpg",w ,h, shop_bees[0]._name)
+        self._button_dic["buy_bee_button"].append(self.display_shop_bee(surface, shop_bees[0], 150, 220,"./Images/bak.jpg",w ,h, shop_bees[0]._name))
         # Bouton Quitter
-        self._quit_button = button((212,180,0), 1720, 985, 180, 75, w, h,'Quitter', font='comicsans', sizeFont=50)
-        self._quit_button.draw_button(surface)
-        self._buy_bee_button = display.display_shop_bee(surface, self.shop._bees[1], 550, 220,"./Images/bak.jpg",w ,h, self.shop._bees[1]._name)
-        self._launch_game_button = button((255,180,255), 1700, 300, 480, 100, w, h, 'back', sizeFont=60)
-        self._launch_game_button.draw_button(surface)
+
+        self._button_dic["quit_button"].draw_button(surface)
+        self._button_dic["launch_game_button"].draw_button(surface)
         # 
         return surface
     

@@ -62,7 +62,7 @@ class window():
                 pygame.quit()
                 break
             if event.type == MOUSEBUTTONDOWN:
-                #print(self._display._button_dic)
+                print(self._display._button_dic)
                 self._last_button = event.type
                 if "quit_button" in self._display._button_dic:
                     if self._display._button_dic["quit_button"].is_over(event.pos):
@@ -78,12 +78,12 @@ class window():
                         self._surface = self._display.display_management()
                 if "shop_button" in self._display._button_dic:
                     if self._display._button_dic["shop_button"].is_over(event.pos):
-                        self._surface = self._display.display_shop(self._w, self._h, self.shop.bees())
+                        self._surface = self._display.display_shop(self._w, self._h, self.shop.bees(), self.hive)
                 if "fight_button" in self._display._button_dic:
                     if self._display._button_dic["fight_button"].is_over(event.pos):
                         self._surface = self._display.display_fight()
                 if "buy_bee_button" in self._display._button_dic:
-                    if self._display._button_dic["buy_bee_button"].is_over(event.pos):
+                    if self._display._button_dic["buy_bee_button"][0].is_over(event.pos):
                         self.test_bee()
 
         return run
