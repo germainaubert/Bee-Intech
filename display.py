@@ -63,6 +63,7 @@ class display():
         self.blit(price, (x, y + 150))
         buy_bee_button = button((212,180,0), x, y + 200, 180, 75, w, h,'Acheter','comicsans', 50, button_id)
         buy_bee_button.draw_button(self)
+        
         return buy_bee_button
 
     def display_shop(self, w, h):
@@ -81,7 +82,9 @@ class display():
         surface.blit(welcome, (150, 120))
         surface.blit(buy, (150, 170))
         self._buy_bee_button = display.display_shop_bee(surface, self.shop._bees[0], 150, 220,"./Images/bak.jpg",w ,h, self.shop._bees[0]._name)
-        # 
+        # Bouton Quitter
+        self._quit_button = button((212,180,0), 1720, 985, 180, 75, w, h,'Quitter', font='comicsans', sizeFont=50)
+        self._quit_button.draw_button(surface)
         return surface
     
     def display_fight(self):
