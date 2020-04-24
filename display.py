@@ -60,7 +60,7 @@ class display():
         else:
             pass
 
-    def display_management(self, w, h, hive, first_time):
+    def display_management(self, w, h, hive, first_time, step):
         surface = pygame.Surface((1920,1080))
         self._button_dic = {
             "get_honey_button" : button((255,180,255), 1500, 300, 100, 100, w, h, 'Get MIEL', sizeFont=30),
@@ -94,15 +94,24 @@ class display():
                 else:
                     pass
             else: 
-                self.cpt +=1
-                self.display_management_bee_list(hive._bees[self.cpt], 150, 290, surface)
-                print('compteur : ' + str(self.cpt))
-                print('taille : ' + str(len((hive._bees))))
-                if self.cpt < len((hive._bees)) - 1:
-                    self._button_dic["next_bee"] = button((255,0,0), 1300, 985, 180, 75, w, h,'Suivant', font='comicsans', sizeFont=50)
-                    self._button_dic["next_bee"].draw_button(surface)
-                else:
-                    pass
+                if step is True:
+                    self.cpt +=1
+                    self.display_management_bee_list(hive._bees[self.cpt], 150, 290, surface)
+                    if self.cpt < len((hive._bees)) -1 :
+                        self._button_dic["next_bee"] = button((255,0,0), 1300, 985, 180, 75, w, h,'Suivant', font='comicsans', sizeFont=50)
+                        self._button_dic["next_bee"].draw_button(surface)
+                    if self.cpt > 0:
+                        self._button_dic["back_bee"] = button((255,0,0), 1000, 985, 180, 75, w, h,'Précédent', font='comicsans', sizeFont=50)
+                        self._button_dic["back_bee"].draw_button(surface)
+                elif step is False:
+                    self.cpt -=1
+                    self.display_management_bee_list(hive._bees[self.cpt], 150, 290, surface)
+                    if self.cpt < len((hive._bees)) -1 :
+                        self._button_dic["next_bee"] = button((255,0,0), 1300, 985, 180, 75, w, h,'Suivant', font='comicsans', sizeFont=50)
+                        self._button_dic["next_bee"].draw_button(surface)
+                    if self.cpt > 0:
+                        self._button_dic["back_bee"] = button((255,0,0), 1000, 985, 180, 75, w, h,'Précédent', font='comicsans', sizeFont=50)
+                        self._button_dic["back_bee"].draw_button(surface)
 
         #boutons de tests
         print("Gestion des Abeilles en developpement!")

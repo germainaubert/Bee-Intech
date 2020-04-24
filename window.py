@@ -79,10 +79,13 @@ class window():
                         self._surface = self._display.display_new_game(self._w, self._h)
                 if "bees_button" in self._display._button_dic:
                     if self._display._button_dic["bees_button"].is_over(event.pos):
-                        self._surface = self._display.display_management(self._w, self._h, self.hive, True)
+                        self._surface = self._display.display_management(self._w, self._h, self.hive, True, None)
                 if "next_bee" in self._display._button_dic:
                     if self._display._button_dic["next_bee"].is_over(event.pos):
-                        self._surface = self._display.display_management(self._w, self._h, self.hive, False)
+                        self._surface = self._display.display_management(self._w, self._h, self.hive, False, True)
+                if "back_bee" in self._display._button_dic:
+                    if self._display._button_dic["back_bee"].is_over(event.pos):
+                        self._surface = self._display.display_management(self._w, self._h, self.hive, False, False)
                 if "shop_button" in self._display._button_dic:
                     if self._display._button_dic["shop_button"].is_over(event.pos):
                         self._surface = self._display.display_shop(self._w, self._h, self.shop.bees(), self.hive)
