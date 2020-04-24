@@ -4,6 +4,8 @@ from create_button import button
 from display import display
 from live_display import live_display
 from Hive import hive
+ 
+ 
 from Shop import shop
 
 class window():
@@ -62,7 +64,6 @@ class window():
                 pygame.quit()
                 break
             if event.type == MOUSEBUTTONDOWN:
-                #print(self._display._button_dic)
                 self._last_button = event.type
                 if "quit_button" in self._display._button_dic:
                     if self._display._button_dic["quit_button"].is_over(event.pos):
@@ -74,37 +75,51 @@ class window():
                         self.game_init()
                         self._surface = self._display.display_new_game(self._w, self._h)
                         break
+                if "back_button" in self._display._button_dic:
+                    if self._display._button_dic["back_button"].is_over(event.pos):
+                        self._surface = self._display.display_new_game(self._w, self._h)
+                        break
                 if "bees_button" in self._display._button_dic:
                     if self._display._button_dic["bees_button"].is_over(event.pos):
-                        self._surface = self._display.display_management()
+                        self._surface = self._display.display_management(self._w, self._h, self.hive, True, None)
+                        break
+                if "next_bee" in self._display._button_dic:
+                    if self._display._button_dic["next_bee"].is_over(event.pos):
+                        self._surface = self._display.display_management(self._w, self._h, self.hive, False, True)
+                        break
+                if "back_bee" in self._display._button_dic:
+                    if self._display._button_dic["back_bee"].is_over(event.pos):
+                        self._surface = self._display.display_management(self._w, self._h, self.hive, False, False)
                         break
                 if "shop_button" in self._display._button_dic:
                     if self._display._button_dic["shop_button"].is_over(event.pos):
-                        self._surface = self._display.display_shop(self._w, self._h, self.shop.bees())
+                        self._surface = self._display.display_shop(self._w, self._h, self.shop.bees(), self.hive)
                         break
                 if "fight_button" in self._display._button_dic:
                     if self._display._button_dic["fight_button"].is_over(event.pos):
                         self._surface = self._display.display_fight()
                         break
                 if "buy_bee_button" in self._display._button_dic:
-                    if self._display._button_dic["buy_bee_button"].is_over(event.pos):
-                        self.test_bee()
-                        break
-
+                    for button in self._display._button_dic["buy_bee_button"]:
+                        if button.is_over(event.pos):
+                            self.test_bee(button._get)
+                if "get_honey_button" in self._display._button_dic:
+                    if self._display._button_dic["get_honey_button"].is_over(event.pos):
+                        self.hive.honey_gain()
+                
         return run
-
 
     def getSize(self):
         return pygame.display.Info().current_w, pygame.display.Info().current_h
 
     def game_init(self):
-        self.hive = hive()
+        self.hive = hive(honey = 100)
         self.shop = shop()
 
-    def test_bee(self):
+    def test_bee(self, button_id):
         for bee in self.shop._bees:
-            if self._display._button_dic["buy_bee_button"]._get == bee._name:
-                shop.buy_bee(self, self.hive, bee)
+                if button_id == bee._name:
+                    shop.buy_bee(self, self.hive, bee)
 
 window = window()
 window.main_loop()
