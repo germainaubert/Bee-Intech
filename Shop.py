@@ -7,8 +7,8 @@ class shop():
 	def __init__(self):
 
 		# liste des abeilles dans le shop
-		self._bees = [worker_bee('hervé2', 'Ah il est cher sa mère', 'worker', 'Le roi, jean jass et caballero', '140', 'bonus_fields', 15, 0, "./Images/bak.jpg"),
-		worker_bee('hervé3', 'Ah il est cher sa mère', 'worker', 'Le roi, jean jass et caballero', '140', 'bonus_fields', 10, 0, "./Images/merveille.jpg")]
+		self._bees = [worker_bee('hervé2', 'Ah il est cher sa mère', 'worker', 'Le roi, jean jass et caballero', [0,"honey"], '140', "./Images/bak.jpg", 15, "honey"),
+		worker_bee('hervé3', 'Ah il est cher sa mère', 'worker', 'Le roi, jean jass et caballero', [0,"honey"], '140', "./Images/merveille.jpg",  10 , "honey")]
 		# liste des upgrades dans le shop
 		upgrades = []
 
@@ -22,10 +22,10 @@ class shop():
 
 		# Fonctionne uniquement si on a assez de miel pour acheter l'abeille sinon retourne False
 		# Ajoute l'abeille a la ruche et soustrait le cout de l'abeille du total de miel
-		if bee.price() <= hive.honey():
+		if bee.price()[0] <= hive.ressource()[bee.price()[1]]:
 			hive.add_bee(bee)
-			hive.honey_loose(bee.price())
-			print('Ò')
+			hive.ressource_loose(bee.price()[1], bee.price()[0])
+			print(hive.bees())
 		else:
 			print('zblax')
 			return False

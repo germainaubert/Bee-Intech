@@ -4,25 +4,25 @@ from Worker_Bee import worker_bee
 class hive():
 
 	#init de la ruche
-	def __init__(self, level = 0, exp = 0, honey = 31, honey_prod = 10, pollen = 0,bees = [], upgrades = []):
+	def __init__(self, level = 0, exp = 0, ressource = (0,0,0,0,0), prod = (0,0,0,0,0), bees = [], upgrades = []):
 
 		self._level = level
 		self._exp = exp
-		self._honey = honey
-		self._honey_prod = honey_prod
-		self._pollen = pollen
+		self._ressource = {"honey" : ressource[0], "wather" : ressource[1], "metal" : ressource[2] ,"uranium" : ressource[3] ,"pollen" : ressource[4]}
+		self._prod = {"honey" : prod[0], "wather" : prod[1], "metal" : prod[2] ,"uranium" : prod[3] ,"pollen" : prod[4]}
 		self._bees = bees
 		self._upgrades = upgrades
 
 	# permet d'ajouter au miel la production/s
-	def honey_gain(self):
-		
-		self._honey += self._honey_prod
-		print(self._honey)
-		return self._honey
+	def bees(self):
+		return self._bees
 
-	def honey(self):
-		return self._honey
+	def ressource_gain(self, ressource, tick):
+		
+		self._ressource[ressource] += self._prod[ressource] / tick
+
+	def ressource(self):
+		return self._ressource
 
 	# ajoute une abeille a la ruche
 	def add_bee(self,bee):
@@ -38,5 +38,5 @@ class hive():
 
 	# soustrait un montant de miel defini a la ruche
 	# utilse pour les achats par exemple
-	def honey_loose(self, amount):
-		self._honey -= amount
+	def ressource_loose(self, ressource, amount):
+		self._ressource[ressource] -= amount
