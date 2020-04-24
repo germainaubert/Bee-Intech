@@ -17,6 +17,8 @@ class window():
         
         self._call_same = True # Pour savoir si l'appel d'affichage est le même
 
+        self.hive = None
+
         # Initialisation des boutons
         self._quit_button = None
         self._launch_game_button = None
@@ -46,7 +48,7 @@ class window():
 
             # ------------------------ Afficher des données à chaque tick
             jaj = pygame.Surface.copy(self._surface) # pour éviter la shadow copie de l'enfer
-            live_surface = self.live_display.give_display(self._live, jaj)
+            live_surface = self.live_display.give_display(self._live, jaj, self.hive)
             # ------------------------
             
             self._window.blit(pygame.transform.scale(live_surface, (self._w, self._h)), (0,0)) # transforme l'image selon la résolution de l'image
@@ -74,31 +76,39 @@ class window():
                     if self._display._button_dic["launch_game_button"].is_over(event.pos):
                         self.game_init()
                         self._surface = self._display.display_new_game(self._w, self._h)
+                        self._live = "new_game"
+                        break
                 if "back_button" in self._display._button_dic:
                     if self._display._button_dic["back_button"].is_over(event.pos):
                         self._surface = self._display.display_new_game(self._w, self._h)
+                        break
                 if "bees_button" in self._display._button_dic:
                     if self._display._button_dic["bees_button"].is_over(event.pos):
                         self._surface = self._display.display_management(self._w, self._h, self.hive, True, None)
+                        break
                 if "next_bee" in self._display._button_dic:
                     if self._display._button_dic["next_bee"].is_over(event.pos):
                         self._surface = self._display.display_management(self._w, self._h, self.hive, False, True)
+                        break
                 if "back_bee" in self._display._button_dic:
                     if self._display._button_dic["back_bee"].is_over(event.pos):
                         self._surface = self._display.display_management(self._w, self._h, self.hive, False, False)
+                        break
                 if "shop_button" in self._display._button_dic:
                     if self._display._button_dic["shop_button"].is_over(event.pos):
                         self._surface = self._display.display_shop(self._w, self._h, self.shop.bees(), self.hive)
+                        break
                 if "fight_button" in self._display._button_dic:
                     if self._display._button_dic["fight_button"].is_over(event.pos):
                         self._surface = self._display.display_fight()
+                        break
                 if "buy_bee_button" in self._display._button_dic:
                     for button in self._display._button_dic["buy_bee_button"]:
                         if button.is_over(event.pos):
                             self.test_bee(button._get)
                 if "get_honey_button" in self._display._button_dic:
                     if self._display._button_dic["get_honey_button"].is_over(event.pos):
-                        self.hive.honey_gain()
+                        self.hive.honey_click()
                 
         return run
 
