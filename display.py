@@ -44,19 +44,24 @@ class display():
         self._button_dic['quit_button'].draw_button(surface)
         return surface
 
-    def display_management_bee_list(self, bee, x, y, surface):
+    def display_management_bee_list(self, bee, x, y, surface, bee_number):
 
         if bee is not None:
             font = pygame.font.SysFont('comicsans', 50)
             name = font.render("Nom :" + str(bee.name()), 1, (0,0,0))
-            price = font.render("prix :" + str(bee.price()), 1, (0,0,0))
+            number = font.render("Nombre possédé :" + str(bee_number), 1, (0,0,0))
+            category = font.render("Catégorie :" + bee._category, 1, (0,0,0))
+            prod = font.render("Capacité de production :" + str(bee._prod), 1, (0,0,0))
+            
             sprite = bee.sprite()
             if sprite is not None:
                 image = pygame.image.load(sprite)
                 surface.blit(image, (x, y + 50))
                 y += image.get_height()
             surface.blit(name, (x, y + 100))
-            surface.blit(price, (x, y + 150))
+            surface.blit(number, (x, y + 150))
+            surface.blit(category, (x, y + 200))
+            surface.blit(prod, (x, y + 250))
         else:
             pass
 
@@ -66,7 +71,9 @@ class display():
             "get_honey_button" : button((255,180,255), 1500, 300, 100, 100, w, h, 'Get MIEL', sizeFont=30),
             "back_button" : button((255,180,255), 1700, 300, 480, 100, w, h, 'back', sizeFont=60),
         }
-
+        
+            
+            
         # Affichage basique
         surface.blit(self._background, (0, 0))
         font = pygame.font.SysFont('comicsans', 50)
@@ -81,14 +88,29 @@ class display():
 
         #infos sur les abeilles possédées
         if len((hive._bees)) > 0:
+            #ON FAIT DE LA MAGIE CIANTE
+            list_bee = {}
+            
+            for bee in hive._bees:
+                print(bee._name)
+                if bee._name not in list_bee:
+                    list_bee[bee._name] = [bee, 1]
+                else:
+                    list_bee[bee._name][1] += 1 
+            list_bee.items()
+            list_bee = list_bee.values()
+            list_bee = list(list_bee)
+            print(list_bee)
+            #AFFICHAGE DEUSPI
             beelist = font.render("Liste d'abeilles : ", 1, (0,0,0))
             surface.blit(beelist, (150, 270))
+            #INTERFACE QUI AFFICHE LES ABEILLES PAR GROUPE
             if first_time is True:
                 self.cpt = 0
-                self.display_management_bee_list(hive._bees[self.cpt], 150, 290, surface)
+                self.display_management_bee_list(list_bee[self.cpt][0], 150, 290, surface, list_bee[self.cpt][1])
                 print('compteur : ' + str(self.cpt))
-                print('taille : ' + str(len((hive._bees))))
-                if self.cpt < len((hive._bees)) -1 :
+                print('taille : ' + str(len((list_bee))))
+                if self.cpt < len((list_bee)) -1 :
                     self._button_dic["next_bee"] = button((255,0,0), 1300, 985, 180, 75, w, h,'Suivant', font='comicsans', sizeFont=50)
                     self._button_dic["next_bee"].draw_button(surface)
                 else:
@@ -96,8 +118,8 @@ class display():
             else: 
                 if step is True:
                     self.cpt +=1
-                    self.display_management_bee_list(hive._bees[self.cpt], 150, 290, surface)
-                    if self.cpt < len((hive._bees)) -1 :
+                    self.display_management_bee_list(list_bee[self.cpt][0],150, 290, surface, list_bee[self.cpt][1])
+                    if self.cpt < len((list_bee)) -1 :
                         self._button_dic["next_bee"] = button((255,0,0), 1300, 985, 180, 75, w, h,'Suivant', font='comicsans', sizeFont=50)
                         self._button_dic["next_bee"].draw_button(surface)
                     if self.cpt > 0:
@@ -105,8 +127,8 @@ class display():
                         self._button_dic["back_bee"].draw_button(surface)
                 elif step is False:
                     self.cpt -=1
-                    self.display_management_bee_list(hive._bees[self.cpt], 150, 290, surface)
-                    if self.cpt < len((hive._bees)) -1 :
+                    self.display_management_bee_list(list_bee[self.cpt][0], 150, 290, surface, list_bee[self.cpt][1])
+                    if self.cpt < len((list_bee)) -1 :
                         self._button_dic["next_bee"] = button((255,0,0), 1300, 985, 180, 75, w, h,'Suivant', font='comicsans', sizeFont=50)
                         self._button_dic["next_bee"].draw_button(surface)
                     if self.cpt > 0:

@@ -4,7 +4,7 @@ from Worker_Bee import worker_bee
 class hive():
 
 	#init de la ruche
-	def __init__(self, level = 0, exp = 0, honey = 31, honey_prod = 10, pollen = 0,bees = [], upgrades = []):
+	def __init__(self, level = 0, exp = 0, honey = 1800, honey_prod = 10, pollen = 0,bees = [], upgrades = []):
 
 		self._level = level
 		self._exp = exp

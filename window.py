@@ -106,7 +106,7 @@ class window():
         return pygame.display.Info().current_w, pygame.display.Info().current_h
 
     def game_init(self):
-        self.hive = hive(honey = 100)
+        self.hive = hive()
         self.shop = shop()
 
     def test_bee(self, button_id):
