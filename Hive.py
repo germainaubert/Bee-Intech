@@ -16,10 +16,14 @@ class hive():
 
 	# permet d'ajouter au miel la production/s
 	def honey_gain(self):
-		
-		self._honey += self._honey_prod
-		print(self._honey)
+		self._honey += self._honey_prod / 60
 		return self._honey
+
+	# Ajout du miel lorsqu'on clique sur le bouton correspondant
+	def honey_click(self):
+		self._honey += self._honey_prod
+		return self._honey
+
 
 	def honey(self):
 		return self._honey

@@ -17,6 +17,8 @@ class window():
         
         self._call_same = True # Pour savoir si l'appel d'affichage est le même
 
+        self.hive = None
+
         # Initialisation des boutons
         self._quit_button = None
         self._launch_game_button = None
@@ -46,7 +48,7 @@ class window():
 
             # ------------------------ Afficher des données à chaque tick
             jaj = pygame.Surface.copy(self._surface) # pour éviter la shadow copie de l'enfer
-            live_surface = self.live_display.give_display(self._live, jaj)
+            live_surface = self.live_display.give_display(self._live, jaj, self.hive)
             # ------------------------
             
             self._window.blit(pygame.transform.scale(live_surface, (self._w, self._h)), (0,0)) # transforme l'image selon la résolution de l'image
@@ -74,6 +76,7 @@ class window():
                     if self._display._button_dic["launch_game_button"].is_over(event.pos):
                         self.game_init()
                         self._surface = self._display.display_new_game(self._w, self._h)
+                        self._live = "new_game"
                         break
                 if "back_button" in self._display._button_dic:
                     if self._display._button_dic["back_button"].is_over(event.pos):
@@ -105,7 +108,7 @@ class window():
                             self.test_bee(button._get)
                 if "get_honey_button" in self._display._button_dic:
                     if self._display._button_dic["get_honey_button"].is_over(event.pos):
-                        self.hive.honey_gain()
+                        self.hive.honey_click()
                 
         return run
 
