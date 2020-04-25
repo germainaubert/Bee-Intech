@@ -108,7 +108,7 @@ class window():
                             self.test_bee(button._get)
                 if "get_honey_button" in self._display._button_dic:
                     if self._display._button_dic["get_honey_button"].is_over(event.pos):
-                        self.hive.honey_click()
+                        self.hive.ressource_click("honey", 100)
                 
         return run
 

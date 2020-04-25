@@ -8,8 +8,8 @@ class hive():
 
 		self._level = level
 		self._exp = exp
-		self._ressource = {"honey" : ressource[0], "wather" : ressource[1], "metal" : ressource[2] ,"uranium" : ressource[3] ,"pollen" : ressource[4]}
-		self._prod = {"honey" : prod[0], "wather" : prod[1], "metal" : prod[2] ,"uranium" : prod[3] ,"pollen" : prod[4]}
+		self._ressource = {"honey" : ressource[0], "water" : ressource[1], "metal" : ressource[2] ,"uranium" : ressource[3] ,"pollen" : ressource[4]}
+		self._prod = {"honey" : prod[0], "water" : prod[1], "metal" : prod[2] ,"uranium" : prod[3] ,"pollen" : prod[4]}
 		self._bees = bees
 		self._upgrades = upgrades
 
@@ -18,8 +18,10 @@ class hive():
 		return self._bees
 
 	def ressource_gain(self, ressource, tick):
-		
 		self._ressource[ressource] += self._prod[ressource] / tick
+
+	# def ressource
+
 
 	def ressource(self):
 		return self._ressource
@@ -28,18 +30,20 @@ class hive():
 	def add_bee(self,bee):
 		self._bees.append(bee)
 
-	# calcul la production de miel de la ruche
-	def calcul_prod(self):
-		calcul = 0
-		for bee in self._bees:
-			if bee.category() == "worker":
-				calcul += bee._prod - bee._cost
-		return calcul
+	# met à jour la production des ressources suite à l'achat d'une abeille
+	def increase_prod(self, bees): # bees est destiné à devenir un tableau contenant toutes les abeilles achetées, possibilité dans le futur d'acheter plusieurs abeilles
+			self._prod[bees._ressource] += bees._prod
+
+	def decrease_prod(self, bees): # meme chose que pour increase_prod
+			self._prod[bees._ressource] -= bees._prod
+
+	
+		
 
 	# soustrait un montant de miel defini a la ruche
 	# utilse pour les achats par exemple
 	def ressource_loose(self, ressource, amount):
 		self._ressource[ressource] -= amount
 
-	def honey_click(self):
-		self._ressource["honey"] += 10
+	def ressource_click(self, ressource, amount):
+		self._ressource[ressource] += amount

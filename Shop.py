@@ -25,6 +25,7 @@ class shop():
 		if bee.price()[0] <= hive.ressource()[bee.price()[1]]:
 			hive.add_bee(bee)
 			hive.ressource_loose(bee.price()[1], bee.price()[0])
+			hive.increase_prod(bee)
 			print(hive.bees())
 		else:
 			print('zblax')
