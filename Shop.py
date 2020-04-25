@@ -7,8 +7,8 @@ class shop():
 	def __init__(self):
 
 		# liste des abeilles dans le shop
-		self._bees = [worker_bee('hervé2', 'Ah il est cher sa mère', 'worker', 'Le roi, jean jass et caballero', [0,"honey"], '140', "./Images/bak.jpg", 15, "honey"),
-		worker_bee('hervé3', 'Ah il est cher sa mère', 'worker', 'Le roi, jean jass et caballero', [0,"honey"], '140', "./Images/merveille.jpg",  10 , "honey")]
+		self._bees = [worker_bee('hervé2', 'Ah il est cher sa mère', 'worker', 'Le roi, jean jass et caballero', [10,"honey"], '140', "./Images/bak.jpg", 15, "honey"),
+		worker_bee('hervé3', 'Ah il est cher sa mère', 'worker', 'Le roi, jean jass et caballero', [15,"honey"], '140', "./Images/merveille.jpg",  10 , "honey")]
 		# liste des upgrades dans le shop
 		upgrades = []
 

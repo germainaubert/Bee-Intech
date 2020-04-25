@@ -2,6 +2,7 @@ import pygame
 import math
 
 class live_display():
+    tick = 60
 
     def give_display(self, live, surface, hive): # permet d'appeler la méthode de live_display correspondant à l'affichage en cours, grâce à live
         if live == "new_game":
@@ -10,8 +11,8 @@ class live_display():
         return surface
 
     def live_new_game(self, surface, hive):
-        hive.honey_gain()
-        texte = "Miel: " + str(math.ceil(hive.honey()))
+        hive.ressource_gain("honey", self.tick)
+        texte = "Miel: " + str(math.ceil(hive._ressource["honey"]))
         texte = self.text_rendering("comicsans", 100, texte)
         surface.blit(texte, (0,0))
 

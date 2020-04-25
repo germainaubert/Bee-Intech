@@ -40,3 +40,6 @@ class hive():
 	# utilse pour les achats par exemple
 	def ressource_loose(self, ressource, amount):
 		self._ressource[ressource] -= amount
+
+	def honey_click(self):
+		self._ressource["honey"] += 10

@@ -81,9 +81,9 @@ class display():
         surface.blit(welcome, (150, 120))
 
         #infos de la ruche
-        honey = font.render("Miel disponible : " + str(hive._honey), 1, (0,0,0))
+        # honey = font.render("Miel disponible : " + str(hive._honey), 1, (0,0,0))
         bees_possessed = font.render("Abeilles posédées : " + str(len(hive._bees)), 1, (0,0,0))
-        surface.blit(honey, (150, 170))
+        # surface.blit(honey, (150, 170))
         surface.blit(bees_possessed, (150, 220))
 
         #infos sur les abeilles possédées
