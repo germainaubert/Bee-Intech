@@ -154,7 +154,7 @@ class display():
             y += image.get_height()
         surface.blit(name, (x, y + 100))
         surface.blit(price, (x, y + 150))
-        test = button((212,180,0), x, y + 200, 180, 75, w, h,'Acheter','comicsans', 50, button_id)
+        test = button((212,180,0), x, y + 300, 180, 75, w, h,'Acheter','comicsans', 50, button_id)
         test.draw_button(surface)
 
         return test
@@ -172,7 +172,7 @@ class display():
         surface.blit(welcome, (150, 120))
         surface.blit(buy, (150, 170))
 
-        #Init des botuons
+        #Init des boutons
         self._button_dic = {
             "buy_bee_button" : [],
             "quit_button" : button((212,180,0), 1720, 985, 180, 75, w, h,'Quitter', font='comicsans', sizeFont=50),

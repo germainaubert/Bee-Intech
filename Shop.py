@@ -8,7 +8,7 @@ class shop():
 
 		# liste des abeilles dans le shop
 		self._bees = [worker_bee('hervé2', 'Ah il est cher sa mère', 'worker', 'Le roi, jean jass et caballero', [10,"honey"], '140', "./Images/bak.jpg", 15, "honey"),
-		worker_bee('hervé3', 'Ah il est cher sa mère', 'worker', 'Le roi, jean jass et caballero', [15,"honey"], '140', "./Images/merveille.jpg",  10 , "honey")]
+		worker_bee('hervé3', 'Ah il est cher sa mère', 'worker', 'Le roi, jean jass et caballero', [1000,"honey"], '140', "./Images/merveille.jpg",  10 , "honey")]
 		# liste des upgrades dans le shop
 		upgrades = []
 
@@ -26,7 +26,10 @@ class shop():
 			hive.add_bee(bee)
 			hive.ressource_loose(bee.price()[1], bee.price()[0])
 			hive.increase_prod(bee)
-			print(hive.bees())
+			#print(hive.bees())
+			return "Buy", True
 		else:
-			print('zblax')
-			return False
+			
+			return "CantBuy", True
+
+		
