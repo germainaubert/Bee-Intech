@@ -4,6 +4,7 @@ from create_button import button
 from display import display
 from live_display import live_display
 from Hive import hive
+from Shop import shop
  
  
 from Shop import shop
@@ -59,6 +60,9 @@ class window():
             else:
                 live_surface, self.bee_quantity, self._display._button_dic, self._first_call, self._alert = self.live_display.give_display(self._live, self._alert, jaj, self.hive, events, self._display._button_dic, self._first_call) # prend event en parametre pour permettre l'input
             
+            if self.bee_quantity != None and self.bee_quantity != "":
+                self.bee_quantity = int(self.bee_quantity)
+
             # ------------------------
             
             self._window.blit(pygame.transform.scale(live_surface, (self._w, self._h)), (0,0)) # transforme l'image selon la résolution de l'image
@@ -122,21 +126,30 @@ class window():
                 if "buy_bee_button" in self._display._button_dic:
                     for button in self._display._button_dic["buy_bee_button"]:
                         if button.is_over(event.pos):
-                            self.test_bee(button._get)
+                            self._alert, self._first_call = self.shop.test_bee(button._get, self.hive)
                 if "get_honey_button" in self._display._button_dic:
                     if self._display._button_dic["get_honey_button"].is_over(event.pos):
                         self.hive.ressource_click("honey", 100)
-                # Ici on met ce qui concerne les alertes
+                # Ici on met ce qui concerne les alertes ou ça click bande de crevettes
                 if "cant_buy_alert" in self._display._button_dic:
                     if self._display._button_dic["cant_buy_alert"].is_over(event.pos):
                         self._alert = "GetRideOfThisShit" # oui
                 if "cancel_buy" in self._display._button_dic:
                     if self._display._button_dic["cancel_buy"].is_over(event.pos):
                         self._alert = "GetRideOfThisShit" # re oui
+                if "purchase_confirmation" in self._display._button_dic:
+                    if self._display._button_dic["purchase_confirmation"].is_over(event.pos):
+                        self._alert = "GetRideOfThisShit"
+
             if event.type == KEYDOWN:
-                if (event.key == K_RETURN or event.key == K_KP_ENTER) and self._alert == "Buy":
-                    self._alert = "GetRideOfThisShit"
-                    print(self.bee_quantity)
+                # Alertes ou faut cliquer sur entrer (c'est les input)
+                if (event.key == K_RETURN or event.key == K_KP_ENTER) and self._alert == "Buy" and self.bee_quantity != 0:
+                    isOK = self.shop.final_purchase(self.hive, self.bee_quantity)
+                    if isOK == "nope":
+                        self._alert = "CantBuy"
+                    else:
+                        self._alert = "confirm_purchase"
+                    
                     
 
                 
@@ -150,10 +163,7 @@ class window():
         self.hive = hive(ressource = (100,0,0,0,0))
         self.shop = shop()
 
-    def test_bee(self, button_id):
-        for bee in self.shop._bees:
-                if button_id == bee._name:
-                    self._alert, self._first_call = shop.buy_bee(self, self.hive, bee)
+    
 
 window = window()
 window.main_loop()

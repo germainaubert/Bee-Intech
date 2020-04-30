@@ -96,10 +96,7 @@ class live_display():
             self.shop_input.clear_text()
             buttons = self.temp_buttons
             self.temp_buttons = None
-            alert = None
-        
-        
-            
+            alert = None  
 
         elif alert == "CantBuy":
             if first_call == True:
@@ -116,6 +113,22 @@ class live_display():
             buttons = self.temp_buttons
             self.temp_buttons = None
             alert = None
+
+        elif alert == "confirm_purchase":
+            black_surface = pygame.Surface((1920,1080), 255)
+            black_surface.set_alpha(100)
+            surface.blit(black_surface, (0,0))
+            display_surface = pygame.Surface((400, 80))
+            font = pygame.font.SysFont('comicsans', 50)
+            msg = font.render("Achat effectué !", 1, (0,0,0))
+            display_surface.fill(pygame.Color('White'))
+            display_surface.blit(msg, (65,25))
+                
+            surface.blit(display_surface, (760, 480)) 
+
+            buttons = {"purchase_confirmation" : button((255,180,255), 860, 615, 200, 80, self._w, self._h, 'Continuer', font='comicsans', sizeFont=35)}
+            buttons["purchase_confirmation"].draw_button(surface)
+        
 
         
 

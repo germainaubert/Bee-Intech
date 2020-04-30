@@ -184,7 +184,6 @@ class display():
         for bees in shop_bees:
             self._button_dic["buy_bee_button"].append(self.display_shop_bee(surface, bees, x, 220,w ,h, bees._name))
             x += 450
-        print(self._button_dic["buy_bee_button"])
         # Bouton Quitter
 
         self._button_dic["quit_button"].draw_button(surface)

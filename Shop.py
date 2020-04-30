@@ -12,24 +12,40 @@ class shop():
 		# liste des upgrades dans le shop
 		upgrades = []
 
+		self.bee_name = None # Sert à garder en mémoire le nom de l'abeille dont on a besoin, pour final_purchase
+
 	def bee(self,i):
 		return self._bees[i]
 
 	def bees(self):
 		return self._bees
-	# Methode d'achat d'un abeille 
-	def buy_bee(self, hive, bee):
-
-		# Fonctionne uniquement si on a assez de miel pour acheter l'abeille sinon retourne False
-		# Ajoute l'abeille a la ruche et soustrait le cout de l'abeille du total de miel
+	
+	# Test initial pour l'achat d'AU MOINS UNE ABEILLE
+	def test_purchase(self, hive, bee):
 		if bee.price()[0] <= hive.ressource()[bee.price()[1]]:
-			hive.add_bee(bee)
-			hive.ressource_loose(bee.price()[1], bee.price()[0])
-			hive.increase_prod(bee)
-			#print(hive.bees())
 			return "Buy", True
 		else:
-			
 			return "CantBuy", True
+
+	def test_bee(self, button_id, hive): # Pour chopper la bonne abeille suite à click du bouton
+		for bee in self._bees:
+			if button_id == bee._name:
+				self.bee_name = bee._name 
+				return self.test_purchase(hive, bee)
+
+	# L'ultime test pour l'achat d'une abeille, prend en compte le nombre d'abeille souhaités
+	# Retourne None si l'achat est ok, retourne nope si l'achat n'est pas possible, 
+	# on affecte à self._alert (dans window) cette valeur qui nous permet de faire pop une alerte
+	def final_purchase(self, hive, bee_quantity): 
+		for bee in self._bees:
+			if self.bee_name == bee._name:
+				if bee.price()[0] * bee_quantity <= hive.ressource()[bee.price()[1]]:
+					for i in range(bee_quantity): # On procède à l'achat d'une abeille * l'input du poto
+						hive.add_bee(bee)
+						hive.ressource_loose(bee.price()[1], bee.price()[0])
+						hive.increase_prod(bee)
+					return None
+				else:
+					return "nope" # achat pas possible, pas assez de ressource
 
 		
