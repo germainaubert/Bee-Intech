@@ -23,6 +23,7 @@ Thumbs.db
 [Dd]ebug*/
 *.lib
 *.sbr
+*.pyc
 obj/
 [Rr]elease*/
 _ReSharper*/
@@ -30,3 +31,4 @@ _ReSharper*/
 .vs/
 #Nuget packages folder
 packages/
+*.pyc
