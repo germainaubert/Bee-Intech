@@ -48,10 +48,10 @@ class display():
 
         if bee is not None:
             font = pygame.font.SysFont('comicsans', 50)
-            name = font.render("Nom :" + str(bee.name()), 1, (0,0,0))
-            number = font.render("Nombre possédé :" + str(bee_number), 1, (0,0,0))
-            category = font.render("Catégorie :" + bee._category, 1, (0,0,0))
-            prod = font.render("Capacité de production :" + str(bee._prod), 1, (0,0,0))
+            name = font.render("Nom : " + str(bee.name()), 1, (0,0,0))
+            number = font.render("Nombre possédé : " + str(bee_number), 1, (0,0,0))
+            category = font.render("Catégorie : " + bee._category, 1, (0,0,0))
+            prod = font.render("Capacité de production : " + str(bee._prod), 1, (0,0,0))
             
             sprite = bee.sprite()
             if sprite is not None:
@@ -145,8 +145,8 @@ class display():
         #on créé nos objets abeilles spécifiques au magasin
         font = pygame.font.SysFont('comicsans', 50)
         bee_shop = bee
-        name = font.render("Nom :" + str(bee_shop.name()), 1, (0,0,0))
-        price = font.render("prix :" + str(bee_shop.price()), 1, (0,0,0))
+        name = font.render("Nom : " + str(bee_shop.name()), 1, (0,0,0))
+        price = font.render("prix : " + str(bee_shop.price()), 1, (0,0,0))
         sprite = bee_shop.sprite()
         if sprite is not None:
             image = pygame.image.load(sprite)
