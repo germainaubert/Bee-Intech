@@ -59,7 +59,7 @@ class window():
 
             if self._tick_update != None:
                 self._tick_update.caller()
-                print(self._hive.ressource())
+                
 
             
 
@@ -127,6 +127,12 @@ class window():
                 if "back_bee" in self._display._button_dic:
                     if self._display._button_dic["back_bee"].is_over(event.pos):
                         self._surface = self._display.display_management(self._w, self._h, self._hive, False, False)
+                        self._live = "management"
+                        break
+                if "delete_bee_button" in self._display._button_dic:
+                    if self._display._button_dic["delete_bee_button"].is_over(event.pos):
+                        self._hive.del_bee(self._display._button_dic["delete_bee_button"].get())
+                        self._surface = self._display.display_management(self._w, self._h, self._hive, True, None)
                         self._live = "management"
                         break
                 if "shop_button" in self._display._button_dic:

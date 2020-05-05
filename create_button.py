@@ -58,6 +58,6 @@ class button():
 		self._y *= self._rap_h
 		
 	def get(self):
-		return get
+		return self._get
 		
 		
