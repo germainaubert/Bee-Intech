@@ -30,6 +30,13 @@ class hive():
 	def add_bee(self,bee):
 		self._bees.append(bee)
 
+	def del_bee(self, name):
+		for bee in self._bees:
+			if name == bee._name:
+				self._bees.remove(bee)
+				print("cul")
+				break
+		
 	# met à jour la production des ressources suite à l'achat d'une abeille
 	def increase_prod(self, bees): # bees est destiné à devenir un tableau contenant toutes les abeilles achetées, possibilité dans le futur d'acheter plusieurs abeilles
 			self._prod[bees._ressource] += bees._prod

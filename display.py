@@ -44,15 +44,14 @@ class display():
         self._button_dic['quit_button'].draw_button(surface)
         return surface
 
-    def display_management_bee_list(self, bee, x, y, surface, bee_number):
+    def display_management_bee_list(self, bee, x, y, surface, bee_number, w, h):
 
         if bee is not None:
             font = pygame.font.SysFont('comicsans', 50)
-            name = font.render("Nom :" + str(bee.name()), 1, (0,0,0))
-            number = font.render("Nombre possédé :" + str(bee_number), 1, (0,0,0))
-            category = font.render("Catégorie :" + bee._category, 1, (0,0,0))
-            prod = font.render("Capacité de production :" + str(bee._prod), 1, (0,0,0))
-            
+            name = font.render("Nom : " + str(bee.name()), 1, (0,0,0))
+            number = font.render("Nombre possédé : " + str(bee_number), 1, (0,0,0))
+            category = font.render("Catégorie : " + bee._category, 1, (0,0,0))
+            prod = font.render("Capacité de production : " + str(bee._prod), 1, (0,0,0))
             sprite = bee.sprite()
             if sprite is not None:
                 image = pygame.image.load(sprite)
@@ -62,6 +61,10 @@ class display():
             surface.blit(number, (x, y + 150))
             surface.blit(category, (x, y + 200))
             surface.blit(prod, (x, y + 250))
+
+            test = button((212,180,0), x, y + 300, 180, 75, w, h,'Supprimer','comicsans', 50, bee.name())
+            test.draw_button(surface)
+            return test
         else:
             pass
 
@@ -107,7 +110,7 @@ class display():
             #INTERFACE QUI AFFICHE LES ABEILLES PAR GROUPE
             if first_time is True:
                 self.cpt = 0
-                self.display_management_bee_list(list_bee[self.cpt][0], 150, 290, surface, list_bee[self.cpt][1])
+                self._button_dic["delete_bee_button"] = self.display_management_bee_list(list_bee[self.cpt][0], 150, 290, surface, list_bee[self.cpt][1], w, h)
                 print('compteur : ' + str(self.cpt))
                 print('taille : ' + str(len((list_bee))))
                 if self.cpt < len((list_bee)) -1 :
@@ -118,7 +121,7 @@ class display():
             else: 
                 if step is True:
                     self.cpt +=1
-                    self.display_management_bee_list(list_bee[self.cpt][0],150, 290, surface, list_bee[self.cpt][1])
+                    self._button_dic["delete_bee_button"] = self.display_management_bee_list(list_bee[self.cpt][0], 150, 290, surface, list_bee[self.cpt][1], w, h)
                     if self.cpt < len((list_bee)) -1 :
                         self._button_dic["next_bee"] = button((255,0,0), 1300, 985, 180, 75, w, h,'Suivant', font='comicsans', sizeFont=50)
                         self._button_dic["next_bee"].draw_button(surface)
@@ -127,7 +130,7 @@ class display():
                         self._button_dic["back_bee"].draw_button(surface)
                 elif step is False:
                     self.cpt -=1
-                    self.display_management_bee_list(list_bee[self.cpt][0], 150, 290, surface, list_bee[self.cpt][1])
+                    self._button_dic["delete_bee_button"] = self.display_management_bee_list(list_bee[self.cpt][0], 150, 290, surface, list_bee[self.cpt][1], w, h)
                     if self.cpt < len((list_bee)) -1 :
                         self._button_dic["next_bee"] = button((255,0,0), 1300, 985, 180, 75, w, h,'Suivant', font='comicsans', sizeFont=50)
                         self._button_dic["next_bee"].draw_button(surface)
@@ -145,8 +148,8 @@ class display():
         #on créé nos objets abeilles spécifiques au magasin
         font = pygame.font.SysFont('comicsans', 50)
         bee_shop = bee
-        name = font.render("Nom :" + str(bee_shop.name()), 1, (0,0,0))
-        price = font.render("prix :" + str(bee_shop.price()), 1, (0,0,0))
+        name = font.render("Nom : " + str(bee_shop.name()), 1, (0,0,0))
+        price = font.render("prix : " + str(bee_shop.price()), 1, (0,0,0))
         sprite = bee_shop.sprite()
         if sprite is not None:
             image = pygame.image.load(sprite)

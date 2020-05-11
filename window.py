@@ -5,6 +5,7 @@ from display import display
 from live_display import live_display
 from Hive import hive
 from Shop import shop
+from tick_update import tick_update
  
  
 from Shop import shop
@@ -18,7 +19,7 @@ class window():
         
         self._call_same = True # Pour savoir si l'appel d'affichage est le même
 
-        self.hive = None
+        self._hive = None
 
         # Initialisation des boutons
         self._quit_button = None
@@ -40,11 +41,13 @@ class window():
         self._alert = None # Pareil que live mais pour les alertes
         self._first_call = None # Sert à déterminer quand les boutons doivent être stockés pour alerte de live display
 
-        self.live_display = live_display(self._w, self._h)
-        self.blank_surface = pygame.Surface((1920,1080))
-        self.blank_surface.fill((255,255,255))
+        self._live_display = None
 
-        self.bee_quantity = None
+        self._tick_update = None
+
+        self._bee_quantity = None
+
+        self._tick = 60
         
         
     def main_loop(self):
@@ -52,24 +55,37 @@ class window():
         run = True
         while run:
             
-            events = pygame.event.get()
-            # ------------------------ Afficher des données à chaque tick
-            jaj = pygame.Surface.copy(self._surface) # pour éviter la shadow copie de l'enfer
-            if self._live != "shop": 
-                live_surface = self.live_display.give_display(self._live, self._alert, jaj, self.hive, events, self._display._button_dic, self._first_call)
-            else:
-                live_surface, self.bee_quantity, self._display._button_dic, self._first_call, self._alert = self.live_display.give_display(self._live, self._alert, jaj, self.hive, events, self._display._button_dic, self._first_call) # prend event en parametre pour permettre l'input
+            events = pygame.event.get() # Stocké dans la variable events car lorsqu'on appelle event.get la liste d'event se vide
+
+            if self._tick_update != None:
+                self._tick_update.caller()
+                
+
             
-            if self.bee_quantity != None and self.bee_quantity != "":
-                self.bee_quantity = int(self.bee_quantity)
+
+            # ------------------------ Afficher des données à chaque tick
+            if self._live_display != None:
+                jaj = pygame.Surface.copy(self._surface) # pour éviter la shadow copie de l'enfer
+                if self._live != "shop": 
+                    live_surface = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call)
+                else:
+                    live_surface, self._bee_quantity, self._display._button_dic, self._first_call, self._alert = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call) # prend event en parametre pour permettre l'input
+                
+                self._window.blit(pygame.transform.scale(live_surface, (self._w, self._h)), (0,0)) # transforme l'image selon la résolution de l'image
+
+            else:
+                self._window.blit(pygame.transform.scale(self._surface, (self._w, self._h)), (0,0)) # transforme l'image selon la résolution de l'image
+
+            if self._bee_quantity != None and self._bee_quantity != "":
+                self._bee_quantity = int(self._bee_quantity)
 
             # ------------------------
             
-            self._window.blit(pygame.transform.scale(live_surface, (self._w, self._h)), (0,0)) # transforme l'image selon la résolution de l'image
+            
             
             pygame.display.flip()
             run = self.event_handler(events)
-            self._clock.tick(60)
+            self._clock.tick(self._tick)
 
             
     def event_handler(self, event_list, run = True):
@@ -100,22 +116,28 @@ class window():
                         break
                 if "bees_button" in self._display._button_dic:
                     if self._display._button_dic["bees_button"].is_over(event.pos):
-                        self._surface = self._display.display_management(self._w, self._h, self.hive, True, None)
+                        self._surface = self._display.display_management(self._w, self._h, self._hive, True, None)
                         self._live = "management"
                         break
                 if "next_bee" in self._display._button_dic:
                     if self._display._button_dic["next_bee"].is_over(event.pos):
-                        self._surface = self._display.display_management(self._w, self._h, self.hive, False, True)
+                        self._surface = self._display.display_management(self._w, self._h, self._hive, False, True)
                         self._live = "management"
                         break
                 if "back_bee" in self._display._button_dic:
                     if self._display._button_dic["back_bee"].is_over(event.pos):
-                        self._surface = self._display.display_management(self._w, self._h, self.hive, False, False)
+                        self._surface = self._display.display_management(self._w, self._h, self._hive, False, False)
+                        self._live = "management"
+                        break
+                if "delete_bee_button" in self._display._button_dic:
+                    if self._display._button_dic["delete_bee_button"].is_over(event.pos):
+                        self._hive.del_bee(self._display._button_dic["delete_bee_button"].get())
+                        self._surface = self._display.display_management(self._w, self._h, self._hive, True, None)
                         self._live = "management"
                         break
                 if "shop_button" in self._display._button_dic:
                     if self._display._button_dic["shop_button"].is_over(event.pos):
-                        self._surface = self._display.display_shop(self._w, self._h, self.shop.bees(), self.hive)
+                        self._surface = self._display.display_shop(self._w, self._h, self._shop.bees(), self._hive)
                         self._live = "shop"
                         break
                 if "fight_button" in self._display._button_dic:
@@ -126,10 +148,10 @@ class window():
                 if "buy_bee_button" in self._display._button_dic:
                     for button in self._display._button_dic["buy_bee_button"]:
                         if button.is_over(event.pos):
-                            self._alert, self._first_call = self.shop.test_bee(button._get, self.hive)
+                            self._alert, self._first_call = self._shop.test_bee(button._get, self._hive)
                 if "get_honey_button" in self._display._button_dic:
                     if self._display._button_dic["get_honey_button"].is_over(event.pos):
-                        self.hive.ressource_click("honey", 100)
+                        self._hive.ressource_click("honey", 100)
                 # Ici on met ce qui concerne les alertes ou ça click bande de crevettes
                 if "cant_buy_alert" in self._display._button_dic:
                     if self._display._button_dic["cant_buy_alert"].is_over(event.pos):
@@ -143,8 +165,8 @@ class window():
 
             if event.type == KEYDOWN:
                 # Alertes ou faut cliquer sur entrer (c'est les input)
-                if (event.key == K_RETURN or event.key == K_KP_ENTER) and self._alert == "Buy" and self.bee_quantity != 0:
-                    isOK = self.shop.final_purchase(self.hive, self.bee_quantity)
+                if (event.key == K_RETURN or event.key == K_KP_ENTER) and self._alert == "Buy" and self._bee_quantity != 0:
+                    isOK = self._shop.final_purchase(self._hive, self._bee_quantity)
                     if isOK == "nope":
                         self._alert = "CantBuy"
                     else:
@@ -160,8 +182,10 @@ class window():
         return pygame.display.Info().current_w, pygame.display.Info().current_h
 
     def game_init(self):
-        self.hive = hive(ressource = (100,0,0,0,0))
-        self.shop = shop()
+        self._hive = hive(ressource = (100,0,0,0,0), prod = (1,0,0,0,0))
+        self._shop = shop()
+        self._tick_update = tick_update(self._hive, self._tick)
+        self._live_display = live_display(self._w, self._h, self._hive)
 
     
 
