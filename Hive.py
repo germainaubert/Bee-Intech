@@ -1,10 +1,11 @@
 from Bee import bee
 from Worker_Bee import worker_bee
+from Territory import territory
 
 class hive():
 
 	#init de la ruche
-	def __init__(self, level = 0, exp = 0, ressource = (0,0,0,0,0), prod = (0,0,0,0,0), bees = [], upgrades = []):
+	def __init__(self, level = 0, exp = 0, ressource = (0,0,0,0,0), prod = (0,0,0,0,0), bees = [], upgrades = [], territories = []):
 
 		self._level = level
 		self._exp = exp
@@ -12,6 +13,8 @@ class hive():
 		self._prod = {"honey" : prod[0], "water" : prod[1], "metal" : prod[2] ,"uranium" : prod[3] ,"pollen" : prod[4]}
 		self._bees = bees
 		self._upgrades = upgrades
+		self._territories = territories
+		print(self.territories_space("honey"))
 
 	# permet d'ajouter au miel la production/s
 	def bees(self):
@@ -21,8 +24,6 @@ class hive():
 		self._ressource[ressource] += self._prod[ressource] / tick
 
 	# def ressource
-
-
 	def ressource(self):
 		return self._ressource
 
@@ -44,9 +45,6 @@ class hive():
 	def decrease_prod(self, bees): # meme chose que pour increase_prod
 			self._prod[bees._ressource] -= bees._prod
 
-	
-		
-
 	# soustrait un montant de miel defini a la ruche
 	# utilse pour les achats par exemple
 	def ressource_loose(self, ressource, amount):
@@ -54,3 +52,10 @@ class hive():
 
 	def ressource_click(self, ressource, amount):
 		self._ressource[ressource] += amount
+
+	def territories_space(self, ressource):
+		space = 0
+		for ter in self._territories:
+			if ter.ressource() == ressource:
+				space += ter.space()
+		return space

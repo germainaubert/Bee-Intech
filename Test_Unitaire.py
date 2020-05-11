@@ -38,4 +38,4 @@ def test_hive():
 	print(f"la ruche 2 produit {hive2.calcul_prod()} miel")
 
 #test_Bee_init()
-test_hive()
+#test_hive()
