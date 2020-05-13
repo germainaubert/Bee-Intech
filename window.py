@@ -7,7 +7,7 @@ from Hive import hive
 from Shop import shop
 from tick_update import tick_update
  
- 
+
 from Shop import shop
 
 class window():
@@ -41,13 +41,20 @@ class window():
         self._alert = None # Pareil que live mais pour les alertes
         self._first_call = None # Sert à déterminer quand les boutons doivent être stockés pour alerte de live display
 
+        # valeur pour le scroll
+        self._scroll_y = 0
+
         self._live_display = None
 
         self._tick_update = None
 
         self._bee_quantity = None
 
+        self._bees_surfaces = None
+
         self._tick = 60
+
+        
         
         
     def main_loop(self):
@@ -59,7 +66,6 @@ class window():
 
             if self._tick_update != None:
                 self._tick_update.caller()
-                print(self._hive.ressource())
 
             
 
@@ -67,10 +73,10 @@ class window():
             if self._live_display != None:
                 jaj = pygame.Surface.copy(self._surface) # pour éviter la shadow copie de l'enfer
                 if self._live != "shop": 
-                    live_surface = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call)
-                else:
-                    live_surface, self._bee_quantity, self._display._button_dic, self._first_call, self._alert = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call) # prend event en parametre pour permettre l'input
-                
+                    live_surface = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y)
+                elif self._live == "shop":
+                    live_surface, self._bee_quantity, self._display._button_dic, self._first_call, self._alert, self._scroll_y = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y) # prend event en parametre pour permettre l'input
+        
                 self._window.blit(pygame.transform.scale(live_surface, (self._w, self._h)), (0,0)) # transforme l'image selon la résolution de l'image
 
             else:
@@ -97,65 +103,68 @@ class window():
                 pygame.quit()
                 break
             if event.type == MOUSEBUTTONDOWN:
-                self._last_button = event.type
-                if "quit_button" in self._display._button_dic:
-                    if self._display._button_dic["quit_button"].is_over(event.pos):
-                        run = False
-                        pygame.quit()
-                        break
-                if "launch_game_button" in self._display._button_dic:
-                    if self._display._button_dic["launch_game_button"].is_over(event.pos):
-                        self.game_init()
-                        self._surface = self._display.display_new_game(self._w, self._h)
-                        self._live = "new_game"
-                        break
-                if "back_button" in self._display._button_dic:
-                    if self._display._button_dic["back_button"].is_over(event.pos):
-                        self._surface = self._display.display_new_game(self._w, self._h)
-                        self._live = "new_game"
-                        break
-                if "bees_button" in self._display._button_dic:
-                    if self._display._button_dic["bees_button"].is_over(event.pos):
-                        self._surface = self._display.display_management(self._w, self._h, self._hive, True, None)
-                        self._live = "management"
-                        break
-                if "next_bee" in self._display._button_dic:
-                    if self._display._button_dic["next_bee"].is_over(event.pos):
-                        self._surface = self._display.display_management(self._w, self._h, self._hive, False, True)
-                        self._live = "management"
-                        break
-                if "back_bee" in self._display._button_dic:
-                    if self._display._button_dic["back_bee"].is_over(event.pos):
-                        self._surface = self._display.display_management(self._w, self._h, self._hive, False, False)
-                        self._live = "management"
-                        break
-                if "shop_button" in self._display._button_dic:
-                    if self._display._button_dic["shop_button"].is_over(event.pos):
-                        self._surface = self._display.display_shop(self._w, self._h, self._shop.bees(), self._hive)
-                        self._live = "shop"
-                        break
-                if "fight_button" in self._display._button_dic:
-                    if self._display._button_dic["fight_button"].is_over(event.pos):
-                        self._surface = self._display.display_fight()
-                        self._live = "fight"
-                        break
-                if "buy_bee_button" in self._display._button_dic:
-                    for button in self._display._button_dic["buy_bee_button"]:
-                        if button.is_over(event.pos):
-                            self._alert, self._first_call = self._shop.test_bee(button._get, self._hive)
-                if "get_honey_button" in self._display._button_dic:
-                    if self._display._button_dic["get_honey_button"].is_over(event.pos):
-                        self._hive.ressource_click("honey", 100)
-                # Ici on met ce qui concerne les alertes ou ça click bande de crevettes
-                if "cant_buy_alert" in self._display._button_dic:
-                    if self._display._button_dic["cant_buy_alert"].is_over(event.pos):
-                        self._alert = "GetRideOfThisShit" # oui
-                if "cancel_buy" in self._display._button_dic:
-                    if self._display._button_dic["cancel_buy"].is_over(event.pos):
-                        self._alert = "GetRideOfThisShit" # re oui
-                if "purchase_confirmation" in self._display._button_dic:
-                    if self._display._button_dic["purchase_confirmation"].is_over(event.pos):
-                        self._alert = "GetRideOfThisShit"
+                if event.button == 1 or event.button == 3:
+                    self._last_button = event.type
+                    if "quit_button" in self._display._button_dic:
+                        if self._display._button_dic["quit_button"].is_over(event.pos):
+                            run = False
+                            pygame.quit()
+                            break
+                    if "launch_game_button" in self._display._button_dic:
+                        if self._display._button_dic["launch_game_button"].is_over(event.pos):
+                            self.game_init()
+                            self._surface = self._display.display_new_game(self._w, self._h)
+                            self._live = "new_game"
+                            break
+                    if "back_button" in self._display._button_dic:
+                        if self._display._button_dic["back_button"].is_over(event.pos):
+                            self._surface = self._display.display_new_game(self._w, self._h)
+                            self._live = "new_game"
+                            break
+                    if "bees_button" in self._display._button_dic:
+                        if self._display._button_dic["bees_button"].is_over(event.pos):
+                            self._surface = self._display.display_management(self._w, self._h, self._hive, True, None)
+                            self._live = "management"
+                            self._scroll_y = 0
+                            break
+                    if "next_bee" in self._display._button_dic:
+                        if self._display._button_dic["next_bee"].is_over(event.pos):
+                            self._surface = self._display.display_management(self._w, self._h, self._hive, False, True)
+                            self._live = "management"
+                            break
+                    if "back_bee" in self._display._button_dic:
+                        if self._display._button_dic["back_bee"].is_over(event.pos):
+                            self._surface = self._display.display_management(self._w, self._h, self._hive, False, False)
+                            self._live = "management"
+                            break
+                    if "shop_button" in self._display._button_dic:
+                        if self._display._button_dic["shop_button"].is_over(event.pos):
+                            self._surface, self._bees_surfaces = self._display.display_shop(self._w, self._h, self._shop.bees(), self._hive)
+                            self._live = "shop"
+                            self._scroll_y = 0
+                            break
+                    if "fight_button" in self._display._button_dic:
+                        if self._display._button_dic["fight_button"].is_over(event.pos):
+                            self._surface = self._display.display_fight()
+                            self._live = "fight"
+                            break
+                    if "buy_bee_button" in self._display._button_dic:
+                        for button in self._display._button_dic["buy_bee_button"]:
+                            if button.is_over(event.pos):
+                                self._alert, self._first_call = self._shop.test_bee(button._get, self._hive)
+                    if "get_honey_button" in self._display._button_dic:
+                        if self._display._button_dic["get_honey_button"].is_over(event.pos):
+                            self._hive.ressource_click("honey", 100)
+                    # Ici on met ce qui concerne les alertes ou ça click bande de crevettes
+                    if "cant_buy_alert" in self._display._button_dic:
+                        if self._display._button_dic["cant_buy_alert"].is_over(event.pos):
+                            self._alert = "GetRideOfThisShit" # oui
+                    if "cancel_buy" in self._display._button_dic:
+                        if self._display._button_dic["cancel_buy"].is_over(event.pos):
+                            self._alert = "GetRideOfThisShit" # re oui
+                    if "purchase_confirmation" in self._display._button_dic:
+                        if self._display._button_dic["purchase_confirmation"].is_over(event.pos):
+                            self._alert = "GetRideOfThisShit"
 
             if event.type == KEYDOWN:
                 # Alertes ou faut cliquer sur entrer (c'est les input)
