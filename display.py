@@ -2,6 +2,8 @@ import pygame
 from create_button import button
 from Shop import shop
 from Hive import hive
+from math import floor
+
 class display():
     
     def __init__(self):
@@ -71,8 +73,8 @@ class display():
     def display_management(self, w, h, hive, first_time, step):
         surface = pygame.Surface((1920,1080))
         self._button_dic = {
-            "get_honey_button" : button((255,180,255), 1500, 300, 100, 100, w, h, 'Get MIEL', sizeFont=30),
-            "back_button" : button((255,180,255), 1700, 300, 480, 100, w, h, 'back', sizeFont=60),
+            "get_honey_button" : button((255,180,255), 1700, 20, 180, 75, w, h, 'Get MIEL', sizeFont=30),
+            "back_button" : button((255,180,255), 1700, 130, 180, 75, w, h, 'back', sizeFont=60),
         }
         
             
@@ -144,25 +146,66 @@ class display():
         self._button_dic['back_button'].draw_button(surface)
         return surface
     
-    def display_shop_bee(self, surface, bee, x, y, w, h, button_id):
-        #on créé nos objets abeilles spécifiques au magasin
+    def display_shop_bee(self, bees, w, h):
+        
         font = pygame.font.SysFont('comicsans', 50)
-        bee_shop = bee
-        name = font.render("Nom : " + str(bee_shop.name()), 1, (0,0,0))
-        price = font.render("prix : " + str(bee_shop.price()), 1, (0,0,0))
-        sprite = bee_shop.sprite()
-        if sprite is not None:
-            image = pygame.image.load(sprite)
-            surface.blit(image, (x, y + 50))
-            y += image.get_height()
-        surface.blit(name, (x, y + 100))
-        surface.blit(price, (x, y + 150))
-        test = button((212,180,0), x, y + 300, 180, 75, w, h,'Acheter','comicsans', 50, button_id)
-        test.draw_button(surface)
+        
+        i = 0
+        
+        surface_dic = {}
+        surface_dic['surface'] = []
+        surface_dic['buttons'] = []
+        height = 450
+        width = 1500
+        total_height = 0
+        for i in range (0, len(bees)):
+            
+            indice = floor(i / 2) # Pour accéder à la bonne surface
+           
+            if i % 2 == 0:
+                x = 100
+                surface_dic['surface'].append(pygame.Surface((width, height), pygame.SRCALPHA)) # pygame.SRCALPHA créé une surface transparente dans laquelle on peut ajouter des éléments qui eux s'afficheront 
+                total_height += height
 
-        return test
+            # nom abeille
+            nom_abeille = font.render(bees[i]._name, 1, (0,0,0))
+            surface_dic['surface'][indice].blit(nom_abeille, (x, 0))
+            # image abeille
+            image = pygame.image.load(bees[i]._sprite)
+            surface_dic['surface'][indice].blit(image, (x, 50))
+            # prix
+            prix = font.render(str(bees[i]._price), 1, (0,0,0))
+            surface_dic['surface'][indice].blit(prix, (x, 250))
+            # boutons
+            bouton = button((212,180,0), x, 300, 180, 75, w, h,'Acheter', font='comicsans', sizeFont=50, get=bees[i]._name)
+            surface_dic['buttons'].append(bouton)
+            bouton.draw_button(surface_dic['surface'][indice])
 
-    def display_shop(self, w, h, shop_bees,hive):
+            x += 600 
+
+        for i in range (0, len(surface_dic['buttons'])):
+            surface_dic['buttons'][i]._x += 400
+            surface_dic['buttons'][i]._y += 250
+
+        for i in range (2, len(surface_dic['buttons'])):
+            value = 450
+            if i % 2 == 0 and i != 2:
+                value += 450
+            surface_dic['buttons'][i]._y += value
+
+
+        final_surface = pygame.Surface((width, total_height), pygame.SRCALPHA)
+        y = 0
+        for surface in surface_dic['surface']:
+            final_surface.blit(surface, (0, y))
+            y += height
+        
+        surface_dic['surface'] = final_surface
+        
+
+        return surface_dic
+
+    def display_shop(self, w, h, shop_bees, hive):
         #on redessine la surface
         surface = pygame.Surface((1920,1080))
         surface.blit(self._background, (0, 0))
@@ -178,21 +221,25 @@ class display():
         #Init des boutons
         self._button_dic = {
             "buy_bee_button" : [],
-            "quit_button" : button((212,180,0), 1720, 985, 180, 75, w, h,'Quitter', font='comicsans', sizeFont=50),
-            "back_button" : button((255,180,255), 1700, 300, 480, 100, w, h, 'back', sizeFont=60)
+            "quit_button" : button((212,180,0), 1700, 20, 180, 75, w, h,'Quitter', font='comicsans', sizeFont=50),
+            "back_button" : button((255,180,255), 1700, 130, 180, 75, w, h, 'back', sizeFont=60)
         }
 
         #affichage des abeilles, le x sert a positionner nos objects
-        x = 150
-        for bees in shop_bees:
-            self._button_dic["buy_bee_button"].append(self.display_shop_bee(surface, bees, x, 220,w ,h, bees._name))
-            x += 450
+        # x = 150
+        # for bees in shop_bees:
+        #     self._button_dic["buy_bee_button"].append(self.display_shop_bee(surface, bees, x, 220,w ,h, bees._name))
+        #     x += 450
+
+        # liste des surfaces
+        bees_surfaces = self.display_shop_bee(shop_bees, w, h)
+
         # Bouton Quitter
 
         self._button_dic["quit_button"].draw_button(surface)
         self._button_dic["back_button"].draw_button(surface)
         # 
-        return surface
+        return surface, bees_surfaces
     
     def display_fight(self):
         surface = pygame.Surface((1920,1080))

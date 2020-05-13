@@ -8,7 +8,10 @@ class shop():
 
 		# liste des abeilles dans le shop
 		self._bees = [worker_bee('hervé2', 'Ah il est cher sa mère', 'worker', 'Le roi, jean jass et caballero', [10,"honey"], '140', "./Images/bak.jpg", 15, "honey"),
-		worker_bee('hervé3', 'Ah il est cher sa mère', 'worker', 'Le roi, jean jass et caballero', [1000,"honey"], '140', "./Images/merveille.jpg",  10 , "honey")]
+		worker_bee('hervé3', 'Ah il est cher sa mère', 'worker', 'Le roi, jean jass et caballero', [1000,"honey"], '140', "./Images/merveille.jpg",  10 , "honey"),
+		worker_bee('chatte', 'jaj', 'worker', 'saucisse', [1500,"honey"], '140', "./Images/diobrando.jpg",  2 , "honey"),
+		worker_bee('JEANJOJ', 'MARIOENTERREMENT', 'worker', 'MARIOAHAH', [4,"honey"], '140', "./Images/leopepeche.jpg",  10 , "honey"),
+		worker_bee('JEANJOJ', 'MARIOENTERREMENT', 'worker', 'MARIOAHAH', [4,"honey"], '140', "./Images/leopepeche.jpg",  10 , "honey")]
 		# liste des upgrades dans le shop
 		upgrades = []
 

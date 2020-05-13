@@ -10,21 +10,20 @@ class live_display():
     _accepted_event1 = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"]
     _accepted_event2 = [K_BACKSPACE, K_DELETE, K_RETURN, K_RIGHT, K_LEFT, K_END, K_HOME, KEYUP]
     _temp_buttons = None
+    _scroll_y = 0
 
     def __init__(self, w, h, hive):
         self._w = w
         self._h = h
         self._hive = hive
 
-    def give_display(self, live, alert, surface, events, buttons, first_call): # permet d'appeler la méthode de live_display correspondant à l'affichage en cours, grâce à live
+    def give_display(self, live, alert, surface, events, buttons, first_call, bees_surfaces, scroll_y): # permet d'appeler la méthode de live_display correspondant à l'affichage en cours, grâce à live
         if live == "new_game":
             surface = self.live_new_game(surface)
         elif live == "management":
             surface = self.live_management(surface)
         elif live == "shop":
-            surface = self.live_shop(surface, events, buttons, alert, first_call)
-            #buttons = {}
-            #print(self.temp_buttons)
+            surface = self.live_shop(surface, events, buttons, alert, first_call, bees_surfaces, scroll_y)
     
         return surface
 
@@ -44,12 +43,23 @@ class live_display():
 
         return surface
 
-    def live_shop(self, surface, events, buttons, alert, first_call):
-
+    def live_shop(self, surface, events, buttons, alert, first_call, bees_surfaces, scroll_y):
+        scroll_surface, purchase_buttons, scroll_y = self.scroll(bees_surfaces, events, scroll_y)
+        #positionner correctement purchase buttons
+    
         
+        buttons['buy_bee_button'] = purchase_buttons
+
+        pos_x = 400
+        pos_y = 250 # valeurs liées aux boutons de display de la bee_surface
+        
+        surface.blit(scroll_surface, (pos_x, pos_y + scroll_y))
+
         texte = "Miel: " + str(math.ceil(self._hive._ressource["honey"]))
         texte = self.text_rendering("comicsans", 100, texte)
         surface.blit(texte, (0,0))
+        
+        # print(bees_surfaces[0][1])
         
         delete = False
         give_event = []      
@@ -126,13 +136,34 @@ class live_display():
 
             buttons = {"purchase_confirmation" : button((255,180,255), 860, 615, 200, 80, self._w, self._h, 'Continuer', font='comicsans', sizeFont=35)}
             buttons["purchase_confirmation"].draw_button(surface)
-        
 
-        
+        return surface, self._shop_input.get_text(), buttons, first_call, alert, scroll_y
 
-        return surface, self._shop_input.get_text(), buttons, first_call, alert
+    def scroll(self, surface, events, y):
+        buttons = surface['buttons']
+        surface = surface['surface']
+        pixels = 15
+        for event in events:
+            if event.type == MOUSEBUTTONDOWN and event.button == 4:
+                y -= pixels
+                self.new_button_pos(buttons, pixels, "-")
+            if event.type == MOUSEBUTTONDOWN and event.button == 5:
+                y += pixels
+                self.new_button_pos(buttons, pixels, "+")
 
 
+        return surface, buttons, y
+
+    def new_button_pos(self, buttons, pixels, axe):
+    
+        for i in range (0, len(buttons)):
+            if axe == "+":
+                buttons[i]._y += pixels
+            elif axe == "-":
+                buttons[i]._y -= pixels
+            
+
+        return buttons
 
     def text_rendering(self, font, sizeFont, text):
         font = pygame.font.SysFont(font, sizeFont)

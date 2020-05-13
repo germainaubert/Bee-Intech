@@ -8,6 +8,8 @@ from Shop import shop
 from tick_update import tick_update
 from Territory import territory
  
+ 
+
 from Shop import shop
 
 class window():
@@ -41,13 +43,20 @@ class window():
         self._alert = None # Pareil que live mais pour les alertes
         self._first_call = None # Sert à déterminer quand les boutons doivent être stockés pour alerte de live display
 
+        # valeur pour le scroll
+        self._scroll_y = 0
+
         self._live_display = None
 
         self._tick_update = None
 
         self._bee_quantity = None
 
+        self._bees_surfaces = None
+
         self._tick = 60
+
+        
         
         
     def main_loop(self):
@@ -59,18 +68,15 @@ class window():
 
             if self._tick_update != None:
                 self._tick_update.caller()
-                
-
-            
 
             # ------------------------ Afficher des données à chaque tick
             if self._live_display != None:
                 jaj = pygame.Surface.copy(self._surface) # pour éviter la shadow copie de l'enfer
                 if self._live != "shop": 
-                    live_surface = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call)
-                else:
-                    live_surface, self._bee_quantity, self._display._button_dic, self._first_call, self._alert = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call) # prend event en parametre pour permettre l'input
-                
+                    live_surface = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y)
+                elif self._live == "shop":
+                    live_surface, self._bee_quantity, self._display._button_dic, self._first_call, self._alert, self._scroll_y = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y) # prend event en parametre pour permettre l'input
+        
                 self._window.blit(pygame.transform.scale(live_surface, (self._w, self._h)), (0,0)) # transforme l'image selon la résolution de l'image
 
             else:
@@ -171,11 +177,7 @@ class window():
                         self._alert = "CantBuy"
                     else:
                         self._alert = "confirm_purchase"
-                    
-                    
-
-                
-                
+                       
         return run
 
     def getSize(self):

@@ -34,11 +34,12 @@ class button():
 			text = font.render(self._text, 1, (0,0,0))
 			surface.blit(text, (self._x + (self._width/2 - text.get_width()/2), self._y + (self._height/2 - text.get_height()/2)))
 
-		self.get_real_pos() # Change la taille des attributs du bouton pour s'adapter à l'affichage
-
+		 # Change la taille des attributs du bouton pour s'adapter à l'affichage
+		self.get_real_pos()
 	#Permet de savoir si l'utilisateur a le curseur sur le bouton
 	#Retourne True si oui sinon retourne False
 	def is_over(self,pos):
+		
 		if pos[0] > self._x and pos[0] < self._x + self._width:
 			if pos[1] > self._y and pos[1] < self._y + self._height:
 				return True
