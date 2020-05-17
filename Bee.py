@@ -23,3 +23,6 @@ class bee():
 
 	def sprite(self):
 		return self._sprite
+
+	def cost(self):
+		return self._cost

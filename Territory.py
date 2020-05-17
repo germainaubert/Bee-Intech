@@ -14,3 +14,6 @@ class territory():
 
 	def space(self):
 		return self._space
+
+	def defense(self):
+		return self._defense

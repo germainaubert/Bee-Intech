@@ -40,10 +40,39 @@ class hive():
 		
 	# met à jour la production des ressources suite à l'achat d'une abeille
 	def increase_prod(self, bees): # bees est destiné à devenir un tableau contenant toutes les abeilles achetées, possibilité dans le futur d'acheter plusieurs abeilles
-			self._prod[bees._ressource] += bees._prod
+		if bees.category() == "worker":
+			if(self.check_territories(bees,"add")):
+				self._prod[bees.ressource()] += bees.prod()-bees.cost()
+			else:
+				self._prod[bees.ressource()] -= bees.cost()
+		else:
+			self._prod[bees.ressource()] -= bees.cost()
+		
+		print(self.territories_space(bees.ressource()))
+		print(len(self.bees()))
+		print(self._prod[bees.ressource()])
+
 
 	def decrease_prod(self, bees): # meme chose que pour increase_prod
-			self._prod[bees._ressource] -= bees._prod
+			self._prod[bees.ressource()] -= bees._prod
+
+	def check_territories(self,bees,action):
+		space = self.territories_space(bees.ressource())
+		check_space = 0
+		for bee in self.bees():
+			if bees.ressource() == bee.ressource():
+				check_space += 1
+
+			if action == "add" and check_space > space:
+				return False
+				break
+			#elif action == "suppr" and check_space <= space:
+				#return False
+				#break
+
+		return True
+
+
 
 	# soustrait un montant de miel defini a la ruche
 	# utilse pour les achats par exemple
@@ -56,6 +85,7 @@ class hive():
 	def territories_space(self, ressource):
 		space = 0
 		for ter in self._territories:
-			if ter.ressource() == ressource:
-				space += ter.space()
+			if ter.defense() == []:
+				if ter.ressource() == ressource:
+					space += ter.space()
 		return space

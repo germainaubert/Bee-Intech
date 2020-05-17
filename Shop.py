@@ -7,11 +7,8 @@ class shop():
 	def __init__(self):
 
 		# liste des abeilles dans le shop
-		self._bees = [worker_bee('hervé2', 'Ah il est cher sa mère', 'worker', 'Le roi, jean jass et caballero', [10,"honey"], '140', "./Images/bak.jpg", 15, "honey"),
-		worker_bee('hervé3', 'Ah il est cher sa mère', 'worker', 'Le roi, jean jass et caballero', [1000,"honey"], '140', "./Images/merveille.jpg",  10 , "honey"),
-		worker_bee('chatte', 'jaj', 'worker', 'saucisse', [1500,"honey"], '140', "./Images/diobrando.jpg",  2 , "honey"),
-		worker_bee('JEANJOJ', 'MARIOENTERREMENT', 'worker', 'MARIOAHAH', [4,"honey"], '140', "./Images/leopepeche.jpg",  10 , "honey"),
-		worker_bee('JEANJOJ', 'MARIOENTERREMENT', 'worker', 'MARIOAHAH', [4,"honey"], '140', "./Images/leopepeche.jpg",  10 , "honey")]
+		self._bees = [worker_bee('hervé2', 5, 'worker', 'Le roi, jean jass et caballero', [10,"honey"], '140', "./Images/bak.jpg", 15, "honey"),
+		worker_bee('hervé3', 10, 'worker', 'Le roi, jean jass et caballero', [1000,"honey"], '140', "./Images/merveille.jpg",  10 , "honey")]
 		# liste des upgrades dans le shop
 		upgrades = []
 
@@ -45,8 +42,9 @@ class shop():
 				if bee.price()[0] * bee_quantity <= hive.ressource()[bee.price()[1]]:
 					for i in range(bee_quantity): # On procède à l'achat d'une abeille * l'input du poto
 						hive.add_bee(bee)
-						hive.ressource_loose(bee.price()[1], bee.price()[0])
 						hive.increase_prod(bee)
+						hive.ressource_loose(bee.price()[1], bee.price()[0])
+	
 					return None
 				else:
 					return "nope" # achat pas possible, pas assez de ressource
