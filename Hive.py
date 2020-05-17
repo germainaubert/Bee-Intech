@@ -35,13 +35,12 @@ class hive():
 		for bee in self._bees:
 			if name == bee._name:
 				self._bees.remove(bee)
-				print("cul")
-				break
+				return bee
 		
 	# met à jour la production des ressources suite à l'achat d'une abeille
 	def increase_prod(self, bees): # bees est destiné à devenir un tableau contenant toutes les abeilles achetées, possibilité dans le futur d'acheter plusieurs abeilles
 		if bees.category() == "worker":
-			if(self.check_territories(bees,"add")):
+			if self.check_territories(bees,"add"):
 				self._prod[bees.ressource()] += bees.prod()-bees.cost()
 			else:
 				self._prod[bees.ressource()] -= bees.cost()
@@ -54,7 +53,18 @@ class hive():
 
 
 	def decrease_prod(self, bees): # meme chose que pour increase_prod
-			self._prod[bees.ressource()] -= bees._prod
+			if bees.category() == "worker":
+				if self.check_territories(bees,"suppr"):
+					self._prod[bees.ressource()] -= bees.prod() - bees.cost()
+				else:
+					self._prod[bees.ressource()] += bees.cost()
+			else:
+				self._prod[bees.ressource()] += bees.cost()
+
+			print(self.territories_space(bees.ressource()))
+			print(len(self.bees()))
+			print(self._prod[bees.ressource()])
+
 
 	def check_territories(self,bees,action):
 		space = self.territories_space(bees.ressource())
@@ -66,9 +76,9 @@ class hive():
 			if action == "add" and check_space > space:
 				return False
 				break
-			#elif action == "suppr" and check_space <= space:
-				#return False
-				#break
+			elif action == "suppr" and check_space >= space:
+				return False
+				break
 
 		return True
 

@@ -140,7 +140,8 @@ class window():
                             break
                     if "delete_bee_button" in self._display._button_dic:
                         if self._display._button_dic["delete_bee_button"].is_over(event.pos):
-                            self._hive.del_bee(self._display._button_dic["delete_bee_button"].get())
+                            delete = self._hive.del_bee(self._display._button_dic["delete_bee_button"].get())
+                            self._hive.decrease_prod(delete)
                             self._surface = self._display.display_management(self._w, self._h, self._hive, True, None)
                             self._live = "management"
                             break
