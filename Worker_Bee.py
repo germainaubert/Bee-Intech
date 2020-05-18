@@ -8,3 +8,9 @@ class worker_bee(bee):
 		super().__init__( name, cost, category, upgrade, price ,required_level, sprite)
 		self._prod = prod
 		self._ressource = ressource
+
+	def prod(self):
+		return self._prod
+
+	def ressource(self):
+		return self._ressource

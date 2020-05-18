@@ -140,7 +140,8 @@ class window():
                             break
                     if "delete_bee_button" in self._display._button_dic:
                         if self._display._button_dic["delete_bee_button"].is_over(event.pos):
-                            self._hive.del_bee(self._display._button_dic["delete_bee_button"].get())
+                            delete = self._hive.del_bee(self._display._button_dic["delete_bee_button"].get())
+                            self._hive.decrease_prod(delete)
                             self._surface = self._display.display_management(self._w, self._h, self._hive, True, None)
                             self._live = "management"
                             break
@@ -188,7 +189,7 @@ class window():
         return pygame.display.Info().current_w, pygame.display.Info().current_h
 
     def game_init(self):
-        self._hive = hive(ressource = (100,0,0,0,0), prod = (1,0,0,0,0), territories = [ territory("base", 0, 0, "honey", 5, []), territory("base2", 0, 1, "honey", 7, []) ])
+        self._hive = hive(ressource = (100,0,0,0,0), prod = (0,0,0,0,0), territories = [ territory("base", 0, 0, "honey", 5, []), territory("base2", 0, 1, "honey", 7, []) ])
         self._shop = shop()
         self._tick_update = tick_update(self._hive, self._tick)
         self._live_display = live_display(self._w, self._h, self._hive)
