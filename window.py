@@ -104,7 +104,7 @@ class window():
                 pygame.quit()
                 break
             if event.type == MOUSEBUTTONDOWN:
-                if event.button == 1 or event.button == 3:
+                if event.button == 1 or event.button == 3: # # Pour qu'on puisse cliquer juste avec les clics gauche et droit
                     self._last_button = event.type
                     if "quit_button" in self._display._button_dic:
                         if self._display._button_dic["quit_button"].is_over(event.pos):
@@ -126,7 +126,7 @@ class window():
                         if self._display._button_dic["bees_button"].is_over(event.pos):
                             self._surface = self._display.display_management(self._w, self._h, self._hive, True, None)
                             self._live = "management"
-                            self._scroll_y = 0
+                            self._scroll_y = 0 # Valeur de scroll initial, pour ne pas que le scroll soit dans l'état ou il a été laissé
                             break
                     if "next_bee" in self._display._button_dic:
                         if self._display._button_dic["next_bee"].is_over(event.pos):
@@ -148,7 +148,7 @@ class window():
                         if self._display._button_dic["shop_button"].is_over(event.pos):
                             self._surface, self._bees_surfaces = self._display.display_shop(self._w, self._h, self._shop.bees(), self._hive)
                             self._live = "shop"
-                            self._scroll_y = 0
+                            self._scroll_y = 0 # Valeur de scroll initial, pour ne pas que le scroll soit dans l'état ou il a été laissé
                             break
                     if "fight_button" in self._display._button_dic:
                         if self._display._button_dic["fight_button"].is_over(event.pos):
