@@ -53,5 +53,3 @@ class shop():
 					return None
 				else:
 					return "nope" # achat pas possible, pas assez de ressource
-
-		

@@ -7,6 +7,7 @@ from Hive import hive
 from Shop import shop
 from tick_update import tick_update
 from Territory import territory
+from database import database
  
  
 
@@ -190,6 +191,8 @@ class window():
 
     def game_init(self):
         self._hive = hive(ressource = (100,0,0,0,0), prod = (0,0,0,0,0), territories = [ territory("base", 0, 0, "honey", 5, []), territory("base2", 0, 1, "honey", 7, []) ])
+        self._database = database()
+        save = self._database.hive_save((self._hive.exp(), self._hive.level()))
         self._shop = shop()
         self._tick_update = tick_update(self._hive, self._tick)
         self._live_display = live_display(self._w, self._h, self._hive)
