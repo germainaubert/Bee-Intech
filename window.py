@@ -135,11 +135,6 @@ class window():
                         if self._display._button_dic["bees_button"].is_over(event.pos):
                             self._live = "management"
                             self._scroll_y = 0 # Valeur de scroll initial, pour ne pas que le scroll soit dans l'état ou il a été laissé
-                            break
-                    if "delete_bee_button" in self._display._button_dic:
-                        if self._display._button_dic["delete_bee_button"].is_over(event.pos):
-                            self._hive.del_bee(self._display._button_dic["delete_bee_button"].get())
-                            self._live = "management"
                             self._surface, self._bees_surfaces = self._display.display_management(self._w, self._h, self._hive, self._scroll_y)
                             break
                     if "shop_button" in self._display._button_dic:
@@ -163,8 +158,8 @@ class window():
                             if targetted_button.is_over(event.pos):
                                 print("event.pos:", event.pos, "....... targetted_buttton:", targetted_button._x, targetted_button._y)
                                 print("get:", targetted_button.get())
-                                delete = self._hive.del_bee(targetted_button.get())
-                                self._hive.decrease_prod(delete)
+                                self._hive.del_bee(targetted_button.get())
+                                #self._hive.decrease_prod(delete)
                                 self._surface, self._bees_surfaces = self._display.display_management(self._w, self._h, self._hive, self._scroll_y)
                                 break
                     # Shop
