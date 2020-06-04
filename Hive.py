@@ -47,9 +47,9 @@ class hive():
 		else:
 			self._prod[bees.ressource()] -= bees.cost()
 		
-		print(self.territories_space(bees.ressource()))
-		print(len(self.bees()))
-		print(self._prod[bees.ressource()])
+		# print(self.territories_space(bees.ressource()))
+		# print(len(self.bees()))
+		# print(self._prod[bees.ressource()])
 
 
 	def decrease_prod(self, bees): # meme chose que pour increase_prod
@@ -61,9 +61,9 @@ class hive():
 			else:
 				self._prod[bees.ressource()] += bees.cost()
 
-			print(self.territories_space(bees.ressource()))
-			print(len(self.bees()))
-			print(self._prod[bees.ressource()])
+			# print(self.territories_space(bees.ressource()))
+			# print(len(self.bees()))
+			# print(self._prod[bees.ressource()])
 
 
 	def check_territories(self,bees,action):
