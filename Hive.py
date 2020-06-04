@@ -34,7 +34,6 @@ class hive():
 		
 		for bee in self._bees:
 			if name == bee._name:
-<<<<<<< HEAD
 				if bee.category() == "worker":
 					if bee.territory() == None:
 						self._bees.remove(bee)
@@ -57,38 +56,6 @@ class hive():
 		self.check_territories()
 		self.calcul_prod()
 		return bee
-=======
-				self._bees.remove(bee)
-				return bee
-		
-	# met à jour la production des ressources suite à l'achat d'une abeille
-	def increase_prod(self, bees): # bees est destiné à devenir un tableau contenant toutes les abeilles achetées, possibilité dans le futur d'acheter plusieurs abeilles
-		if bees.category() == "worker":
-			if self.check_territories(bees,"add"):
-				self._prod[bees.ressource()] += bees.prod()-bees.cost()
-			else:
-				self._prod[bees.ressource()] -= bees.cost()
-		else:
-			self._prod[bees.ressource()] -= bees.cost()
-		
-		# print(self.territories_space(bees.ressource()))
-		# print(len(self.bees()))
-		# print(self._prod[bees.ressource()])
-
-
-	def decrease_prod(self, bees): # meme chose que pour increase_prod
-			if bees.category() == "worker":
-				if self.check_territories(bees,"suppr"):
-					self._prod[bees.ressource()] -= bees.prod() - bees.cost()
-				else:
-					self._prod[bees.ressource()] += bees.cost()
-			else:
-				self._prod[bees.ressource()] += bees.cost()
-
-			# print(self.territories_space(bees.ressource()))
-			# print(len(self.bees()))
-			# print(self._prod[bees.ressource()])
->>>>>>> 29e514f179c0bdae3bf5d107e5e4c442bfd75535
 
 	def calcul_prod(self):
 

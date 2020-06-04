@@ -163,55 +163,12 @@ class display():
             list_bee.items()
             list_bee = list_bee.values()
             list_bee = list(list_bee)
-<<<<<<< HEAD
-            print(list_bee)
-            #AFFICHAGE DEUSPI
-            beelist = font.render("Liste d'abeilles : ", 1, (0,0,0))
-            surface.blit(beelist, (150, 270))
-            #INTERFACE QUI AFFICHE LES ABEILLES PAR GROUPE
-            if first_time is True:
-                self.cpt = 0
-                self._button_dic["delete_bee_button"] = self.display_management_bee_list(list_bee[self.cpt][0], 150, 290, surface, list_bee[self.cpt][1], w, h)
-                #print('compteur : ' + str(self.cpt))
-                #print('taille : ' + str(len((list_bee))))
-                if self.cpt < len((list_bee)) -1 :
-                    self._button_dic["next_bee"] = button((255,0,0), 1300, 985, 180, 75, w, h,'Suivant', font='comicsans', sizeFont=50)
-                    self._button_dic["next_bee"].draw_button(surface)
-                else:
-                    pass
-            else: 
-                if step is True:
-                    self.cpt +=1
-                    self._button_dic["delete_bee_button"] = self.display_management_bee_list(list_bee[self.cpt][0], 150, 290, surface, list_bee[self.cpt][1], w, h)
-                    if self.cpt < len((list_bee)) -1 :
-                        self._button_dic["next_bee"] = button((255,0,0), 1300, 985, 180, 75, w, h,'Suivant', font='comicsans', sizeFont=50)
-                        self._button_dic["next_bee"].draw_button(surface)
-                    if self.cpt > 0:
-                        self._button_dic["back_bee"] = button((255,0,0), 1000, 985, 180, 75, w, h,'Précédent', font='comicsans', sizeFont=50)
-                        self._button_dic["back_bee"].draw_button(surface)
-                elif step is False:
-                    self.cpt -=1
-                    self._button_dic["delete_bee_button"] = self.display_management_bee_list(list_bee[self.cpt][0], 150, 290, surface, list_bee[self.cpt][1], w, h)
-                    if self.cpt < len((list_bee)) -1 :
-                        self._button_dic["next_bee"] = button((255,0,0), 1300, 985, 180, 75, w, h,'Suivant', font='comicsans', sizeFont=50)
-                        self._button_dic["next_bee"].draw_button(surface)
-                    if self.cpt > 0:
-                        self._button_dic["back_bee"] = button((255,0,0), 1000, 985, 180, 75, w, h,'Précédent', font='comicsans', sizeFont=50)
-                        self._button_dic["back_bee"].draw_button(surface)
-
-        #boutons de tests
-        #print("Gestion des Abeilles en developpement!")
-        self._button_dic['get_honey_button'].draw_button(surface)
-        self._button_dic['back_button'].draw_button(surface)
-        return surface
-=======
 
         bees_surface = self.display_management_bee(list_bee, w, h, scroll_y)
         self._button_dic["quit_button"].draw_button(surface)
         self._button_dic["back_button"].draw_button(surface)
              
         return surface, bees_surface
->>>>>>> 29e514f179c0bdae3bf5d107e5e4c442bfd75535
     
     def display_shop_bee(self, bees, w, h):
         
