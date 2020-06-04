@@ -19,13 +19,13 @@ class live_display():
 
     def give_display(self, live, alert, surface, events, buttons, first_call, bees_surfaces, scroll_y): # permet d'appeler la méthode de live_display correspondant à l'affichage en cours, grâce à live
         if live == "new_game":
-            surface = self.live_new_game(surface)
+             return self.live_new_game(surface)
         elif live == "management":
-            surface = self.live_management(surface)
+            return self.live_management(surface, events, buttons, alert, bees_surfaces, scroll_y)  
         elif live == "shop":
-            surface = self.live_shop(surface, events, buttons, alert, first_call, bees_surfaces, scroll_y)
+            return self.live_shop(surface, events, buttons, alert, first_call, bees_surfaces, scroll_y)
     
-        return surface
+        
 
     def live_new_game(self, surface):
         
@@ -35,13 +35,31 @@ class live_display():
 
         return surface
 
-    def live_management(self, surface):
+    def live_management(self, surface, events, buttons, alert, bees_surfaces, scroll_y):
+        scroll_surface, delete_buttons, scroll_y = self.scroll(bees_surfaces, events, scroll_y)
         
+        buttons['delete_bee_button'] = delete_buttons
+
         texte = "Miel: " + str(math.ceil(self._hive._ressource["honey"]))
         texte = self.text_rendering("comicsans", 100, texte)
         surface.blit(texte, (0,0))
 
-        return surface
+        pos_x = 400
+        pos_y = 250
+        
+        container_surface = pygame.Surface((1100, 850), pygame.SRCALPHA)
+        
+        container_surface.blit(scroll_surface, (0, scroll_y))
+
+        surface.blit(container_surface, (pos_x, pos_y))
+
+        alert = ""
+
+       
+
+        return surface, "", buttons, alert, scroll_y
+       
+
 
     def live_shop(self, surface, events, buttons, alert, first_call, bees_surfaces, scroll_y):
         scroll_surface, purchase_buttons, scroll_y = self.scroll(bees_surfaces, events, scroll_y)
@@ -53,7 +71,12 @@ class live_display():
         pos_x = 400
         pos_y = 250 # valeurs liées aux boutons de display de la bee_surface
         
-        surface.blit(scroll_surface, (pos_x, pos_y + scroll_y))
+        container_surface = pygame.Surface((1100, 850), pygame.SRCALPHA)
+        
+        container_surface.blit(scroll_surface, (0, scroll_y))
+
+        surface.blit(container_surface, (pos_x, pos_y))
+        
 
         texte = "Miel: " + str(math.ceil(self._hive._ressource["honey"]))
         texte = self.text_rendering("comicsans", 100, texte)
@@ -136,33 +159,38 @@ class live_display():
 
             buttons = {"purchase_confirmation" : button((255,180,255), 860, 615, 200, 80, self._w, self._h, 'Continuer', font='comicsans', sizeFont=35)}
             buttons["purchase_confirmation"].draw_button(surface)
-
+       
         return surface, self._shop_input.get_text(), buttons, first_call, alert, scroll_y
 
     def scroll(self, surface, events, y):
         buttons = surface['buttons']
         surface = surface['surface']
-        pixels = 15
+        
+        pixels = 40
         for event in events:
-            if event.type == MOUSEBUTTONDOWN and event.button == 4:
+            if event.type == MOUSEBUTTONDOWN and event.button == 5: # vers le haut
                 y -= pixels
-                self.new_button_pos(buttons, pixels, "-")
-            if event.type == MOUSEBUTTONDOWN and event.button == 5:
+                if y <= 0 and y > -(surface.get_height() - 830):
+                    buttons = self.new_button_pos(buttons, pixels, "-")
+                else:
+                    y += pixels
+            if event.type == MOUSEBUTTONDOWN and event.button == 4: # vers le bas
                 y += pixels
-                self.new_button_pos(buttons, pixels, "+")
+                if y <= 0:
+                    buttons = self.new_button_pos(buttons, pixels, "+")
+                else:
+                    y -= pixels
 
 
         return surface, buttons, y
 
     def new_button_pos(self, buttons, pixels, axe):
-    
         for i in range (0, len(buttons)):
             if axe == "+":
                 buttons[i]._y += pixels
             elif axe == "-":
                 buttons[i]._y -= pixels
             
-
         return buttons
 
     def text_rendering(self, font, sizeFont, text):
