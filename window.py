@@ -115,6 +115,8 @@ class window():
                     # Navigation
                     if "quit_button" in self._display._button_dic:
                         if self._display._button_dic["quit_button"].is_over(event.pos):
+                            for bee in self._hive.bees():
+                                save = self._database.hive_save_bee((self._database._save_count, bee._name, bee._cost, bee._category, bee._price[0], bee._price[1], bee._required_level, bee._sprite ))
                             run = False
                             pygame.quit()
                             break
@@ -198,7 +200,6 @@ class window():
     def game_init(self):
         self._hive = hive(ressource = (100,0,0,0,0), prod = (0,0,0,0,0), territories = [ territory("base", 0, 0, "honey", 5, [], True), territory("base2", 0, 1, "honey", 7, [], True) ])
         self._database = database()
-        save = self._database.hive_save((self._hive.exp(), self._hive.level()))
         self._shop = shop()
         self._tick_update = tick_update(self._hive, self._tick)
         self._live_display = live_display(self._w, self._h, self._hive)

@@ -10,12 +10,16 @@ class database():
         self._ressources = ressources
         self._hive = hive
         self._territories = territories
+        self._save_count = 1
 
-    def hive_save(self, tasks):
+    def hive_save_bee(self, tasks):
         print(tasks)
         conn = self._conn
         cur = conn.cursor()
-        sql = "INSERT INTO test(Experience, Niveau) VALUES (?,?)"
+
+        sql = "INSERT INTO  abeilles(id,Nom,Cout,Categorie,Prix,Ressource_Prix,Niveau_Requis,Sprite) VALUES (?,?,?,?,?,?,?,?)"
         cur.execute(sql,tasks)
+
+
         conn.commit()
-        cur.close()
+        
