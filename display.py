@@ -113,8 +113,8 @@ class display():
             if first_time is True:
                 self.cpt = 0
                 self._button_dic["delete_bee_button"] = self.display_management_bee_list(list_bee[self.cpt][0], 150, 290, surface, list_bee[self.cpt][1], w, h)
-                print('compteur : ' + str(self.cpt))
-                print('taille : ' + str(len((list_bee))))
+                #print('compteur : ' + str(self.cpt))
+                #print('taille : ' + str(len((list_bee))))
                 if self.cpt < len((list_bee)) -1 :
                     self._button_dic["next_bee"] = button((255,0,0), 1300, 985, 180, 75, w, h,'Suivant', font='comicsans', sizeFont=50)
                     self._button_dic["next_bee"].draw_button(surface)
@@ -141,7 +141,7 @@ class display():
                         self._button_dic["back_bee"].draw_button(surface)
 
         #boutons de tests
-        print("Gestion des Abeilles en developpement!")
+        #print("Gestion des Abeilles en developpement!")
         self._button_dic['get_honey_button'].draw_button(surface)
         self._button_dic['back_button'].draw_button(surface)
         return surface

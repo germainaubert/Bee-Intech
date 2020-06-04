@@ -14,7 +14,6 @@ class hive():
 		self._bees = bees
 		self._upgrades = upgrades
 		self._territories = territories
-		print(self.territories_space("honey"))
 
 	# permet d'ajouter au miel la production/s
 	def bees(self):
@@ -32,58 +31,64 @@ class hive():
 		self._bees.append(bee)
 
 	def del_bee(self, name):
+		
 		for bee in self._bees:
 			if name == bee._name:
-				self._bees.remove(bee)
-				return bee
-		
-	# met à jour la production des ressources suite à l'achat d'une abeille
-	def increase_prod(self, bees): # bees est destiné à devenir un tableau contenant toutes les abeilles achetées, possibilité dans le futur d'acheter plusieurs abeilles
-		if bees.category() == "worker":
-			if self.check_territories(bees,"add"):
-				self._prod[bees.ressource()] += bees.prod()-bees.cost()
-			else:
-				self._prod[bees.ressource()] -= bees.cost()
-		else:
-			self._prod[bees.ressource()] -= bees.cost()
-		
-		print(self.territories_space(bees.ressource()))
-		print(len(self.bees()))
-		print(self._prod[bees.ressource()])
-
-
-	def decrease_prod(self, bees): # meme chose que pour increase_prod
-			if bees.category() == "worker":
-				if self.check_territories(bees,"suppr"):
-					self._prod[bees.ressource()] -= bees.prod() - bees.cost()
+				if bee.category() == "worker":
+					if bee.territory() == None:
+						self._bees.remove(bee)
+						break
+					else:
+						for territory in self._territories:
+							if territory.name() == bee.territory():
+								#print("test1")
+								for bee_ter in territory.bees():
+									if bee_ter.name() == name:
+										territory._bees.remove(bee_ter)
+										#print(f"nom de territoire: {territory.name()} nombre d'abeilles: {len(territory._bees)} ")
+										self._bees.remove(bee)
+										self.check_territories()
+										self.calcul_prod()
+										return bee
 				else:
-					self._prod[bees.ressource()] += bees.cost()
-			else:
-				self._prod[bees.ressource()] += bees.cost()
+					self._bees.remove(bee)
+					break
+		self.check_territories()
+		self.calcul_prod()
+		return bee
 
-			print(self.territories_space(bees.ressource()))
-			print(len(self.bees()))
-			print(self._prod[bees.ressource()])
+	def calcul_prod(self):
 
-
-	def check_territories(self,bees,action):
-		space = self.territories_space(bees.ressource())
-		check_space = 0
+		self._prod = {"honey" : 0, "water" : 0, "metal" : 0 ,"uranium" : 0,"pollen" : 0}
 		for bee in self.bees():
-			if bees.ressource() == bee.ressource():
-				check_space += 1
-
-			if action == "add" and check_space > space:
-				return False
-				break
-			elif action == "suppr" and check_space >= space:
-				return False
-				break
-
-		return True
+			if bee.category() == "worker":
+				print(bee.territory())
+				if bee.territory() != None:
+					#print(f" {self._prod[bee.ressource()]} + {bee.prod()} - {bee.cost()}")
+					self._prod[bee.ressource()] = self._prod[bee.ressource()] + bee.prod() - bee.cost()
+				else:
+					self._prod[bee.ressource()] = self._prod[bee.ressource()] - bee.cost()
+		self.track_bees()
+		print(self._prod)
 
 
+	def check_territories(self):
+		
+		for bee in self.bees():
+			if bee.category() == "worker":
+				if bee.territory() == None:
+					for territory in self._territories:
+						if territory.possession() == True:
+							if territory.ressource() == bee.ressource():
+								if len(territory.bees()) != territory.space():
+									territory._bees.append(bee)
+									bee.change_territory(territory.name())
+									break				
 
+	def track_bees(self):
+		for bee in self.bees():
+			if bee.category() == "worker":
+				print(f"nom du territoire: {bee.territory()} - nom de l'abeille: {bee.name()} ")
 	# soustrait un montant de miel defini a la ruche
 	# utilse pour les achats par exemple
 	def ressource_loose(self, ressource, amount):

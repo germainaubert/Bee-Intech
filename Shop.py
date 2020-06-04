@@ -1,5 +1,6 @@
 from Hive import hive
 from Worker_Bee import worker_bee
+import copy
 
 class shop():
 
@@ -7,11 +8,11 @@ class shop():
 	def __init__(self):
 
 		# liste des abeilles dans le shop
-		self._bees = [worker_bee('hervé2', 5, 'worker', 'Le roi, jean jass et caballero', [10,"honey"], '140', "./Images/bak.jpg", 15, "honey"),
-		worker_bee('hervé3', 10, 'worker', 'Le roi, jean jass et caballero', [1000,"honey"], '140', "./Images/merveille.jpg",  10 , "honey"),
-		worker_bee('jaj', 15, 'worker', 'SPOUP', [200,"honey"], '140', "./Images/leopepeche.jpg",  5 , "honey"),
-		worker_bee('stonks', 20, 'worker', 'Le roi, jean jass et caballero', [20,"honey"], '140', "./Images/stonks.jpeg",  1000 , "honey"),
-		worker_bee('avatarar', 20, 'worker', 'Le roi, jean jass et caballero', [20,"honey"], '140', "./Images/diobrando.jpg",  10 , "honey"),
+		self._bees = [worker_bee('hervé2', 5, 'worker', 'Le roi, jean jass et caballero', [10,"honey"], '140', "./Images/bak.jpg", 15, "honey", None),
+		worker_bee('hervé3', 10, 'worker', 'Le roi, jean jass et caballero', [1000,"honey"], '140', "./Images/merveille.jpg",  10 , "honey", None),
+		worker_bee('jaj', 15, 'worker', 'SPOUP', [200,"honey"], '140', "./Images/leopepeche.jpg",  5 , "honey", None),
+		worker_bee('stonks', 20, 'worker', 'Le roi, jean jass et caballero', [20,"honey"], '140', "./Images/stonks.jpeg",  1000 , "honey", None),
+		worker_bee('avatarar', 20, 'worker', 'Le roi, jean jass et caballero', [20,"honey"], '140', "./Images/diobrando.jpg",  10 , "honey", None),
 		]
 
 		# liste des upgrades dans le shop
@@ -46,10 +47,11 @@ class shop():
 			if self.bee_name == bee._name:
 				if bee.price()[0] * bee_quantity <= hive.ressource()[bee.price()[1]]:
 					for i in range(bee_quantity): # On procède à l'achat d'une abeille * l'input du poto
-						hive.add_bee(bee)
-						hive.increase_prod(bee)
+						hive.add_bee(copy.deepcopy(bee))
+						hive.check_territories()
+						hive.calcul_prod()
 						hive.ressource_loose(bee.price()[1], bee.price()[0])
-	
+					
 					return None
 				else:
 					return "nope" # achat pas possible, pas assez de ressource
