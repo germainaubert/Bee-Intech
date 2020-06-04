@@ -5,7 +5,7 @@ from Territory import territory
 class hive():
 
 	#init de la ruche
-	def __init__(self, level = 0, exp = 0, ressource = (0,0,0,0,0), prod = (0,0,0,0,0), bees = [], upgrades = [], territories = []):
+	def __init__(self, level = 1, exp = 0, ressource = (0,0,0,0,0), prod = (0,0,0,0,0), bees = [], upgrades = [], territories = []):
 
 		self._level = level
 		self._exp = exp
@@ -99,3 +99,9 @@ class hive():
 				if ter.ressource() == ressource:
 					space += ter.space()
 		return space
+
+	def exp(self):
+		return self._exp
+
+	def level(self):
+		return self._level
