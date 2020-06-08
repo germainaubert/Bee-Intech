@@ -24,8 +24,11 @@ class live_display():
             return self.live_management(surface, events, buttons, alert, bees_surfaces, scroll_y)  
         elif live == "shop":
             return self.live_shop(surface, events, buttons, alert, first_call, bees_surfaces, scroll_y)
+        elif live == "fight_menu":
+            return self.live_fight_menu(surface, buttons)
     
-        
+    def live_fight_menu(self, surface, buttons):
+        return surface, buttons
 
     def live_new_game(self, surface):
         

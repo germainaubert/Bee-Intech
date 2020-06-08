@@ -30,7 +30,7 @@ class display():
         self._button_dic = {
             "bees_button" : button((212,180,0), 720, 303, 480, 75, w, h, 'Gestion des Abeilles', sizeFont=50),
             "shop_button" : button((212,180,0), 720, 503, 480, 75, w, h, 'Magasin', sizeFont=50),
-            "fight_button" : button((212,180,0), 720, 703, 480, 75, w, h, 'Combat!', sizeFont=50),
+            "fight_menu_button" : button((212,180,0), 720, 703, 480, 75, w, h, 'Combat!', sizeFont=50),
             "quit_button" : button((212,180,0), 1720, 985, 180, 75, w, h,'Quitter', font='comicsans', sizeFont=50)
         }
         #On redessine le background
@@ -41,9 +41,19 @@ class display():
         #Bouton Shop
         self._button_dic['shop_button'].draw_button(surface)
         #Bouton Fight
-        self._button_dic['fight_button'].draw_button(surface)
+        self._button_dic['fight_menu_button'].draw_button(surface)
         # Bouton Quitter
         self._button_dic['quit_button'].draw_button(surface)
+        return surface
+
+    def display_fight(self, w, h):
+        surface = pygame.Surface((1920,1080))
+        surface.blit(self._background, (0, 0))
+        self._button_dic = {
+            "back_button" : button((212,180,0), 1720, 985, 180, 75, w, h,'Retour', font='comicsans', sizeFont=50)
+        }
+        self._button_dic["back_button"].draw_button(surface)
+    
         return surface
 
     def display_management_bee_list(self, bee, x, y, surface, bee_number, w, h):
@@ -260,8 +270,4 @@ class display():
         # 
         return surface, bees_surfaces
     
-    def display_fight(self):
-        surface = pygame.Surface((1920,1080))
-        self._button_dic = {}
-        print("Guerre en préparation!")
-        return surface
+    
