@@ -62,7 +62,7 @@ class hive():
 		self._prod = {"honey" : 0, "water" : 0, "metal" : 0 ,"uranium" : 0,"pollen" : 0}
 		for bee in self.bees():
 			if bee.category() == "worker":
-				print(bee.territory())
+				#print(bee.territory())
 				if bee.territory() != None:
 					#print(f" {self._prod[bee.ressource()]} + {bee.prod()} - {bee.cost()}")
 					self._prod[bee.ressource()] = self._prod[bee.ressource()] + bee.prod() - bee.cost()
