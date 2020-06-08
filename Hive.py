@@ -1,6 +1,7 @@
 from Bee import bee
 from Worker_Bee import worker_bee
 from Territory import territory
+from Upgrade import upgrade
 
 class hive():
 
@@ -110,3 +111,15 @@ class hive():
 
 	def level(self):
 		return self._level
+
+	def check_level_upfrade(self,upgrade):
+		if self._level < upgrade.required_level():
+			return False
+		else:
+			return True
+
+	def check_purchase_upgrade(self,upgrade):
+		if self._ressource[upgrade.price()[0]] < upgrade.price()[1]:
+			return False
+		else:
+			return True

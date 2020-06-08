@@ -10,3 +10,13 @@ class upgrade():
 		self._category = category
 		self._possession = possession
 		self._placement = placement
+
+	def required_level(self):
+		return self._required_level
+
+	def price(self):
+		return self._price
+
+	def purchase_upgrade(self):
+		self._possession = True
+
