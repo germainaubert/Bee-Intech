@@ -71,10 +71,10 @@ class live_display():
         
         buttons['buy_bee_button'] = purchase_buttons
 
-        pos_x = 400
+        pos_x = 200
         pos_y = 250 # valeurs liées aux boutons de display de la bee_surface
         
-        container_surface = pygame.Surface((1100, 850), pygame.SRCALPHA)
+        container_surface = pygame.Surface((1500, 850), pygame.SRCALPHA)
         
         container_surface.blit(scroll_surface, (0, scroll_y))
 

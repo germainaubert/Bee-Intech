@@ -27,6 +27,9 @@ class hive():
 	def ressource(self):
 		return self._ressource
 
+	def level(self):
+		return self._level
+
 	# ajoute une abeille a la ruche
 	def add_bee(self,bee):
 		self._bees.append(bee)
