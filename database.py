@@ -42,7 +42,6 @@ class database():
             sprite = row[6]
             prod = row[7]
             ressource = row[8]
-            self._bees.append(worker_bee(name, cost, category, None, [ressource_price,price], required_level, sprite, prod, ressource))
-        
+            self._bees.append(worker_bee(name, cost, category, [ressource_price,price], required_level, sprite, prod, ressource))
         return self._bees
         

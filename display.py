@@ -160,30 +160,6 @@ class display():
     
         return surface
 
-    def display_management_bee_list(self, bee, x, y, surface, bee_number, w, h):
-
-        if bee is not None:
-            font = pygame.font.SysFont('comicsans', 50)
-            name = font.render("Nom : " + str(bee.name()), 1, (0,0,0))
-            number = font.render("Nombre possédé : " + str(bee_number), 1, (0,0,0))
-            category = font.render("Catégorie : " + bee._category, 1, (0,0,0))
-            prod = font.render("Capacité de production : " + str(bee._prod), 1, (0,0,0))
-            sprite = bee.sprite()
-            if sprite is not None:
-                image = pygame.image.load(sprite)
-                surface.blit(image, (x, y + 50))
-                y += image.get_height()
-            surface.blit(name, (x, y + 100))
-            surface.blit(number, (x, y + 150))
-            surface.blit(category, (x, y + 200))
-            surface.blit(prod, (x, y + 250))
-
-            test = button((212,180,0), x, y + 300, 180, 75, w, h,'Supprimer','comicsans', 50, bee.name())
-            test.draw_button(surface)
-            return test
-        else:
-            pass
-
     def display_management_bee(self, bees, w, h, scroll_y):
         
         font = pygame.font.SysFont('comicsans', 50)
@@ -336,14 +312,14 @@ class display():
             x += 450 
 
         for i in range (0, len(surface_dic['buttons'])):
-            surface_dic['buttons'][i]._x += 400
+            surface_dic['buttons'][i]._x += 200
             surface_dic['buttons'][i]._y += 250
 
-        value = 450
+        value = 550
         for i in range (3, len(surface_dic['buttons'])):
             
             if i % 3 == 0 and i != 3:
-                value += 450
+                value += 550
             surface_dic['buttons'][i]._y += value
 
 
