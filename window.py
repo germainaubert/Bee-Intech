@@ -115,14 +115,17 @@ class window():
                     # Navigation
                     if "quit_button" in self._display._button_dic:
                         if self._display._button_dic["quit_button"].is_over(event.pos):
-                            for bee in self._hive.bees():
-                                save = self._database.hive_save_bee((self._database._save_count, bee._name, bee._cost, bee._category, bee._price[0], bee._price[1], bee._required_level, bee._sprite ))
+                            # for bee in self._hive.bees():
+                            #     save = self._database.hive_save_bee((self._database._save_count, bee._name, bee._cost, bee._category, bee._price[0], bee._price[1], bee._required_level, bee._sprite ))
                             run = False
                             pygame.quit()
                             break
                     if "launch_game_button" in self._display._button_dic:
                         if self._display._button_dic["launch_game_button"].is_over(event.pos):
                             self.game_init()
+                            saved_bees = self._database.load_data()
+                            for bee in saved_bees:
+                                self._hive.add_bee(bee)
                             self._surface = self._display.display_new_game(self._w, self._h)
                             self._live = "new_game"
                             break
