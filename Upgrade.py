@@ -1,7 +1,7 @@
 
 class upgrade():
 
-	def __init__(self, name = None, lvl = 0, required_level = 0, price = [None,0], category = None, possession = False, placement = (0,0)):
+	def __init__(self, name = None, lvl = 0, required_level = 0, price = [None,0], category = None, possession = False, placement = (0,0,0,0), description = None, sprite = None):
 
 		self._name = name
 		self._lvl = lvl
@@ -10,3 +10,13 @@ class upgrade():
 		self._category = category
 		self._possession = possession
 		self._placement = placement
+
+	def required_level(self):
+		return self._required_level
+
+	def price(self):
+		return self._price
+
+	def purchase_upgrade(self):
+		self._possession = True
+

@@ -1,12 +1,11 @@
 class bee():
 
 	# init une abeille
-	def __init__(self,name = None, cost = 0, category = None, upgrade = [], price = [None,0], required_level = 0, sprite = None):
+	def __init__(self,name = None, cost = 0, category = None, price = [None,0], required_level = 0, sprite = None):
 
 		self._name = name
 		self._cost = cost
 		self._category = category
-		self._upgrade = upgrade
 		self._price = price
 		self._required_level = required_level
 		self._sprite = sprite
@@ -26,3 +25,6 @@ class bee():
 
 	def cost(self):
 		return self._cost
+
+	def required_level(self):
+		return self._required_level

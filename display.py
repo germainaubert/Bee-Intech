@@ -284,7 +284,7 @@ class display():
              
         return surface, bees_surface
     
-    def display_shop_bee(self, bees, w, h):
+    def display_shop_bee(self, bees, hive, w, h):
         
         font = pygame.font.SysFont('comicsans', 50)
         
@@ -293,8 +293,8 @@ class display():
         surface_dic = {}
         surface_dic['surface'] = []
         surface_dic['buttons'] = []
-        height = 450
-        width = 1500
+        height = 550
+        width = 1800
         total_height = 0
         for i in range (0, len(bees)):
             
@@ -313,14 +313,27 @@ class display():
             image = pygame.image.load(bees[i]._sprite)
             surface_dic['surface'][indice].blit(image, (x, 50))
             # prix
-            prix = font.render(str(bees[i]._price), 1, (0,0,0))
-            surface_dic['surface'][indice].blit(prix, (x, 250))
-            # boutons
-            bouton = button((212,180,0), x, 300, 180, 75, w, h,'Acheter', font='comicsans', sizeFont=50, get=bees[i]._name)
-            surface_dic['buttons'].append(bouton)
-            bouton.draw_button(surface_dic['surface'][indice])
 
-            x += 350 
+            if bees[i].category() == "worker":
+                prod = font.render("Production: " + str(bees[i].prod()) + " " + str(bees[i].ressource()) + "/s" , 1, (0,0,0))
+                surface_dic['surface'][indice].blit(prod, (x, 300))
+
+                cost = font.render("Coût d'entretien: " + str(bees[i].cost()) , 1, (0,0,0))
+                surface_dic['surface'][indice].blit(cost, (x, 350))
+
+            prix = font.render( "Prix: " + str(bees[i]._price[0])+ " " +str(bees[i]._price[1]), 1, (0,0,0))
+            surface_dic['surface'][indice].blit(prix, (x, 400))
+            
+            # boutons
+            if bees[i].required_level() <= hive.level():
+                bouton = button((212,180,0), x, 450, 300, 75, w, h,'Acheter', font='comicsans', sizeFont=50, get=bees[i]._name)
+                surface_dic['buttons'].append(bouton)
+                bouton.draw_button(surface_dic['surface'][indice])
+            else:
+                bouton = button((169, 169, 169), x, 450, 300, 75, w, h,"Niveau " + str(bees[i].required_level()) + " requis" , font='comicsans', sizeFont=50, get=None)
+                bouton.draw_button(surface_dic['surface'][indice])
+
+            x += 450 
 
         for i in range (0, len(surface_dic['buttons'])):
             surface_dic['buttons'][i]._x += 400
@@ -365,7 +378,7 @@ class display():
         }
 
         # liste des surfaces
-        bees_surfaces = self.display_shop_bee(shop_bees, w, h)
+        bees_surfaces = self.display_shop_bee(shop_bees, hive, w, h)
 
         # Bouton Quitter
 
