@@ -18,25 +18,65 @@ class live_display():
         self._hive = hive
 
     def give_display(self, live, alert, surface, events, buttons, first_call, bees_surfaces, scroll_y): # permet d'appeler la méthode de live_display correspondant à l'affichage en cours, grâce à live
-        if live == "new_game":
-             return self.live_new_game(surface)
+        if live == "menu":
+             return self.live_menu(surface, alert, buttons)
         elif live == "management":
             return self.live_management(surface, events, buttons, alert, bees_surfaces, scroll_y)  
         elif live == "shop":
             return self.live_shop(surface, events, buttons, alert, first_call, bees_surfaces, scroll_y)
         elif live == "fight_menu":
             return self.live_fight_menu(surface, buttons)
+        elif live == "bee_up":
+            return self.live_bee_up(surface, bees_surfaces, scroll_y, events, buttons)
     
+    def live_bee_up(self, surface, bees_surfaces, scroll_y, events, buttons):
+
+        scroll_surface, up_buttons, scroll_y = self.scroll(bees_surfaces, events, scroll_y)
+        #positionner correctement purchase buttons
+    
+        
+        buttons['upgrade_purchase'] = up_buttons
+
+        pos_x = 400
+        pos_y = 100 # valeurs liées aux boutons de display de la bee_surface
+        
+        container_surface = pygame.Surface((1200, 850), pygame.SRCALPHA)
+        
+        container_surface.blit(scroll_surface, (0, scroll_y))
+
+        surface.blit(container_surface, (pos_x, pos_y))
+        
+        return surface, scroll_y, buttons
+
     def live_fight_menu(self, surface, buttons):
         return surface, buttons
 
-    def live_new_game(self, surface):
+    def live_menu(self, surface, alert, buttons):
         
         texte = "Miel: " + str(math.ceil(self._hive._ressource["honey"]))
         texte = self.text_rendering("comicsans", 100, texte)
         surface.blit(texte, (0,0))
+        
+        # alert upgrade_choice
+        if alert == "upgrade_choice":
+            
 
-        return surface
+            black_surface = pygame.Surface((1920,1080), 255)
+            black_surface.set_alpha(100)
+            surface.blit(black_surface, (0,0))
+            # display_surface = pygame.Surface((600, 150), pygame.SRCALPHA)
+            
+            # surface.blit(display_surface, (760, 480)) 
+
+            buttons = {"fight_upgrades" : button((255,180,255), 730, 450, 200, 80, self._w, self._h, 'Combat', font='comicsans', sizeFont=55),
+                        "hive_upgrades" : button((255,180,255), 990, 450, 200, 80, self._w, self._h, 'Ruche', font='comicsans', sizeFont=55),
+                        "cancel" : button((212,180,0), 892, 550, 135, 55, self._w, self._h,'Annuler', font='comicsans', sizeFont=33)
+                    }
+            buttons["fight_upgrades"].draw_button(surface)
+            buttons["hive_upgrades"].draw_button(surface)
+            buttons["cancel"].draw_button(surface)
+
+        return surface, buttons
 
     def live_management(self, surface, events, buttons, alert, bees_surfaces, scroll_y):
         scroll_surface, delete_buttons, scroll_y = self.scroll(bees_surfaces, events, scroll_y)

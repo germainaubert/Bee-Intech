@@ -8,6 +8,7 @@ from Shop import shop
 from tick_update import tick_update
 from Territory import territory
 from database import database
+from Upgrade import upgrade
  
  
 
@@ -38,7 +39,7 @@ class window():
         self._title = "BEETTHEFUCKOUTOFMYWIFE"
         self._display = display()
         pygame.display.set_caption(self._title)
-        self._surface = self._display.display_menu(self._w, self._h) # _surface est la surface qui doit contenir tout ce qui concerne l'affichage, à bien différencier avec _window
+        self._surface = self._display.display_new_game(self._w, self._h) # _surface est la surface qui doit contenir tout ce qui concerne l'affichage, à bien différencier avec _window
         
         self._live = None # attribut pour déterminer si un affichage doit se faire à chaque itération de la boucle principales
         self._alert = None # Pareil que live mais pour les alertes
@@ -81,6 +82,10 @@ class window():
                     live_surface, self._bee_quantity, self._display._button_dic, self._first_call, self._alert, self._scroll_y = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y) # prend event en parametre pour permettre l'input
                 elif self._live == "fight_menu":
                     live_surface, self._display._button_dic = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y)
+                elif self._live == "menu":
+                    live_surface, self._display._button_dic = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y)
+                elif self._live == "bee_up":
+                    live_surface, self._scroll_y, self._display._button_dic = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y)
                 else: 
                     live_surface = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y)
                 
@@ -125,19 +130,23 @@ class window():
                     if "launch_game_button" in self._display._button_dic:
                         if self._display._button_dic["launch_game_button"].is_over(event.pos):
                             self.game_init()
-                            self._surface = self._display.display_new_game(self._w, self._h)
-                            self._live = "new_game"
+                            self._surface = self._display.display_menu(self._w, self._h)
+                            self._live = "menu"
                             break
                     if "back_button" in self._display._button_dic:
                         if self._display._button_dic["back_button"].is_over(event.pos):
-                            self._surface = self._display.display_new_game(self._w, self._h)
-                            self._live = "new_game"
+                            self._surface = self._display.display_menu(self._w, self._h)
+                            self._live = "menu"
                             break
                     if "bees_button" in self._display._button_dic:
                         if self._display._button_dic["bees_button"].is_over(event.pos):
                             self._live = "management"
                             self._scroll_y = 0 # Valeur de scroll initial, pour ne pas que le scroll soit dans l'état ou il a été laissé
                             self._surface, self._bees_surfaces = self._display.display_management(self._w, self._h, self._hive, self._scroll_y)
+                            break
+                    if "upgrade_button" in self._display._button_dic:
+                        if self._display._button_dic["upgrade_button"].is_over(event.pos):
+                            self._alert = "upgrade_choice"
                             break
                     if "shop_button" in self._display._button_dic:
                         if self._display._button_dic["shop_button"].is_over(event.pos):
@@ -150,6 +159,7 @@ class window():
                             self._surface = self._display.display_fight(self._w, self._h)
                             self._live = "fight_menu"
                             break
+                    
                     # TEST
                     if "get_honey_button" in self._display._button_dic:
                         if self._display._button_dic["get_honey_button"].is_over(event.pos):
@@ -169,6 +179,11 @@ class window():
                         for button in self._display._button_dic["buy_bee_button"]:
                             if button.is_over(event.pos):
                                 self._alert, self._first_call = self._shop.test_bee(button._get, self._hive)
+                    # Upgrade
+                    if "upgrade_purchase" in self._display._button_dic:
+                        for button in self._display._button_dic["upgrade_purchase"]:
+                            if button.is_over(event.pos):
+                                print("c cool")
                     # Shop_ALERT
                     if "cant_buy_alert" in self._display._button_dic:
                         if self._display._button_dic["cant_buy_alert"].is_over(event.pos):
@@ -179,6 +194,24 @@ class window():
                     if "purchase_confirmation" in self._display._button_dic:
                         if self._display._button_dic["purchase_confirmation"].is_over(event.pos):
                             self._alert = "GetRideOfThisShit"
+                    # Menu_ALERT (ugpgrades)
+                    if "fight_upgrades" in self._display._button_dic:
+                        if self._display._button_dic["fight_upgrades"].is_over(event.pos):
+                            self._alert = None
+                            self._live = "fight_up"
+                            self._surface = self._display.display_fight_upgrades(self._w, self._h, self._hive)
+                    if "hive_upgrades" in self._display._button_dic:
+                        if self._display._button_dic["hive_upgrades"].is_over(event.pos):
+                            self._alert = None
+                            self._live = "bee_up"
+                            self._scroll_y = 0
+                            self._display._button_dic = {}
+                            self._surface, self._bees_surfaces = self._display.display_hive_upgrades(self._w, self._h, self._hive)
+                    if "cancel" in self._display._button_dic:
+                        if self._display._button_dic["cancel"].is_over(event.pos):
+                            self._alert = None
+                            self._surface = self._display.display_menu(self._w, self._h)
+
             # Input clavier
             if event.type == KEYDOWN:
                 
@@ -198,8 +231,19 @@ class window():
         self._hive = hive(
             ressource = (100,0,0,0,0),
             prod = (0,0,0,0,0),
-            upgrades = [],
-            territories = [ territory("base", 0, 0, "honey", 5, [], True), territory("base2", 0, 1, "honey", 7, [], True) ]
+            # Commencer avec les upgrades concernant la ruche, puis le combat
+            # name, lvl, required_level , price, category, possession, placement = (0,0)
+            upgrades = [
+            upgrade("boost production", 0, 0, 20, "worker", False, (0,0)),
+            upgrade("saucisse", 0, 0, 20, "worker", False, (1,1)),
+            upgrade("jajomobile", 0, 0, 20, "worker", False, (1,2)),
+            upgrade("jajomobile", 0, 0, 20, "worker", False, (2,2)),
+            upgrade("jajomobile", 0, 0, 20, "worker", False, (3,2)),
+            upgrade("jajomobile", 0, 0, 20, "worker", False, (4,2))
+            ],
+            
+            territories = [ territory("base", 0, 0, "honey", 5, [], True), 
+            territory("base2", 0, 1, "honey", 7, [], True) ]
             )
         self._database = database()
         self._shop = shop()

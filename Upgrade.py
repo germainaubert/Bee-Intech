@@ -1,7 +1,7 @@
 
 class upgrade():
 
-	def __init__(self, name = None, lvl = 0, required_level = 0, price = [None,0], category = None, possession = False, placement = (0,0,0,0)):
+	def __init__(self, name = None, lvl = 0, required_level = 0, price = [None,0], category = None, possession = False, placement = (0,0)):
 
 		self._name = name
 		self._lvl = lvl
