@@ -79,6 +79,8 @@ class window():
                     live_surface, self._bee_quantity, self._display._button_dic, self._alert, self._scroll_y = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y)
                 elif self._live == "shop":
                     live_surface, self._bee_quantity, self._display._button_dic, self._first_call, self._alert, self._scroll_y = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y) # prend event en parametre pour permettre l'input
+                elif self._live == "fight_menu":
+                    live_surface, self._display._button_dic = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y)
                 else: 
                     live_surface = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y)
                 
@@ -146,10 +148,10 @@ class window():
                             self._live = "shop"
                             self._scroll_y = 0 # Valeur de scroll initial, pour ne pas que le scroll soit dans l'état ou il a été laissé
                             break
-                    if "fight_button" in self._display._button_dic:
-                        if self._display._button_dic["fight_button"].is_over(event.pos):
-                            self._surface = self._display.display_fight()
-                            self._live = "fight"
+                    if "fight_menu_button" in self._display._button_dic:
+                        if self._display._button_dic["fight_menu_button"].is_over(event.pos):
+                            self._surface = self._display.display_fight(self._w, self._h)
+                            self._live = "fight_menu"
                             break
                     # TEST
                     if "get_honey_button" in self._display._button_dic:
@@ -196,7 +198,12 @@ class window():
         return pygame.display.Info().current_w, pygame.display.Info().current_h
 
     def game_init(self):
-        self._hive = hive(ressource = (100,0,0,0,0), prod = (0,0,0,0,0), territories = [ territory("base", 0, 0, "honey", 5, [], True), territory("base2", 0, 1, "honey", 7, [], True) ])
+        self._hive = hive(
+            ressource = (100,0,0,0,0),
+            prod = (0,0,0,0,0),
+            upgrades = [],
+            territories = [ territory("base", 0, 0, "honey", 5, [], True), territory("base2", 0, 1, "honey", 7, [], True) ]
+            )
         self._database = database()
         self._shop = shop()
         self._tick_update = tick_update(self._hive, self._tick)

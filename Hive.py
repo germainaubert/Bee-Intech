@@ -1,6 +1,7 @@
 from Bee import bee
 from Worker_Bee import worker_bee
 from Territory import territory
+from Upgrade import upgrade
 
 class hive():
 
@@ -25,6 +26,9 @@ class hive():
 	# def ressource
 	def ressource(self):
 		return self._ressource
+
+	def level(self):
+		return self._level
 
 	# ajoute une abeille a la ruche
 	def add_bee(self,bee):
@@ -62,7 +66,7 @@ class hive():
 		self._prod = {"honey" : 0, "water" : 0, "metal" : 0 ,"uranium" : 0,"pollen" : 0}
 		for bee in self.bees():
 			if bee.category() == "worker":
-				print(bee.territory())
+				#print(bee.territory())
 				if bee.territory() != None:
 					#print(f" {self._prod[bee.ressource()]} + {bee.prod()} - {bee.cost()}")
 					self._prod[bee.ressource()] = self._prod[bee.ressource()] + bee.prod() - bee.cost()
@@ -110,3 +114,15 @@ class hive():
 
 	def level(self):
 		return self._level
+
+	def check_level_upfrade(self,upgrade):
+		if self._level < upgrade.required_level():
+			return False
+		else:
+			return True
+
+	def check_purchase_upgrade(self,upgrade):
+		if self._ressource[upgrade.price()[0]] < upgrade.price()[1]:
+			return False
+		else:
+			return True
