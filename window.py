@@ -9,8 +9,8 @@ from tick_update import tick_update
 from Territory import territory
 from database import database
 from Upgrade import upgrade
- 
- 
+
+
 
 from Shop import shop
 
@@ -243,7 +243,6 @@ class window():
             upgrade("jajomobile", 0, 0, 20, "worker", False, (1,2)),
             upgrade("jajomobile", 0, 0, 20, "worker", False, (2,2)),
             upgrade("jajomobile", 0, 0, 20, "worker", False, (3,2)),
-            upgrade("jajomobile", 0, 0, 20, "worker", False, (4,2))
             ],
             
             territories = [ territory("base", 0, 0, "honey", 5, [], True), 

@@ -30,17 +30,18 @@ class live_display():
             return self.live_bee_up(surface, bees_surfaces, scroll_y, events, buttons)
     
     def live_bee_up(self, surface, bees_surfaces, scroll_y, events, buttons):
-
-        scroll_surface, up_buttons, scroll_y = self.scroll(bees_surfaces, events, scroll_y)
+        max_y = 1250
+        scroll_surface, up_buttons, scroll_y = self.scroll(bees_surfaces, events, scroll_y, max_y)
         #positionner correctement purchase buttons
     
-        
+        surface = self.display_ressources(surface)
+
         buttons['upgrade_purchase'] = up_buttons
 
         pos_x = 400
         pos_y = 100 # valeurs liées aux boutons de display de la bee_surface
         
-        container_surface = pygame.Surface((1200, 850), pygame.SRCALPHA)
+        container_surface = pygame.Surface((1200, 1000), pygame.SRCALPHA)
         
         container_surface.blit(scroll_surface, (0, scroll_y))
 
@@ -53,9 +54,7 @@ class live_display():
 
     def live_menu(self, surface, alert, buttons):
         
-        texte = "Miel: " + str(math.ceil(self._hive._ressource["honey"]))
-        texte = self.text_rendering("comicsans", 100, texte)
-        surface.blit(texte, (0,0))
+        surface = self.display_ressources(surface)
         
         # alert upgrade_choice
         if alert == "upgrade_choice":
@@ -79,18 +78,17 @@ class live_display():
         return surface, buttons
 
     def live_management(self, surface, events, buttons, alert, bees_surfaces, scroll_y):
-        scroll_surface, delete_buttons, scroll_y = self.scroll(bees_surfaces, events, scroll_y)
+        max_y = 830
+        scroll_surface, delete_buttons, scroll_y = self.scroll(bees_surfaces, events, scroll_y, max_y)
         
         buttons['delete_bee_button'] = delete_buttons
 
-        texte = "Miel: " + str(math.ceil(self._hive._ressource["honey"]))
-        texte = self.text_rendering("comicsans", 100, texte)
-        surface.blit(texte, (0,0))
+        surface = self.display_ressources(surface)
 
         pos_x = 400
         pos_y = 250
         
-        container_surface = pygame.Surface((1100, 850), pygame.SRCALPHA)
+        container_surface = pygame.Surface((1500, 850), pygame.SRCALPHA)
         
         container_surface.blit(scroll_surface, (0, scroll_y))
 
@@ -105,7 +103,8 @@ class live_display():
 
 
     def live_shop(self, surface, events, buttons, alert, first_call, bees_surfaces, scroll_y):
-        scroll_surface, purchase_buttons, scroll_y = self.scroll(bees_surfaces, events, scroll_y)
+        max_y = 830
+        scroll_surface, purchase_buttons, scroll_y = self.scroll(bees_surfaces, events, scroll_y, max_y)
         #positionner correctement purchase buttons
     
         
@@ -121,9 +120,7 @@ class live_display():
         surface.blit(container_surface, (pos_x, pos_y))
         
 
-        texte = "Miel: " + str(math.ceil(self._hive._ressource["honey"]))
-        texte = self.text_rendering("comicsans", 100, texte)
-        surface.blit(texte, (0,0))
+        surface = self.display_ressources(surface)
         
         # print(bees_surfaces[0][1])
         
@@ -205,7 +202,7 @@ class live_display():
        
         return surface, self._shop_input.get_text(), buttons, first_call, alert, scroll_y
 
-    def scroll(self, surface, events, y):
+    def scroll(self, surface, events, y, max_y):
         buttons = surface['buttons']
         surface = surface['surface']
         
@@ -213,7 +210,7 @@ class live_display():
         for event in events:
             if event.type == MOUSEBUTTONDOWN and event.button == 5: # vers le haut
                 y -= pixels
-                if y <= 0 and y > -(surface.get_height() - 830):
+                if y <= 0 and y > -(surface.get_height() - max_y):
                     buttons = self.new_button_pos(buttons, pixels, "-")
                 else:
                     y += pixels
@@ -241,3 +238,30 @@ class live_display():
         text = font.render(text, 1, (0,0,0))
         return text
 
+    def display_ressources(self, surface):
+        x = 10
+        for ressource in self._hive._ressource:
+            texte = self.translate_ressources(ressource)
+            disp = texte + ": " + str(math.ceil(self._hive._ressource[ressource]))
+            texte = self.text_rendering("comicsans", 40, disp)
+            surface.blit(texte, (x, 10))
+            x += 300
+        
+        text = "Lvl: " + str(self._hive._level)
+        text = self.text_rendering("comicsans", 40, text)
+        surface.blit(text, (x + 300, 10))
+        
+        return surface
+
+    def translate_ressources(self, name):
+        if name == "honey":
+            return "Miel"
+        if name == "water":
+            return "Eau"
+        if name == "metal":
+            return "Métal"
+        if name == "uranium":
+            return "Uranium"
+        if name == "pollen":
+            return "Pollen"
+        

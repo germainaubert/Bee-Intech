@@ -13,7 +13,7 @@ class display():
     
     def display_new_game(self, w, h):
         surface = pygame.Surface((1920,1080))
-        self._background = pygame.image.load('./Images/fond.jpg')
+        self._background = pygame.image.load('./Images/greywp.jpg')
         surface.blit(self._background, (0, 0))
         self._button_dic = {
             "quit_button" : button((212,180,0), 1720, 985, 180, 75, w, h,'Quitter', font='comicsans', sizeFont=50),
@@ -53,10 +53,13 @@ class display():
     def display_fight_upgrades(self, w, h, hive):
         surface = pygame.Surface((1920,1080))
         surface.blit(self._background, (0, 0))
+        
+
         self._button_dic = {
             "back_button" : button((212,180,0), 1720, 985, 180, 75, w, h,'Retour', font='comicsans', sizeFont=50)
         }
         self._button_dic["back_button"].draw_button(surface)
+        
         return surface
     
     def display_hive_upgrades(self, w, h, hive):
@@ -142,8 +145,9 @@ class display():
         #         value += height
         #     surface_dic['buttons'][i]._y += value
 
-        for butts in surface_dic["buttons"]:
-            print(butts._x, butts._y)
+        
+        # for butts in surface_dic["buttons"]:
+            
 
         self._button_dic["back_button"] = button((212,180,0), 1720, 985, 180, 75, w, h,'Retour', font='comicsans', sizeFont=50)
         
@@ -152,7 +156,11 @@ class display():
 
     def display_fight(self, w, h):
         surface = pygame.Surface((1920,1080))
-        surface.blit(self._background, (0, 0))
+        # surface.blit(self._background, (0, 0))
+
+        map_pic = pygame.image.load('./Images/wtitlemap.jpg')
+        surface.blit(map_pic, (236, -4))
+
         self._button_dic = {
             "back_button" : button((212,180,0), 1720, 985, 180, 75, w, h,'Retour', font='comicsans', sizeFont=50)
         }
