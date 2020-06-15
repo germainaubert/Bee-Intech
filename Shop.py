@@ -8,9 +8,9 @@ class shop():
 	def __init__(self):
 
 		# liste des abeilles dans le shop
-		self._bees = [worker_bee('hervé2', 5, 'worker', [10,"whater"], 1, "./Images/bak.jpg", 15, "water", None),
-		worker_bee('hervé3', 10, 'worker', [10,"whater"], 1, "./Images/merveille.jpg",  20 , "water", None),
-		worker_bee('stonks', 20, 'worker', [10,"whater"], 1, "./Images/stonks.jpeg",  10000 , "water", None),
+		self._bees = [worker_bee('hervé2', 5, 'worker', [10,"water"], 1, "./Images/bak.jpg", 15, "water", None),
+		worker_bee('hervé3', 10, 'worker', [10,"water"], 1, "./Images/merveille.jpg",  20 , "water", None),
+		worker_bee('stonks', 20, 'worker', [10,"water"], 1, "./Images/stonks.jpeg",  10000 , "water", None),
 		worker_bee('avatarar', 20, 'worker', [10,"honey"], 1, "./Images/diobrando.jpg",  40 , "honey", None),
 		worker_bee('avatgugu', 20, 'worker', [10,"honey"], 1, "./Images/bak.jpg",  40 , "honey", None),
 		worker_bee('avatarar', 20, 'worker', [20,"honey"], 1, "./Images/diobrando.jpg",  40 , "honey", None),

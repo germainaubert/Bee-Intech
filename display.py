@@ -335,8 +335,8 @@ class display():
                 if bees[i]._price[1] == "honey":
                     image = pygame.image.load("./Images/honey.png")
                     surface_dic['surface'][indice].blit(pygame.transform.scale(image, (45, 45)), ( x + 80 + 20*len(str(bees[i]._price[0])), 393 ))
-                elif bees[i].ressource() == "whater":
-                    image = pygame.image.load("./Images/whater.png")
+                elif bees[i].ressource() == "water":
+                    image = pygame.image.load("./Images/water.png")
                     surface_dic['surface'][indice].blit(pygame.transform.scale(image, (30, 30)), ( x + 90 + 20*len(str(bees[i]._price[0])), 400 ))
 
                 cost = font.render("Coût d'entretien: " + str(bees[i].cost()) , 1, (0,0,0))
