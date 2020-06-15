@@ -1,4 +1,5 @@
 import pygame
+from pygame.locals import *
 from create_button import button
 from Shop import shop
 from Hive import hive
@@ -10,9 +11,9 @@ class display():
         self._button_dic = {}
         self._background = None
     
-    def display_menu(self, w, h):
+    def display_new_game(self, w, h):
         surface = pygame.Surface((1920,1080))
-        self._background = pygame.image.load('./Images/fond.jpg')
+        self._background = pygame.image.load('./Images/greywp.jpg')
         surface.blit(self._background, (0, 0))
         self._button_dic = {
             "quit_button" : button((212,180,0), 1720, 985, 180, 75, w, h,'Quitter', font='comicsans', sizeFont=50),
@@ -24,13 +25,14 @@ class display():
 
         return surface
     
-    def display_new_game(self, w, h):
+    def display_menu(self, w, h):
         surface = pygame.Surface((1920,1080))
         # On désinitialise nos boutons quit et launch
         self._button_dic = {
-            "bees_button" : button((212,180,0), 720, 303, 480, 75, w, h, 'Gestion des Abeilles', sizeFont=50),
-            "shop_button" : button((212,180,0), 720, 503, 480, 75, w, h, 'Magasin', sizeFont=50),
-            "fight_menu_button" : button((212,180,0), 720, 703, 480, 75, w, h, 'Combat!', sizeFont=50),
+            "bees_button" : button((212,180,0), 720, 203, 480, 75, w, h, 'Gestion des Abeilles', sizeFont=50),
+            "upgrade_button" : button((212,180,0), 720, 403, 480, 75, w, h, 'Améliorations', sizeFont=50),
+            "shop_button" : button((212,180,0), 720, 603, 480, 75, w, h, 'Magasin', sizeFont=50),
+            "fight_menu_button" : button((212,180,0), 720, 803, 480, 75, w, h, 'Combat!', sizeFont=50),
             "quit_button" : button((212,180,0), 1720, 985, 180, 75, w, h,'Quitter', font='comicsans', sizeFont=50)
         }
         #On redessine le background
@@ -38,47 +40,134 @@ class display():
         surface.blit(self._background, (0, 0))
         #Bouton Bees
         self._button_dic['bees_button'].draw_button(surface)
+        #Boutons upgrade
+        self._button_dic['upgrade_button'].draw_button(surface)
         #Bouton Shop
         self._button_dic['shop_button'].draw_button(surface)
         #Bouton Fight
         self._button_dic['fight_menu_button'].draw_button(surface)
         # Bouton Quitter
         self._button_dic['quit_button'].draw_button(surface)
+        
         return surface
+
+    def display_fight_upgrades(self, w, h, hive):
+        surface = pygame.Surface((1920,1080))
+        surface.blit(self._background, (0, 0))
+        
+
+        self._button_dic = {
+            "back_button" : button((212,180,0), 1720, 985, 180, 75, w, h,'Retour', font='comicsans', sizeFont=50)
+        }
+        self._button_dic["back_button"].draw_button(surface)
+        
+        return surface
+    
+    def display_hive_upgrades(self, w, h, hive):
+        # name, lvl, required_level , price, category, possession, placement = (0,0)
+        upgrades = hive._upgrades
+        surface = pygame.Surface((1920,1080))
+        surface.blit(self._background, (0, 0))
+
+        # Déterminer la taille de la matrice
+        for i in range (0, len(upgrades) - 1): 
+            if upgrades[i]._placement[0] > upgrades[i + 1]._placement[0]:
+                max_x = upgrades[i]._placement[0]
+            elif upgrades[i]._placement[0] < upgrades[i + 1]._placement[0]:
+                max_x = upgrades[i + 1]._placement[0]
+            if upgrades[i]._placement[1] > upgrades[i + 1]._placement[1]:
+                max_y = upgrades[i]._placement[1]
+            elif upgrades[i]._placement[1] < upgrades[i + 1]._placement[1]:
+                max_y = upgrades[i + 1]._placement[1]
+        
+        # Création de la matrice des upgrades
+        list_up = [[0 for i in range(max_y + 1)] for j in range(max_x + 1)]
+
+        for upgrade in upgrades:
+            list_up[upgrade._placement[0]][upgrade._placement[1]] = upgrade
+
+        # print(list_up)
+
+        # taille de la surface
+        width = 1200 
+        height = 400
+        total_height = 0
+        font = pygame.font.SysFont('comicsans', 50)
+        surface_dic = {}
+        surface_dic['surface'] = []
+        surface_dic['buttons'] = []
+        cpt = -1
+
+        for row in list_up:
+            surface_dic['surface'].append(pygame.Surface((width, height), pygame.SRCALPHA))
+            cpt += 1
+            total_height += height
+            x = 0
+            for upgrade in row:
+                if upgrade != 0:
+                    button_temp = button((212,180,0), x, 0, 300, 75, w, h, upgrade._name, font='comicsans', sizeFont=50)
+                    surface_dic["buttons"].append(button_temp)
+                    button_temp.draw_button(surface_dic["surface"][cpt])
+                x += 400
+
+        final_surface = pygame.Surface((width, total_height), pygame.SRCALPHA)
+        y = 0
+        for surface_temp in surface_dic['surface']:
+            final_surface.blit(surface_temp, (0, y))
+            y += height
+
+        surface_dic['surface'] = final_surface  
+
+        
+        # Détermine le nombre d'amélioration par ligne (utile pour déterminer la position des boutons)
+        cpt_list = [0 for y in range(len(list_up))]
+        for i in range(0, len(list_up)):
+            for thing in list_up[i]:
+                if thing != 0:
+                    cpt_list[i] += 1
+
+        
+        for i in range (0, len(surface_dic["buttons"])):
+            surface_dic["buttons"][i]._x += 400
+            surface_dic["buttons"][i]._y += 100
+
+        decal = 400
+        total_height = 100
+        but_id = -1
+        for value in cpt_list:
+            for i in range(value):
+                but_id += 1
+                surface_dic["buttons"][but_id]._y = total_height
+            total_height += decal
+
+        # for i in range (3, len(surface_dic['buttons'])):
+            
+        #     if i % 3 == 0 and i != 3:
+        #         value += height
+        #     surface_dic['buttons'][i]._y += value
+
+        
+        # for butts in surface_dic["buttons"]:
+            
+
+        self._button_dic["back_button"] = button((212,180,0), 1720, 985, 180, 75, w, h,'Retour', font='comicsans', sizeFont=50)
+        
+        self._button_dic["back_button"].draw_button(surface)
+        return surface, surface_dic
 
     def display_fight(self, w, h):
         surface = pygame.Surface((1920,1080))
         surface.blit(self._background, (0, 0))
+
+        map_pic = pygame.image.load('./Images/titlemap.jpg')
+        surface.blit(map_pic, (236, -4))
+
         self._button_dic = {
             "back_button" : button((212,180,0), 1720, 985, 180, 75, w, h,'Retour', font='comicsans', sizeFont=50)
         }
         self._button_dic["back_button"].draw_button(surface)
     
         return surface
-
-    def display_management_bee_list(self, bee, x, y, surface, bee_number, w, h):
-
-        if bee is not None:
-            font = pygame.font.SysFont('comicsans', 50)
-            name = font.render("Nom : " + str(bee.name()), 1, (0,0,0))
-            number = font.render("Nombre possédé : " + str(bee_number), 1, (0,0,0))
-            category = font.render("Catégorie : " + bee._category, 1, (0,0,0))
-            prod = font.render("Capacité de production : " + str(bee._prod), 1, (0,0,0))
-            sprite = bee.sprite()
-            if sprite is not None:
-                image = pygame.image.load(sprite)
-                surface.blit(image, (x, y + 50))
-                y += image.get_height()
-            surface.blit(name, (x, y + 100))
-            surface.blit(number, (x, y + 150))
-            surface.blit(category, (x, y + 200))
-            surface.blit(prod, (x, y + 250))
-
-            test = button((212,180,0), x, y + 300, 180, 75, w, h,'Supprimer','comicsans', 50, bee.name())
-            test.draw_button(surface)
-            return test
-        else:
-            pass
 
     def display_management_bee(self, bees, w, h, scroll_y):
         
@@ -247,14 +336,14 @@ class display():
             x += 450 
 
         for i in range (0, len(surface_dic['buttons'])):
-            surface_dic['buttons'][i]._x += 400
+            surface_dic['buttons'][i]._x += 200
             surface_dic['buttons'][i]._y += 250
 
-        value = 450
+        value = 550
         for i in range (3, len(surface_dic['buttons'])):
             
             if i % 3 == 0 and i != 3:
-                value += 450
+                value += 550
             surface_dic['buttons'][i]._y += value
 
 
