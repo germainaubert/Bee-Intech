@@ -208,17 +208,32 @@ class display():
             # image abeille
             image = pygame.image.load(bees[i]._sprite)
             surface_dic['surface'][indice].blit(image, (x, 50))
+
             # prix
 
             if bees[i].category() == "worker":
-                prod = font.render("Production: " + str(bees[i].prod()) + " " + str(bees[i].ressource()) + "/s" , 1, (0,0,0))
+                prod = font.render("Production: " + str(bees[i].prod()) + "    /s" , 1, (0,0,0))
                 surface_dic['surface'][indice].blit(prod, (x, 300))
+
+                if bees[i].ressource() == "honey":
+                    image = pygame.image.load("./Images/honey.png")
+                    surface_dic['surface'][indice].blit(pygame.transform.scale(image, (45, 45)), ( x + 200 + 20*len(str(bees[i].prod())), 293 ))
+                elif bees[i].ressource() == "whater":
+                    image = pygame.image.load("./Images/whater.png")
+                    surface_dic['surface'][indice].blit(pygame.transform.scale(image, (30, 30)), ( x + 210 + 20*len(str(bees[i].prod())), 300 ))
+
+                if bees[i]._price[1] == "honey":
+                    image = pygame.image.load("./Images/honey.png")
+                    surface_dic['surface'][indice].blit(pygame.transform.scale(image, (45, 45)), ( x + 80 + 20*len(str(bees[i]._price[0])), 393 ))
+                elif bees[i].ressource() == "whater":
+                    image = pygame.image.load("./Images/whater.png")
+                    surface_dic['surface'][indice].blit(pygame.transform.scale(image, (30, 30)), ( x + 90 + 20*len(str(bees[i]._price[0])), 400 ))
 
                 cost = font.render("Coût d'entretien: " + str(bees[i].cost()) , 1, (0,0,0))
                 surface_dic['surface'][indice].blit(cost, (x, 350))
 
-            prix = font.render( "Prix: " + str(bees[i]._price[0])+ " " +str(bees[i]._price[1]), 1, (0,0,0))
-            surface_dic['surface'][indice].blit(prix, (x, 400))
+                prix = font.render( "Prix: " + str(bees[i]._price[0]), 1, (0,0,0))
+                surface_dic['surface'][indice].blit(prix, (x, 400))
             
             # boutons
             if bees[i].required_level() <= hive.level():
