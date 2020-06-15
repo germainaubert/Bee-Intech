@@ -51,21 +51,28 @@ class display():
         
         return surface
 
-    def display_fight_upgrades(self, w, h, hive):
-        surface = pygame.Surface((1920,1080))
-        surface.blit(self._background, (0, 0))
+    # def display_fight_upgrades(self, w, h, hive):
+    #     surface = pygame.Surface((1920,1080))
+    #     surface.blit(self._background, (0, 0))
         
 
-        self._button_dic = {
-            "back_button" : button((212,180,0), 1720, 985, 180, 75, w, h,'Retour', font='comicsans', sizeFont=50)
-        }
-        self._button_dic["back_button"].draw_button(surface)
+    #     self._button_dic = {
+    #         "back_button" : button((212,180,0), 1720, 985, 180, 75, w, h,'Retour', font='comicsans', sizeFont=50)
+    #     }
+    #     self._button_dic["back_button"].draw_button(surface)
         
-        return surface
+    #     return surface
     
-    def display_hive_upgrades(self, w, h, hive):
+    def display_upgrades(self, w, h, hive, upgrade_type):
         # name, lvl, required_level , price, category, possession, placement = (0,0)
-        upgrades = hive._upgrades
+
+        # mettre les bonnes upgrades
+        upgrades = []
+        for row in hive._upgrades:
+            if row._category == upgrade_type:
+                upgrades.append(row)
+        print(upgrades)
+        # upgrades = hive._upgrades
         surface = pygame.Surface((1920,1080))
         surface.blit(self._background, (0, 0))
 
@@ -157,12 +164,26 @@ class display():
 
     def display_fight(self, w, h):
         surface = pygame.Surface((1920,1080))
-        surface.blit(self._background, (0, 0))
 
-        map_pic = pygame.image.load('./Images/titlemap.jpg')
-        surface.blit(map_pic, (236, -4))
+        map_pic = pygame.image.load('./Images/last.jpg')
+        surface.blit(map_pic, (0, 0))
 
         self._button_dic = {
+            "ennemy_ter" : [
+                button((0,0,0), 328, 42, 270, 118, w, h,'hauteurs', font='comicsans', sizeFont=50),
+                button((0,0,0), 497, 205, 186, 131, w, h,'urbaines', font='comicsans', sizeFont=50),
+                button((0,0,0), 770, 16, 236, 100, w, h,'profondeurs', font='comicsans', sizeFont=50),
+                button((0,0,0), 1218, 135, 183, 118, w, h,'mutantes', font='comicsans', sizeFont=50),
+                button((0,0,0), 714, 277, 184, 75, w, h,'plaines', font='comicsans', sizeFont=50),
+                button((0,0,0), 694, 436, 203, 86, w, h,'solitaires', font='comicsans', sizeFont=50),
+                button((0,0,0), 628, 628, 208, 176, w, h,'arboricoles', font='comicsans', sizeFont=50),
+                button((0,0,0), 1155, 591, 178, 205, w, h,'ruines', font='comicsans', sizeFont=50),
+                button((0,0,0), 1049, 799, 180, 78, w, h,'eau douce', font='comicsans', sizeFont=50),
+                button((0,0,0), 1088, 938, 84, 113, w, h,'tour', font='comicsans', sizeFont=50),
+                button((0,0,0), 1442, 377, 217, 241, w, h,'macabres', font='comicsans', sizeFont=50),
+                button((0,0,0), 317, 876, 79, 111, w, h,'RUSSIA', font='comicsans', sizeFont=50),
+                button((0,0,0), 252, 356, 193, 313, w, h,'rurales', font='comicsans', sizeFont=50)
+            ],
             "back_button" : button((212,180,0), 1720, 985, 180, 75, w, h,'Retour', font='comicsans', sizeFont=50)
         }
         self._button_dic["back_button"].draw_button(surface)
@@ -307,8 +328,8 @@ class display():
                 if bees[i].ressource() == "honey":
                     image = pygame.image.load("./Images/honey.png")
                     surface_dic['surface'][indice].blit(pygame.transform.scale(image, (45, 45)), ( x + 200 + 20*len(str(bees[i].prod())), 293 ))
-                elif bees[i].ressource() == "whater":
-                    image = pygame.image.load("./Images/whater.png")
+                elif bees[i].ressource() == "water":
+                    image = pygame.image.load("./Images/water.png")
                     surface_dic['surface'][indice].blit(pygame.transform.scale(image, (30, 30)), ( x + 210 + 20*len(str(bees[i].prod())), 300 ))
 
                 if bees[i]._price[1] == "honey":
