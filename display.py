@@ -48,6 +48,7 @@ class display():
         self._button_dic['fight_menu_button'].draw_button(surface)
         # Bouton Quitter
         self._button_dic['quit_button'].draw_button(surface)
+        
         return surface
 
     def display_fight_upgrades(self, w, h, hive):
@@ -156,9 +157,9 @@ class display():
 
     def display_fight(self, w, h):
         surface = pygame.Surface((1920,1080))
-        # surface.blit(self._background, (0, 0))
+        surface.blit(self._background, (0, 0))
 
-        map_pic = pygame.image.load('./Images/wtitlemap.jpg')
+        map_pic = pygame.image.load('./Images/titlemap.jpg')
         surface.blit(map_pic, (236, -4))
 
         self._button_dic = {

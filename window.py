@@ -80,7 +80,6 @@ class window():
                     live_surface, self._bee_quantity, self._display._button_dic, self._alert, self._scroll_y = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y)
                 elif self._live == "shop":
                     live_surface, self._bee_quantity, self._display._button_dic, self._first_call, self._alert, self._scroll_y = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y) # prend event en parametre pour permettre l'input
-                    print(self._display._button_dic)
                 elif self._live == "fight_menu":
                     live_surface, self._display._button_dic = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y)
                 elif self._live == "menu":
@@ -116,6 +115,30 @@ class window():
                 run = False
                 pygame.quit()
                 break
+            
+            # Affichage curseur
+            flag = False
+            if event.type == MOUSEMOTION:
+                
+                for button in self._display._button_dic:
+                    if type(self._display._button_dic[button]) == list:
+                        for button_list in self._display._button_dic[button]:
+                            
+                            if button_list.is_over(event.pos):
+                                pygame.mouse.set_cursor(*pygame.cursors.diamond)
+                                flag = True
+                                break
+                            
+                    else:
+                        if self._display._button_dic[button].is_over(event.pos):
+                            pygame.mouse.set_cursor(*pygame.cursors.diamond)
+                            flag = True
+                            break
+            if (not flag):
+                pygame.mouse.set_cursor(*pygame.cursors.arrow)
+                        
+                    
+                        
             # Input souris
             if event.type == MOUSEBUTTONDOWN:
                 if event.button == 1 or event.button == 3: # # Pour qu'on puisse cliquer juste avec les clics gauche et droit
@@ -172,8 +195,8 @@ class window():
                     if "delete_bee_button" in self._display._button_dic:
                         for targetted_button in self._display._button_dic["delete_bee_button"]:
                             if targetted_button.is_over(event.pos):
-                                print("event.pos:", event.pos, "....... targetted_buttton:", targetted_button._x, targetted_button._y)
-                                print("get:", targetted_button.get())
+                                # print("event.pos:", event.pos, "....... targetted_buttton:", targetted_button._x, targetted_button._y)
+                                # print("get:", targetted_button.get())
                                 self._hive.del_bee(targetted_button.get())
                                 #self._hive.decrease_prod(delete)
                                 self._surface, self._bees_surfaces = self._display.display_management(self._w, self._h, self._hive, self._scroll_y)
