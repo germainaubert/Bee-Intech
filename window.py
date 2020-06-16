@@ -125,9 +125,6 @@ class window():
                     if "launch_game_button" in self._display._button_dic:
                         if self._display._button_dic["launch_game_button"].is_over(event.pos):
                             self.game_init()
-                            saved_bees = self._database.load_data()
-                            for bee in saved_bees:
-                                self._hive.add_bee(bee)
                             self._surface = self._display.display_new_game(self._w, self._h)
                             self._live = "new_game"
                             break
@@ -198,13 +195,17 @@ class window():
         return pygame.display.Info().current_w, pygame.display.Info().current_h
 
     def game_init(self):
-        self._hive = hive(
-            ressource = (100,0,0,0,0),
-            prod = (0,0,0,0,0),
-            upgrades = [],
-            territories = [ territory("base", 0, 0, "honey", 5, [], True), territory("base2", 0, 1, "honey", 7, [], True) ]
-            )
         self._database = database()
+        saved_hive = self._database.load_data()
+        self._hive = hive(
+            level = saved_hive[0],
+            exp = saved_hive[1],
+            ressource = saved_hive[2],
+            prod = saved_hive[3],
+            bees= saved_hive[4],
+            upgrades = saved_hive[5],
+            territories = saved_hive[6]
+        )
         self._shop = shop()
         self._tick_update = tick_update(self._hive, self._tick)
         self._live_display = live_display(self._w, self._h, self._hive)
