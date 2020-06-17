@@ -25,11 +25,11 @@ class live_display():
         elif live == "shop":
             return self.live_shop(surface, events, buttons, alert, first_call, bees_surfaces, scroll_y)
         elif live == "fight_menu":
-            return self.live_fight_menu(surface, buttons)
-        elif live == "bee_up":
-            return self.live_bee_up(surface, bees_surfaces, scroll_y, events, buttons)
+            return self.live_fight_menu(surface, buttons, alert)
+        elif live == "up":
+            return self.live_up(surface, bees_surfaces, scroll_y, events, buttons)
     
-    def live_bee_up(self, surface, bees_surfaces, scroll_y, events, buttons):
+    def live_up(self, surface, bees_surfaces, scroll_y, events, buttons):
         max_y = 1250
         scroll_surface, up_buttons, scroll_y = self.scroll(bees_surfaces, events, scroll_y, max_y)
         #positionner correctement purchase buttons
@@ -49,7 +49,21 @@ class live_display():
         
         return surface, scroll_y, buttons
 
-    def live_fight_menu(self, surface, buttons):
+    def live_fight_menu(self, surface, buttons, alert):
+
+        if alert != None:
+            for territory in self._hive._territories:
+                if territory._name == alert:
+                    break
+            black_surface = pygame.Surface((1920,1080), 255)
+            black_surface.set_alpha(100)
+            surface.blit(black_surface, (0,0))
+            font = pygame.font.SysFont('comicsans', 50)
+            msg = font.render(territory._display_name, 1, (255,255,255))
+            surface.blit(msg, (800,500))
+            msg = font.render(territory._description, 1, (255,255,255))
+            surface.blit(msg, (800,550))
+
         return surface, buttons
 
     def live_menu(self, surface, alert, buttons):
