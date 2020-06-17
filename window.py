@@ -9,9 +9,6 @@ from tick_update import tick_update
 from Territory import territory
 from database import database
 from Upgrade import upgrade
-
-
-
 from Shop import shop
 
 class window():
