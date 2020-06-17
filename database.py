@@ -79,7 +79,7 @@ class database():
                 possession = False
             else:
                 possession = True
-            self._upgrades.append(upgrade(name, lvl, required_level, [ressource_price,price], category, possession))
+            self._upgrades.append(upgrade(name, lvl, required_level, price, category, possession, (0,0)))
 
         cur.execute("SELECT Nom, Niveau_Requis, Numero, Ressource, Espace, Possession FROM territoires")
         rows = cur.fetchall()

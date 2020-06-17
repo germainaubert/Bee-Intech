@@ -154,8 +154,8 @@ class window():
                     if "launch_game_button" in self._display._button_dic:
                         if self._display._button_dic["launch_game_button"].is_over(event.pos):
                             self.game_init()
-                            self._surface = self._display.display_new_game(self._w, self._h)
-                            self._live = "new_game"
+                            self._surface = self._display.display_menu(self._w, self._h)
+                            self._live = "menu"
                             break
                     if "back_button" in self._display._button_dic:
                         if self._display._button_dic["back_button"].is_over(event.pos):
