@@ -17,23 +17,12 @@ class database():
         self._prod = prod
         self._save_count = 1
 
-    def hive_save(self, bees):
-        print(tasks)
-        conn = self._conn
-        cur = conn.cursor()
-        #del_sql = "DELETE from abeilles where id = 1"
-        #cur.execute(del_sql)
-        # conn.commit()
-        add_sql = "INSERT INTO  abeilles(id,Nom,Cout,Categorie,Prix,Ressource_Prix,Niveau_Requis,Sprite) VALUES (?,?,?,?,?,?,?,?)"
-        cur.execute(add_sql,bees)
-        conn.commit()
-    
         
     def load_data(self):
 
         conn = self._conn
         cur = conn.cursor()
-        cur.execute("SELECT Nom, Cout, Categorie, Prix, Ressource_Prix, Niveau_Requis, Sprite, Production, Ressource FROM abeilles")
+        cur.execute("SELECT A.Nom, A.Cout, A.Categorie, A.Prix, A.Ressource_Prix, A.Niveau_Requis, A.Sprite, A.Production, A.Ressource, T.Nom FROM abeilles as A INNER JOIN territoires as T on A.territoire_id = T.id")
         rows = cur.fetchall()
         for row in rows:
             print(row)
@@ -46,7 +35,8 @@ class database():
             sprite = row[6]
             prod = row[7]
             ressource = row[8]
-            self._bees.append(worker_bee(name, cost, category, [ressource_price,price], required_level, sprite, prod, ressource))
+            territorygrospddetesmorts = row[9]
+            self._bees.append(worker_bee(name, cost, category, [ressource_price,price], required_level, sprite, prod, ressource, territorygrospddetesmorts))
 
         cur.execute("SELECT Experience, Niveau FROM ruche")
         rows = cur.fetchall()
@@ -85,6 +75,7 @@ class database():
         rows = cur.fetchall()
         print("territoires :")
         for row in rows:
+            list_bee = []
             print(row)
             name = row[0]
             lvl = row[1]
@@ -96,7 +87,11 @@ class database():
                 possession = False
             else:
                 possession = True
-        self._territories.append(territory(name, lvl, numero, ressource, space, bees = [], possession = possession))
+            for bee in self._bees:
+                if bee.category() == "worker":
+                    if bee._territory == name:
+                        list_bee.append(bee)
+            self._territories.append(territory(name, lvl, numero, ressource, space, list_bee, possession))
 
         return self._level, self._exp, self._ressource, self._prod, self._bees, self._upgrades, self._territories
         
