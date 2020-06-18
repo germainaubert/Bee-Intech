@@ -6,7 +6,7 @@ from live_display import live_display
 from Hive import hive
 from Shop import shop
 from tick_update import tick_update
-from Territory import *
+from Territory import territory
 from database import database
 from Upgrade import upgrade
 from Shop import shop
@@ -62,7 +62,7 @@ class window():
         
         run = True
         while run:
-            
+
             events = pygame.event.get() # Stocké dans la variable events car lorsqu'on appelle event.get la liste d'event se vide
 
             if self._tick_update != None:
@@ -78,7 +78,7 @@ class window():
                 elif self._live == "shop":
                     live_surface, self._bee_quantity, self._display._button_dic, self._first_call, self._alert, self._scroll_y = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y) # prend event en parametre pour permettre l'input
                 elif self._live == "fight_menu":
-                    live_surface, self._display._button_dic = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y)
+                    live_surface, self._display._button_dic, self._first_call = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y)
                 elif self._live == "menu":
                     live_surface, self._display._button_dic = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y)
                 elif self._live == "up":
@@ -158,6 +158,7 @@ class window():
                         if self._display._button_dic["back_button"].is_over(event.pos):
                             self._surface = self._display.display_menu(self._w, self._h)
                             self._live = "menu"
+                            self._alert = None
                             break
                     if "bees_button" in self._display._button_dic:
                         if self._display._button_dic["bees_button"].is_over(event.pos):
@@ -239,6 +240,15 @@ class window():
                         for button in self._display._button_dic["ennemy_ter"]:
                             if button.is_over(event.pos):
                                 self._alert = button._text
+                                self._first_call = True
+                    if "attack" in self._display._button_dic:
+                        if self._display._button_dic["attack"].is_over(event.pos):
+                            print("attack")
+                            self._first_call = None
+                    if "back" in self._display._button_dic:
+                        if self._display._button_dic["back"].is_over(event.pos):
+                            self._alert = None
+                            self._first_call = True
 
             # Input clavier
             if event.type == KEYDOWN:
@@ -256,6 +266,42 @@ class window():
         return pygame.display.Info().current_w, pygame.display.Info().current_h
 
     def game_init(self):
+        self._hive = hive(
+            ressource = (100,100,0,0,0),
+            prod = (10,10,0,0,0),
+            
+            # Commencer avec les upgrades concernant la ruche, puis le combat
+            # name, lvl, required_level , price, category, possession, placement = (0,0)
+            upgrades = [
+            upgrade("boost production", 0, 0, 20, "hive", False, (0,0)),
+            upgrade("saucisse", 0, 0, 20, "hive", False, (1,1)),
+            upgrade("jajomobile", 0, 0, 20, "hive", False, (1,2)),
+            upgrade("jajomobile", 0, 0, 20, "hive", False, (2,2)),
+            upgrade("jajomobile", 0, 0, 20, "hive", False, (3,2)),
+            upgrade("BONJOUR OLIVIER DE CHEZ CARGLASS", 0, 0, 20, "fight", False, (0,0)),
+            upgrade("BLACK LIVES MATTER", 0, 0, 20, "fight", False, (0,1)),
+            upgrade("BLACK LIVES MATTER", 0, 0, 20, "fight", False, (1,1))
+            ],
+            
+            territories = [ territory("base", 0, 0, "honey", 5, [], True, '', ''), 
+            territory("base2", 0, 1, "honey", 7, [], True, '', ''),
+            territory("hauteurs", 0, 0, "honey", 5, [], False, "Abeilles des hauteurs", "Des abeilles qui font le truc oui"),
+            territory("urbaines", 0, 0, "honey", 5, [], False, "Abeilles urbaines", "dzqdzq"), 
+            territory("profondeurs", 0, 0, "honey", 5, [], False, "Abeilles des profondeurs", "fff"),
+            territory("mutantes", 0, 0, "honey", 5, [], False, "Abeilles mutantes", "ggg"),
+            territory("plaines", 0, 0, "honey", 5, [], False, "Abeilles des plaines", "gdrfgf"),
+            territory("solitaires", 0, 0, "honey", 5, [], False, "Abeilles solitaires", "uuuuu"),
+            territory("arboricoles", 0, 0, "honey", 5, [], False, "Abeilles arboricoles", "jejarbre"),
+            territory("ruines", 0, 0, "honey", 5, [], False, "Abeilles des ruines", "llll"),
+            territory("eau douce", 0, 0, "honey", 5, [], False, "Abeilles d'eau douce", "poi"),
+            territory("tour", 0, 0, "honey", 5, [], False, "Abeilles de la tour", "jdtgri"),
+            territory("macabres", 0, 0, "honey", 5, [], False, "Abeilles macabres", "nnnn"),
+            territory("RUSSIA", 0, 0, "honey", 5, [], False, "La mère patrie", "mmm"),
+            territory("rurales", 0, 0, "honey", 5, [], False, "Abeilles rurales", "azer")
+            ]
+
+            )
+
         self._database = database()
         saved_hive = self._database.load_data()
         self._hive = hive(
