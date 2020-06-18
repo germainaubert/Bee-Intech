@@ -9,9 +9,6 @@ from tick_update import tick_update
 from Territory import territory
 from database import database
 from Upgrade import upgrade
-
-
-
 from Shop import shop
 
 class window():
@@ -154,9 +151,6 @@ class window():
                     if "launch_game_button" in self._display._button_dic:
                         if self._display._button_dic["launch_game_button"].is_over(event.pos):
                             self.game_init()
-                            saved_bees = self._database.load_data()
-                            for bee in saved_bees:
-                                self._hive.add_bee(bee)
                             self._surface = self._display.display_menu(self._w, self._h)
                             self._live = "menu"
                             break
@@ -309,6 +303,16 @@ class window():
             )
 
         self._database = database()
+        saved_hive = self._database.load_data()
+        self._hive = hive(
+            level = saved_hive[0],
+            exp = saved_hive[1],
+            ressource = saved_hive[2],
+            prod = saved_hive[3],
+            bees= saved_hive[4],
+            upgrades = saved_hive[5],
+            territories = saved_hive[6]
+        )
         self._shop = shop()
         self._tick_update = tick_update(self._hive, self._tick)
         self._live_display = live_display(self._w, self._h, self._hive)
