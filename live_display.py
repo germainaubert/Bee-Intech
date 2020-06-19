@@ -25,7 +25,7 @@ class live_display():
         elif live == "shop":
             return self.live_shop(surface, events, buttons, alert, first_call, bees_surfaces, scroll_y)
         elif live == "fight_menu":
-            return self.live_fight_menu(surface, buttons, alert)
+            return self.live_fight_menu(surface, buttons, alert, first_call)
         elif live == "up":
             return self.live_up(surface, bees_surfaces, scroll_y, events, buttons)
     
@@ -49,22 +49,35 @@ class live_display():
         
         return surface, scroll_y, buttons
 
-    def live_fight_menu(self, surface, buttons, alert):
+    def live_fight_menu(self, surface, buttons, alert, first_call):
 
         if alert != None:
+            if first_call == True:
+                self._temp_buttons = buttons
+                first_call = False
+
             for territory in self._hive._territories:
                 if territory._name == alert:
-                    break
-            black_surface = pygame.Surface((1920,1080), 255)
-            black_surface.set_alpha(100)
-            surface.blit(black_surface, (0,0))
-            font = pygame.font.SysFont('comicsans', 50)
-            msg = font.render(territory._display_name, 1, (255,255,255))
-            surface.blit(msg, (800,500))
-            msg = font.render(territory._description, 1, (255,255,255))
-            surface.blit(msg, (800,550))
+                    black_surface = pygame.Surface((1920,1080), 255)
+                    black_surface.set_alpha(100)
+                    surface.blit(black_surface, (0,0))
+                    font = pygame.font.SysFont('comicsans', 50)
+                    msg = font.render(territory._display_name, 1, (255,255,255))
+                    surface.blit(msg, (800,500))
+                    msg = font.render(territory._description, 1, (255,255,255))
+                    surface.blit(msg, (800,550))
+                    buttons = {
+                        "attack": button((255,180,255), 700, 600, 150, 80, self._w, self._h, 'Attaquer', font='comicsans', sizeFont=40),
+                        "back": button((255,180,255), 950, 600, 150, 80, self._w, self._h, 'Retour', font='comicsans', sizeFont=40)
+                    }
+                    buttons["attack"].draw_button(surface)
+                    buttons["back"].draw_button(surface)
+        elif alert == None and first_call == True:
+            buttons = self._temp_buttons
+            print("yo")
+            first_call = True
 
-        return surface, buttons
+        return surface, buttons, first_call
 
     def live_menu(self, surface, alert, buttons):
         
