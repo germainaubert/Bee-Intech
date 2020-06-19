@@ -266,14 +266,14 @@ class window():
             # Commencer avec les upgrades concernant la ruche, puis le combat
             # name, lvl, required_level , price, category, possession, placement = (0,0)
             upgrades = [
-            upgrade("boost production", 0, 0, 20, "hive", False, (0,0)),
-            upgrade("saucisse", 0, 0, 20, "hive", False, (1,1)),
-            upgrade("jajomobile", 0, 0, 20, "hive", False, (1,2)),
-            upgrade("jajomobile", 0, 0, 20, "hive", False, (2,2)),
-            upgrade("jajomobile", 0, 0, 20, "hive", False, (3,2)),
-            upgrade("BONJOUR OLIVIER DE CHEZ CARGLASS", 0, 0, 20, "fight", False, (0,0)),
-            upgrade("BLACK LIVES MATTER", 0, 0, 20, "fight", False, (0,1)),
-            upgrade("BLACK LIVES MATTER", 0, 0, 20, "fight", False, (1,1))
+            upgrade("boost production", 0, 10, [10,"honey"], "hive", False, (0,0),"chong","./Images/bak.jpg"),
+            upgrade("saucisse", 0, 12, [10,"honey"], "hive", False, (1,1),"chong","./Images/bak.jpg"),
+            upgrade("jajomobile", 0, 0, [10,"honey"], "hive", False, (1,2),"chong","./Images/bak.jpg"),
+            upgrade("jajomobile", 0, 0, [10,"honey"], "hive", False, (2,2),"chong","./Images/bak.jpg"),
+            upgrade("jajomobile", 0, 0, [10,"honey"], "hive", False, (3,2),"chong","./Images/bak.jpg"),
+            upgrade("BONJOUR OLIVIER DE CHEZ CARGLASS", 0, 0, [10,"honey"], "fight", False, (0,0),"chong","./Images/bak.jpg"),
+            upgrade("BLACK LIVES MATTER", 0, 0, [10,"honey"], "fight", False, (0,1),"chong","./Images/bak.jpg"),
+            upgrade("BLACK LIVES MATTER", 0, 0, [10,"honey"], "fight", False, (1,1),"chong","./Images/bak.jpg")
             ],
             
             territories = [ territory("base", 0, 0, "honey", 5, [], True), 
