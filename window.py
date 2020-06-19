@@ -15,7 +15,7 @@ class window():
 
     def __init__(self):
         pygame.init()
-
+        self._first_time = True
         self._clock = pygame.time.Clock()
         
         self._call_same = True # Pour savoir si l'appel d'affichage est le même
@@ -36,7 +36,9 @@ class window():
         self._title = "BEETTHEFUCKOUTOFMYWIFE"
         self._display = display()
         pygame.display.set_caption(self._title)
-        self._surface = self._display.display_new_game(self._w, self._h) # _surface est la surface qui doit contenir tout ce qui concerne l'affichage, à bien différencier avec _window
+        self._database = database()
+        check = self._database.check_first_time()
+        self._surface = self._display.display_new_game(self._w, self._h, check) # _surface est la surface qui doit contenir tout ce qui concerne l'affichage, à bien différencier avec _window
         
         self._live = None # attribut pour déterminer si un affichage doit se faire à chaque itération de la boucle principales
         self._alert = None # Pareil que live mais pour les alertes
@@ -144,7 +146,7 @@ class window():
                     if "quit_button" in self._display._button_dic:
                         if self._display._button_dic["quit_button"].is_over(event.pos):
                             # for bee in self._hive.bees():
-                            #     save = self._database.hive_save_bee((self._database._save_count, bee._name, bee._cost, bee._category, bee._price[0], bee._price[1], bee._required_level, bee._sprite ))
+                            save = self._database.save_data(self._hive)
                             run = False
                             pygame.quit()
                             break
@@ -200,6 +202,7 @@ class window():
                     if "buy_bee_button" in self._display._button_dic:
                         for button in self._display._button_dic["buy_bee_button"]:
                             if button.is_over(event.pos):
+                                self._hive._level += 1
                                 self._alert, self._first_call = self._shop.test_bee(button._get, self._hive)
                     # Upgrade
                     if "upgrade_purchase" in self._display._button_dic:
@@ -302,17 +305,17 @@ class window():
 
             )
 
-        self._database = database()
         saved_hive = self._database.load_data()
-        self._hive = hive(
-            level = saved_hive[0],
-            exp = saved_hive[1],
-            ressource = saved_hive[2],
-            prod = saved_hive[3],
-            bees= saved_hive[4],
-            upgrades = saved_hive[5],
-            territories = saved_hive[6]
-        )
+        if saved_hive is not None:
+            self._hive = hive(
+                level = saved_hive[0],
+                exp = saved_hive[1],
+                ressource = saved_hive[2],
+                prod = saved_hive[3],
+                bees= saved_hive[4],
+                upgrades = saved_hive[5],
+                territories = saved_hive[6]
+            )
         self._shop = shop()
         self._tick_update = tick_update(self._hive, self._tick)
         self._live_display = live_display(self._w, self._h, self._hive)

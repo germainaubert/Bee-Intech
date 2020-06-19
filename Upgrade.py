@@ -11,6 +11,12 @@ class upgrade():
 		self._possession = possession
 		self._placement = placement
 
+	def possession(self):
+		return self._possession
+
+	def name(self):
+		return self._name
+
 	def required_level(self):
 		return self._required_level
 

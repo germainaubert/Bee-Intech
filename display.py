@@ -11,14 +11,20 @@ class display():
         self._button_dic = {}
         self._background = None
     
-    def display_new_game(self, w, h):
+    def display_new_game(self, w, h, first_time):
         surface = pygame.Surface((1920,1080))
         self._background = pygame.image.load('./Images/greywp.jpg')
         surface.blit(self._background, (0, 0))
-        self._button_dic = {
-            "quit_button" : button((212,180,0), 1720, 985, 180, 75, w, h,'Quitter', font='comicsans', sizeFont=50),
-            "launch_game_button" : button((255,180,255), 720, 100, 480, 100, w, h, 'Nouvelle Partie', sizeFont=60)
-        }
+        if first_time is True:
+            self._button_dic = {
+                "quit_button" : button((212,180,0), 1720, 985, 180, 75, w, h,'Quitter', font='comicsans', sizeFont=50),
+                "launch_game_button" : button((255,180,255), 720, 100, 480, 100, w, h, 'Nouvelle Partie', sizeFont=60)
+            }
+        else:
+             self._button_dic = {
+                "quit_button" : button((212,180,0), 1720, 985, 180, 75, w, h,'Quitter', font='comicsans', sizeFont=50),
+                "launch_game_button" : button((255,180,255), 720, 100, 480, 100, w, h, 'Continuer Partie', sizeFont=60)
+            }
 
         self._button_dic['quit_button'].draw_button(surface)
         self._button_dic['launch_game_button'].draw_button(surface)
