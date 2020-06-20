@@ -19,7 +19,19 @@ class hive():
 	# permet d'ajouter au miel la production/s
 	def bees(self):
 		return self._bees
+	
+	def upgrades(self):
+		return self._upgrades
+	
+	def territories(self):
+		return self._territories
 
+	def prod(self):
+		return self._prod
+
+	def ressource(self):
+		return self._ressource
+		
 	def ressource_gain(self, ressource, tick):
 		self._ressource[ressource] += self._prod[ressource] / tick
 
@@ -112,8 +124,6 @@ class hive():
 	def exp(self):
 		return self._exp
 
-	def level(self):
-		return self._level
 
 	def check_level_upfrade(self,upgrade):
 		if self._level < upgrade.required_level():

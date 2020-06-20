@@ -11,14 +11,20 @@ class display():
         self._button_dic = {}
         self._background = None
     
-    def display_new_game(self, w, h):
+    def display_new_game(self, w, h, first_time):
         surface = pygame.Surface((1920,1080))
         self._background = pygame.image.load('./Images/greywp.jpg')
         surface.blit(self._background, (0, 0))
-        self._button_dic = {
-            "quit_button" : button((212,180,0), 1720, 985, 180, 75, w, h,'Quitter', font='comicsans', sizeFont=50),
-            "launch_game_button" : button((255,180,255), 720, 100, 480, 100, w, h, 'Nouvelle Partie', sizeFont=60)
-        }
+        if first_time is True:
+            self._button_dic = {
+                "quit_button" : button((212,180,0), 1720, 985, 180, 75, w, h,'Quitter', font='comicsans', sizeFont=50),
+                "launch_game_button" : button((255,180,255), 720, 100, 480, 100, w, h, 'Nouvelle Partie', sizeFont=60)
+            }
+        else:
+             self._button_dic = {
+                "quit_button" : button((212,180,0), 1720, 985, 180, 75, w, h,'Quitter', font='comicsans', sizeFont=50),
+                "launch_game_button" : button((255,180,255), 720, 100, 480, 100, w, h, 'Continuer Partie', sizeFont=60)
+            }
 
         self._button_dic['quit_button'].draw_button(surface)
         self._button_dic['launch_game_button'].draw_button(surface)
@@ -80,6 +86,7 @@ class display():
         max_x = 0
         max_y = 0
         for i in range (0, len(upgrades) - 1): 
+            print(f"upgrade i: {upgrades[i]._placement[0]}  upgrade i+1: {upgrades[i + 1]._placement[0]}")
             if upgrades[i]._placement[0] > upgrades[i + 1]._placement[0]:
                 max_x = upgrades[i]._placement[0]
             elif upgrades[i]._placement[0] < upgrades[i + 1]._placement[0]:
@@ -115,9 +122,19 @@ class display():
             x = 0
             for upgrade in row:
                 if upgrade != 0:
-                    button_temp = button((212,180,0), x, 0, 300, 75, w, h, upgrade._name, font='comicsans', sizeFont=50)
-                    surface_dic["buttons"].append(button_temp)
-                    button_temp.draw_button(surface_dic["surface"][cpt])
+                    image = pygame.image.load(upgrade.sprite())
+                    surface_dic['surface'][cpt].blit(image, (x, 55))
+                    prod = font.render(upgrade.name() + " lvl" + str(upgrade.lvl()) , 1, (0,0,0))
+                    surface_dic['surface'][cpt].blit(prod, (x, 0))
+
+                    if upgrade.required_level() <= hive.level():
+                        button_temp = button((212,180,0), x, 275, 300, 75, w, h, "Acheter", font='comicsans', sizeFont=50)
+                        surface_dic["buttons"].append(button_temp)
+                        button_temp.draw_button(surface_dic["surface"][cpt])
+                    else:
+                        button_temp = button((169, 169, 169), x, 275, 300, 75, w, h,"Niveau " + str(upgrade.required_level()) + " requis" , font='comicsans', sizeFont=50, get=None)
+                        surface_dic["buttons"].append(button_temp)
+                        button_temp.draw_button(surface_dic["surface"][cpt])
                 x += 400
 
         final_surface = pygame.Surface((width, total_height), pygame.SRCALPHA)
@@ -142,7 +159,7 @@ class display():
             surface_dic["buttons"][i]._y += 100
 
         decal = 400
-        total_height = 100
+        total_height = 375
         but_id = -1
         for value in cpt_list:
             for i in range(value):

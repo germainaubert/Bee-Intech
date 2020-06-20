@@ -30,7 +30,7 @@ class live_display():
             return self.live_up(surface, bees_surfaces, scroll_y, events, buttons)
     
     def live_up(self, surface, bees_surfaces, scroll_y, events, buttons):
-        max_y = 1250
+        max_y = 950
         scroll_surface, up_buttons, scroll_y = self.scroll(bees_surfaces, events, scroll_y, max_y)
         #positionner correctement purchase buttons
     
