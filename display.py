@@ -77,6 +77,8 @@ class display():
         surface.blit(self._background, (0, 0))
 
         # Déterminer la taille de la matrice
+        max_x = 0
+        max_y = 0
         for i in range (0, len(upgrades) - 1): 
             if upgrades[i]._placement[0] > upgrades[i + 1]._placement[0]:
                 max_x = upgrades[i]._placement[0]
@@ -88,6 +90,7 @@ class display():
                 max_y = upgrades[i + 1]._placement[1]
         
         # Création de la matrice des upgrades
+        print(max_x)
         list_up = [[0 for i in range(max_y + 1)] for j in range(max_x + 1)]
 
         for upgrade in upgrades:
@@ -162,7 +165,7 @@ class display():
         self._button_dic["back_button"].draw_button(surface)
         return surface, surface_dic
 
-    def display_fight(self, w, h):
+    def display_map(self, w, h):
         surface = pygame.Surface((1920,1080))
 
         map_pic = pygame.image.load('./Images/last.jpg')

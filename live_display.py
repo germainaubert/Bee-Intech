@@ -17,7 +17,7 @@ class live_display():
         self._h = h
         self._hive = hive
 
-    def give_display(self, live, alert, surface, events, buttons, first_call, bees_surfaces, scroll_y): # permet d'appeler la méthode de live_display correspondant à l'affichage en cours, grâce à live
+    def give_display(self, live, alert, surface, events, buttons, first_call, bees_surfaces, scroll_y, territory): # permet d'appeler la méthode de live_display correspondant à l'affichage en cours, grâce à live
         if live == "menu":
              return self.live_menu(surface, alert, buttons)
         elif live == "management":
@@ -25,7 +25,7 @@ class live_display():
         elif live == "shop":
             return self.live_shop(surface, events, buttons, alert, first_call, bees_surfaces, scroll_y)
         elif live == "fight_menu":
-            return self.live_fight_menu(surface, buttons, alert, first_call)
+            return self.live_fight_menu(surface, buttons, alert, first_call, territory)
         elif live == "up":
             return self.live_up(surface, bees_surfaces, scroll_y, events, buttons)
     
@@ -49,15 +49,17 @@ class live_display():
         
         return surface, scroll_y, buttons
 
-    def live_fight_menu(self, surface, buttons, alert, first_call):
+    def live_fight_menu(self, surface, buttons, alert, first_call, sent_territory):
+        
+        print(sent_territory, alert, first_call)
 
-        if alert != None:
+        if sent_territory != None and alert == None:
             if first_call == True:
                 self._temp_buttons = buttons
                 first_call = False
-
+            
             for territory in self._hive._territories:
-                if territory._name == alert:
+                if territory._name == sent_territory:
                     black_surface = pygame.Surface((1920,1080), 255)
                     black_surface.set_alpha(100)
                     surface.blit(black_surface, (0,0))
@@ -72,9 +74,14 @@ class live_display():
                     }
                     buttons["attack"].draw_button(surface)
                     buttons["back"].draw_button(surface)
-        elif alert == None and first_call == True:
+        elif alert == "victory":
+            black_surface = pygame.Surface((1920,1080), 255)
+            black_surface.set_alpha(100)
+            surface.blit(black_surface, (0,0))
             buttons = self._temp_buttons
-            print("yo")
+            first_call = True
+        elif alert == None and first_call == False:
+            buttons = self._temp_buttons
             first_call = True
 
         return surface, buttons, first_call
