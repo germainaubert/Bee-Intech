@@ -310,34 +310,6 @@ class window():
 
             )
 
-        self._database = database()
-        saved_hive = self._database.load_data()
-        self._hive = hive(
-            level = saved_hive[0],
-            exp = saved_hive[1],
-            ressource = saved_hive[2],
-            prod = saved_hive[3],
-            bees= saved_hive[4],
-            upgrades = saved_hive[5],
-            territories = [territory("base", 0, 0, "honey", 5, [], True, '', ''), 
-            territory("base2", 0, 1, "honey", 7, [], True, '', ''),
-            territory("hauteurs", 0, 0, "honey", 5, [], False, "Abeilles des hauteurs", "Des abeilles qui font le truc oui"),
-            territory("urbaines", 0, 0, "honey", 5, [], False, "Abeilles urbaines", "dzqdzq"), 
-            territory("profondeurs", 0, 0, "honey", 5, [], False, "Abeilles des profondeurs", "fff"),
-            territory("mutantes", 0, 0, "honey", 5, [], False, "Abeilles mutantes", "ggg"),
-            territory("plaines", 0, 0, "honey", 5, [], False, "Abeilles des plaines", "gdrfgf"),
-            territory("solitaires", 0, 0, "honey", 5, [], False, "Abeilles solitaires", "uuuuu"),
-            territory("arboricoles", 0, 0, "honey", 5, [], False, "Abeilles arboricoles", "jejarbre"),
-            territory("ruines", 0, 0, "honey", 5, [], False, "Abeilles des ruines", "llll"),
-            territory("eau douce", 0, 0, "honey", 5, [], False, "Abeilles d'eau douce", "poi"),
-            territory("tour", 0, 0, "honey", 5, [], False, "Abeilles de la tour", "jdtgri"),
-            territory("macabres", 0, 0, "honey", 5, [], False, "Abeilles macabres", "nnnn"),
-            territory("RUSSIA", 0, 0, "honey", 5, [], False, "La mère patrie", "mmm"),
-            territory("rurales", 0, 0, "honey", 5, [], False, "Abeilles rurales", "azer")
-            ]
-
-            )
-
         saved_hive = self._database.load_data()
         if saved_hive is not None:
             self._hive = hive(

@@ -91,7 +91,7 @@ class database():
                 else:
                     possession = True
                 print(possession)
-                self._upgrades.append(upgrade(name, lvl, required_level, [price,ressource_price], category, possession, (x,y),"chong","./Images/bak.jpg"))
+                self._upgrades.append(upgrade(name, lvl, required_level, [ressource_price,price], category, possession, (x,y),"chong","./Images/bak.jpg"))
                 print(self._upgrades)
             cur.execute("SELECT Nom, Niveau_Requis, Numero, Ressource, Espace, Possession, Nom_Affichage, Description FROM territoires")
             rows = cur.fetchall()
@@ -157,7 +157,7 @@ class database():
         conn.commit()
 
         for ter in hive.territories():
-            if ter.possession == False:
+            if ter.possession() == False:
                 ter_possess = 0
             else:
                 ter_possess = 1
@@ -166,10 +166,12 @@ class database():
             print(ter.name())
 
         for up in hive.upgrades():
-            if up.possession == False:
+            #print up.possession
+            if up.possession() == False:
                 up_possess = 0
             else:
                 up_possess = 1
+            print(up_possess)
             cur.execute("UPDATE amelioration SET Possession = ? WHERE Nom = ?", (up_possess, up.name()))
             conn.commit()
             print(up.name())
