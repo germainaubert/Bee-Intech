@@ -136,3 +136,6 @@ class hive():
 			return False
 		else:
 			return True
+
+	def buy_upgrade(self,upgrade):
+		self._ressource[upgrade.price()[0]] =- upgrade.price()[1]

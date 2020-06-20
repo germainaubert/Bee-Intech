@@ -83,9 +83,11 @@ class display():
         surface.blit(self._background, (0, 0))
 
         # Déterminer la taille de la matrice
-        print(range (0, len(upgrades) - 1))
+        #print(range (0, len(upgrades) - 1))
+        max_x = 0
+        max_y = 0
         for i in range (0, len(upgrades) - 1): 
-            print(f"upgrade i: {upgrades[i]._placement[0]}  upgrade i+1: {upgrades[i + 1]._placement[0]}")
+            #print(f"upgrade i: {upgrades[i]._placement[0]}  upgrade i+1: {upgrades[i + 1]._placement[0]}")
             if upgrades[i]._placement[0] > upgrades[i + 1]._placement[0]:
                 max_x = upgrades[i]._placement[0]
             elif upgrades[i]._placement[0] < upgrades[i + 1]._placement[0]:
@@ -126,7 +128,7 @@ class display():
                     surface_dic['surface'][cpt].blit(prod, (x, 0))
 
                     if upgrade.required_level() <= hive.level():
-                        button_temp = button((212,180,0), x, 275, 300, 75, w, h, "Acheter", font='comicsans', sizeFont=50)
+                        button_temp = button((212,180,0), x, 275, 300, 75, w, h, "Acheter", font='comicsans', sizeFont=50, get = upgrade.name())
                         surface_dic["buttons"].append(button_temp)
                         button_temp.draw_button(surface_dic["surface"][cpt])
                     else:

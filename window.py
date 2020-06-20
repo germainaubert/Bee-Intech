@@ -10,6 +10,7 @@ from Territory import territory
 from database import database
 from Upgrade import upgrade
 from Shop import shop
+from Upgrade import upgrade
 
 class window():
 
@@ -252,6 +253,17 @@ class window():
                         if self._display._button_dic["back"].is_over(event.pos):
                             self._alert = None
                             self._first_call = True
+                    if 'upgrade_purchase' in self._display._button_dic:
+                        for button in self._display._button_dic["upgrade_purchase"]: 
+                            if button.is_over(event.pos):
+                                for upgrade in self._hive.upgrades():
+                                    if upgrade.name() == button.get():
+                                        if self._hive.check_purchase_upgrade(upgrade):
+                                            self._hive.buy_upgrade(upgrade)
+                                            upgrade.purchase_upgrade()
+                                            print(upgrade._possession)
+
+ 
 
             # Input clavier
             if event.type == KEYDOWN:
@@ -276,14 +288,14 @@ class window():
             # Commencer avec les upgrades concernant la ruche, puis le combat
             # name, lvl, required_level , price, category, possession, placement = (0,0)
             upgrades = [
-            upgrade("boost production", 0, 10, [10,"honey"], "hive", False, (0,0),"chong","./Images/bak.jpg"),
-            upgrade("saucisse", 0, 12, [10,"honey"], "hive", False, (1,1),"chong","./Images/bak.jpg"),
-            upgrade("jajomobile", 0, 0, [10,"honey"], "hive", False, (1,2),"chong","./Images/bak.jpg"),
-            upgrade("jajomobile", 0, 0, [10,"honey"], "hive", False, (2,2),"chong","./Images/bak.jpg"),
-            upgrade("jajomobile", 0, 0, [10,"honey"], "hive", False, (3,2),"chong","./Images/bak.jpg"),
-            upgrade("BONJOUR OLIVIER DE CHEZ CARGLASS", 0, 0, [10,"honey"], "fight", False, (0,0),"chong","./Images/bak.jpg"),
-            upgrade("BLACK LIVES MATTER", 0, 0, [10,"honey"], "fight", False, (0,1),"chong","./Images/bak.jpg"),
-            upgrade("BLACK LIVES MATTER", 0, 0, [10,"honey"], "fight", False, (1,1),"chong","./Images/bak.jpg")
+            upgrade("boost production", 0, 10, ["honey",10], "hive", False, (0,0),"chong","./Images/bak.jpg"),
+            upgrade("saucisse", 0, 12, ["honey",10], "hive", False, (1,1),"chong","./Images/bak.jpg"),
+            upgrade("jajomobile", 0, 0, ["honey",10], "hive", False, (1,2),"chong","./Images/bak.jpg"),
+            upgrade("jajomobile1", 0, 0, ["honey",10], "hive", False, (2,2),"chong","./Images/bak.jpg"),
+            upgrade("jajomobile2", 0, 0, ["honey",10], "hive", False, (3,2),"chong","./Images/bak.jpg"),
+            upgrade("BONJOUR OLIVIER DE CHEZ CARGLASS", 0, 0, ["honey",10], "fight", False, (0,0),"chong","./Images/bak.jpg"),
+            upgrade("BLACK LIVES MATTER", 0, 0, ["honey",10], "fight", False, (0,1),"chong","./Images/bak.jpg"),
+            upgrade("BLACK LIVES MATTER", 0, 0, ["honey",10], "fight", False, (1,1),"chong","./Images/bak.jpg")
             ],
             
             territories = [ territory("base", 0, 0, "honey", 5, [], True, '', ''), 
