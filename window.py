@@ -305,7 +305,7 @@ class window():
 
             )
 
-        saved_hive = self._database.load_data()
+        saved_hive = None #self._database.load_data()
         if saved_hive is not None:
             self._hive = hive(
                 level = saved_hive[0],

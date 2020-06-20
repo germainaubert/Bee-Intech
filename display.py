@@ -83,7 +83,9 @@ class display():
         surface.blit(self._background, (0, 0))
 
         # Déterminer la taille de la matrice
+        print(range (0, len(upgrades) - 1))
         for i in range (0, len(upgrades) - 1): 
+            print(f"upgrade i: {upgrades[i]._placement[0]}  upgrade i+1: {upgrades[i + 1]._placement[0]}")
             if upgrades[i]._placement[0] > upgrades[i + 1]._placement[0]:
                 max_x = upgrades[i]._placement[0]
             elif upgrades[i]._placement[0] < upgrades[i + 1]._placement[0]:
@@ -155,7 +157,7 @@ class display():
             surface_dic["buttons"][i]._y += 100
 
         decal = 400
-        total_height = 100
+        total_height = 375
         but_id = -1
         for value in cpt_list:
             for i in range(value):

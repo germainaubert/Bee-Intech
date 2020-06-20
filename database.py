@@ -89,7 +89,7 @@ class database():
                 else:
                     possession = True
                 print(possession)
-                self._upgrades.append(upgrade(name, lvl, required_level, price, category, possession, (0,0)))
+                self._upgrades.append(upgrade(name, lvl, required_level, [price,ressource_price], category, possession, (3,3),"chong","./Images/bak.jpg"))
                 print(self._upgrades)
             cur.execute("SELECT Nom, Niveau_Requis, Numero, Ressource, Espace, Possession, Nom_Affichage, Description FROM territoires")
             rows = cur.fetchall()
