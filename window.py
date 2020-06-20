@@ -10,6 +10,7 @@ from Territory import territory
 from database import database
 from Upgrade import upgrade
 from Shop import shop
+from fight import who_won
 
 class window():
 
@@ -55,6 +56,8 @@ class window():
 
         self._bees_surfaces = None
 
+        self._territory = None
+
         self._tick = 60
 
         
@@ -76,17 +79,22 @@ class window():
                 jaj = pygame.Surface.copy(self._surface) # pour éviter la shadow copie de l'enfer
                 
                 if self._live == "management":
-                    live_surface, self._bee_quantity, self._display._button_dic, self._alert, self._scroll_y = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y)
+                    live_surface, self._bee_quantity, self._display._button_dic, self._alert, self._scroll_y = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y, self._territory)
                 elif self._live == "shop":
-                    live_surface, self._bee_quantity, self._display._button_dic, self._first_call, self._alert, self._scroll_y = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y) # prend event en parametre pour permettre l'input
+                    live_surface, self._bee_quantity, self._display._button_dic, self._first_call, self._alert, self._scroll_y = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y, self._territory) # prend event en parametre pour permettre l'input
                 elif self._live == "fight_menu":
-                    live_surface, self._display._button_dic, self._first_call = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y)
+                    live_surface, self._display._button_dic, self._first_call = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y, self._territory)
                 elif self._live == "menu":
-                    live_surface, self._display._button_dic = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y)
+                    live_surface, self._display._button_dic = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y, self._territory)
                 elif self._live == "up":
-                    live_surface, self._scroll_y, self._display._button_dic = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y)
+                    live_surface, self._scroll_y, self._display._button_dic = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y, self._territory)
+                elif self._live == "fight":
+                    if who_won():
+                        self._surface = self._display.display_map(self._w, self._h)
+                        self._alert = "victory"
+                        self._live = "fight_menu"
                 else: 
-                    live_surface = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y)
+                    live_surface = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y, self._territory)
                 
                 self._window.blit(pygame.transform.scale(live_surface, (self._w, self._h)), (0,0)) # transforme l'image selon la résolution de l'image
 
@@ -98,7 +106,6 @@ class window():
                 self._bee_quantity = int(self._bee_quantity)
             
             # ------------------------
-            
             
             
             pygame.display.flip()
@@ -180,7 +187,7 @@ class window():
                             break
                     if "fight_menu_button" in self._display._button_dic:
                         if self._display._button_dic["fight_menu_button"].is_over(event.pos):
-                            self._surface = self._display.display_fight(self._w, self._h)
+                            self._surface = self._display.display_map(self._w, self._h)
                             self._live = "fight_menu"
                             break
                     
@@ -242,16 +249,17 @@ class window():
                     if "ennemy_ter" in self._display._button_dic:
                         for button in self._display._button_dic["ennemy_ter"]:
                             if button.is_over(event.pos):
-                                self._alert = button._text
+                                self._territory = button._text
                                 self._first_call = True
                     if "attack" in self._display._button_dic:
                         if self._display._button_dic["attack"].is_over(event.pos):
-                            print("attack")
                             self._first_call = None
+                            self._alert = None
+                            self._live = "fight"
                     if "back" in self._display._button_dic:
                         if self._display._button_dic["back"].is_over(event.pos):
                             self._alert = None
-                            self._first_call = True
+                            self._territory = None
 
             # Input clavier
             if event.type == KEYDOWN:
@@ -286,7 +294,20 @@ class window():
             upgrade("BLACK LIVES MATTER", 0, 0, [10,"honey"], "fight", False, (1,1),"chong","./Images/bak.jpg")
             ],
             
-            territories = [ territory("base", 0, 0, "honey", 5, [], True, '', ''), 
+            territories = []
+
+            )
+
+        self._database = database()
+        saved_hive = self._database.load_data()
+        self._hive = hive(
+            level = saved_hive[0],
+            exp = saved_hive[1],
+            ressource = saved_hive[2],
+            prod = saved_hive[3],
+            bees= saved_hive[4],
+            upgrades = saved_hive[5],
+            territories = [territory("base", 0, 0, "honey", 5, [], True, '', ''), 
             territory("base2", 0, 1, "honey", 7, [], True, '', ''),
             territory("hauteurs", 0, 0, "honey", 5, [], False, "Abeilles des hauteurs", "Des abeilles qui font le truc oui"),
             territory("urbaines", 0, 0, "honey", 5, [], False, "Abeilles urbaines", "dzqdzq"), 
