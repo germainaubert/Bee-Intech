@@ -128,12 +128,18 @@ class display():
                     prod = font.render(upgrade.name() + " lvl" + str(upgrade.lvl()) , 1, (0,0,0))
                     surface_dic['surface'][cpt].blit(prod, (x, 0))
 
-                    if upgrade.required_level() <= hive.level():
-                        button_temp = button((212,180,0), x, 275, 300, 75, w, h, "Acheter", font='comicsans', sizeFont=50, get = upgrade.name())
+                    print(f"test {upgrade.name()} {upgrade.possession()}")
+                    
+                    if upgrade.required_level() > hive.level():
+                        button_temp = button((169, 169, 169), x, 275, 300, 75, w, h,"Niveau " + str(upgrade.required_level()) + " requis" , font='comicsans', sizeFont=50, get=None)
+                        surface_dic["buttons"].append(button_temp)
+                        button_temp.draw_button(surface_dic["surface"][cpt])
+                    elif upgrade.possession() == True:
+                        button_temp = button((169, 169, 169), x, 275, 300, 75, w, h,"Possédé" , font='comicsans', sizeFont=50, get=None)
                         surface_dic["buttons"].append(button_temp)
                         button_temp.draw_button(surface_dic["surface"][cpt])
                     else:
-                        button_temp = button((169, 169, 169), x, 275, 300, 75, w, h,"Niveau " + str(upgrade.required_level()) + " requis" , font='comicsans', sizeFont=50, get=None)
+                        button_temp = button((212,180,0), x, 275, 300, 75, w, h, "Acheter", font='comicsans', sizeFont=50, get = [upgrade.name(),upgrade.lvl()])
                         surface_dic["buttons"].append(button_temp)
                         button_temp.draw_button(surface_dic["surface"][cpt])
                 x += 400

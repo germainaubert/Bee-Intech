@@ -265,11 +265,17 @@ class window():
                         for button in self._display._button_dic["upgrade_purchase"]: 
                             if button.is_over(event.pos):
                                 for upgrade in self._hive.upgrades():
-                                    if upgrade.name() == button.get():
+                                    if upgrade.name() == button.get()[0] and upgrade.lvl() == button.get()[1]:
                                         if self._hive.check_purchase_upgrade(upgrade):
                                             self._hive.buy_upgrade(upgrade)
                                             upgrade.purchase_upgrade()
-                                            print(upgrade._possession)
+                                            self._hive.calcul_prod()
+                                            self._alert = None
+                                            self._live = "up"
+                                            self._scroll_y = 0
+                                            self._display._button_dic = {}
+                                            self._surface, self._bees_surfaces = self._display.display_upgrades(self._w, self._h, self._hive, "hive")
+
 
  
 
@@ -296,9 +302,9 @@ class window():
             # Commencer avec les upgrades concernant la ruche, puis le combat
             # name, lvl, required_level , price, category, possession, placement = (0,0)
             upgrades = [
-            upgrade("boost production", 0, 10, ["honey",10], "hive", False, (0,0),"chong","./Images/bak.jpg"),
-            upgrade("saucisse", 0, 12, ["honey",10], "hive", False, (1,1),"chong","./Images/bak.jpg"),
-            upgrade("jajomobile", 0, 0, ["honey",10], "hive", False, (1,2),"chong","./Images/bak.jpg"),
+            upgrade("production de miel", 1, 0, ["honey",10], "hive", False, (0,0),"chong","./Images/bak.jpg"),
+            upgrade("production de miel", 2, 0, ["honey",10], "hive", False, (1,1),"chong","./Images/bak.jpg"),
+            upgrade("production de miel", 3, 0, ["honey",10], "hive", False, (1,2),"chong","./Images/bak.jpg"),
             upgrade("jajomobile1", 0, 0, ["honey",10], "hive", False, (2,2),"chong","./Images/bak.jpg"),
             upgrade("jajomobile2", 0, 0, ["honey",10], "hive", False, (3,2),"chong","./Images/bak.jpg"),
             upgrade("BONJOUR OLIVIER DE CHEZ CARGLASS", 0, 0, ["honey",10], "fight", False, (0,0),"chong","./Images/bak.jpg"),

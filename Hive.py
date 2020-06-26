@@ -85,7 +85,29 @@ class hive():
 				else:
 					self._prod[bee.ressource()] = self._prod[bee.ressource()] - bee.cost()
 		self.track_bees()
+		self.calcul_upgrades()
 		print(self._prod)
+
+	def calcul_upgrades(self):
+
+		upgrades = {
+		"honey" : "production de miel",
+		"water" : "production d'eau",
+		"metal" : "production de metal" ,
+		"uranium" : "production d'uranium"
+		}
+
+		for key in upgrades:
+			upgrade = self.max_lvl_upgrade(upgrades[key])
+			print(f"result: {upgrade}")
+			if upgrade != None:
+				if upgrade.lvl() == 1:
+					self._prod[key]= self._prod[key]*1.1
+				elif upgrade.lvl() == 2:
+					self._prod[key]= self._prod[key]*1.2					
+				elif upgrade.lvl() == 3:
+					self._prod[key]= self._prod[key]*1.3
+
 
 
 	def check_territories(self):
@@ -138,4 +160,16 @@ class hive():
 			return True
 
 	def buy_upgrade(self,upgrade):
-		self._ressource[upgrade.price()[0]] =- upgrade.price()[1]
+		self._ressource[upgrade.price()[0]] -= upgrade.price()[1]
+
+	def max_lvl_upgrade(self,name):
+		result = None
+		for upgrade in self._upgrades:
+			if upgrade.name() == name:
+				if upgrade.possession() == True:
+					if result == None:
+						result = upgrade
+					else:
+						if result.lvl() < upgrade.lvl():
+							result = upgrade
+		return result
