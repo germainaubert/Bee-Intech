@@ -98,7 +98,6 @@ class display():
                 max_y = upgrades[i + 1]._placement[1]
         
         # Création de la matrice des upgrades
-        print(max_x)
         list_up = [[0 for i in range(max_y + 1)] for j in range(max_x + 1)]
 
         for upgrade in upgrades:
@@ -391,6 +390,32 @@ class display():
                 prix = font.render( "Prix: " + str(bees[i]._price[0]), 1, (0,0,0))
                 surface_dic['surface'][indice].blit(prix, (x, 400))
             
+            elif bees[i].category() == "fighter":
+
+                if bees[i]._price[1] == "honey":
+                    image = pygame.image.load("./Images/honey.png")
+                    surface_dic['surface'][indice].blit(pygame.transform.scale(image, (45, 45)), ( x + 80 + 20*len(str(bees[i]._price[0])), 393 ))
+                elif bees[i].ressource() == "water":
+                    image = pygame.image.load("./Images/water.png")
+                    surface_dic['surface'][indice].blit(pygame.transform.scale(image, (30, 30)), ( x + 90 + 20*len(str(bees[i]._price[0])), 400 ))
+                elif bees[i].ressource() == "metal":
+                    image = pygame.image.load("./Images/metal.png")
+                    surface_dic['surface'][indice].blit(pygame.transform.scale(image, (30, 30)), ( x + 90 + 20*len(str(bees[i]._price[0])), 400 ))
+                elif bees[i].ressource() == "uranium":
+                    image = pygame.image.load("./Images/uranium.png")
+                    surface_dic['surface'][indice].blit(pygame.transform.scale(image, (30, 30)), ( x + 90 + 20*len(str(bees[i]._price[0])), 400 ))
+                elif bees[i].ressource() == "pollen":
+                    image = pygame.image.load("./Images/pollen.png")
+                    surface_dic['surface'][indice].blit(pygame.transform.scale(image, (30, 30)), ( x + 90 + 20*len(str(bees[i]._price[0])), 400 ))
+
+                strength = font.render("Points de combats: " + str(bees[i].cost()) , 1, (0,0,0))
+                surface_dic['surface'][indice].blit(strength, (x, 300))
+
+                cost = font.render("Coût d'entretien: " + str(bees[i].cost()) , 1, (0,0,0))
+                surface_dic['surface'][indice].blit(cost, (x, 350))
+
+                prix = font.render( "Prix: " + str(bees[i]._price[0]), 1, (0,0,0))
+                surface_dic['surface'][indice].blit(prix, (x, 400))
             # boutons
             if bees[i].required_level() <= hive.level():
                 bouton = button((212,180,0), x, 450, 300, 75, w, h,'Acheter', font='comicsans', sizeFont=50, get=bees[i]._name)

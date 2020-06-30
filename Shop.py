@@ -1,5 +1,6 @@
 from Hive import hive
 from Worker_Bee import worker_bee
+from Fighter_Bee import fighter_bee
 import copy
 
 class shop():
@@ -16,9 +17,10 @@ class shop():
 		worker_bee('avatarar', 20, 'worker', [20,"honey"], 1, "./Images/diobrando.jpg",  40 , "honey", None),
 		worker_bee('avatfefsrar', 20, 'worker', [20,"honey"], 1, "./Images/diobrando.jpg",  40 , "honey", None),
 		worker_bee('avsatarar', 20, 'worker', [20,"honey"], 1, "./Images/diobrando.jpg",  40 , "honey", None),
-		worker_bee('avatarggggggar', 20, 'worker', [20,"honey"], 10, "./Images/diobrando.jpg",  40 , "honey", None)
+		worker_bee('avatarggggggar', 20, 'worker', [20,"honey"], 10, "./Images/diobrando.jpg",  40 , "honey", None),
+		fighter_bee('fighter', 20, 'fighter', [20,"honey"], 1, "./Images/diobrando.jpg", 20)
 		]
-
+#fighter_bee('fighter', 20, 'fighter', [20,"honey"], 1, "./Images/diobrando.jpg", 20)
 		# liste des upgrades dans le shop
 		upgrades = []
 
