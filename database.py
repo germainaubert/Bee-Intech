@@ -97,6 +97,7 @@ class database():
             rows = cur.fetchall()
             print("territoires :")
             for row in rows:
+                #name = None, lvl_require = 0 , number = 0, ressource = None, space = 0, bees = [], strength = 10, possession = False, display_name = '', description = ''
                 list_bee = []
                 print(row)
                 name = row[0]
