@@ -224,7 +224,6 @@ class window():
                     if "buy_bee_button" in self._display._button_dic:
                         for button in self._display._button_dic["buy_bee_button"]:
                             if button.is_over(event.pos):
-                                self._hive._level += 1
                                 self._alert, self._first_call = self._shop.test_bee(button._get, self._hive)
                     # Upgrade
                     if "upgrade_purchase" in self._display._button_dic:
@@ -235,6 +234,7 @@ class window():
                         for button in self._display._button_dic["desc"]:
                             if button.is_over(event.pos):
                                 print("JAJOAJOAJOA")
+                                print("a")
                     # Shop_ALERT
                     if "cant_buy_alert" in self._display._button_dic:
                         if self._display._button_dic["cant_buy_alert"].is_over(event.pos):
