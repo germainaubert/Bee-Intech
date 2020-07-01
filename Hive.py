@@ -84,6 +84,9 @@ class hive():
 					self._prod[bee.ressource()] = self._prod[bee.ressource()] + bee.prod() - bee.cost()
 				else:
 					self._prod[bee.ressource()] = self._prod[bee.ressource()] - bee.cost()
+			if bee.category() == "fighter":
+				self._prod[bee.price()[1]] = self._prod[bee.price()[1]] - bee.cost()
+
 		self.track_bees()
 		self.calcul_upgrades()
 		print(self._prod)

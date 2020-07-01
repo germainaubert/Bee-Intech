@@ -115,7 +115,7 @@ class database():
                     if bee.category() == "worker":
                         if bee._territory == name:
                             list_bee.append(bee)
-                self._territories.append(territory(name, lvl, numero, ressource, space, list_bee, possession, display_name, description))
+                self._territories.append(territory(name, lvl, numero, ressource, space, list_bee, 10, possession, display_name, description))
 
             return self._level, self._exp, self._ressource, self._prod, self._bees, self._upgrades, self._territories
         
