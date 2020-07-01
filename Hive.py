@@ -84,6 +84,9 @@ class hive():
 					self._prod[bee.ressource()] = self._prod[bee.ressource()] + bee.prod() - bee.cost()
 				else:
 					self._prod[bee.ressource()] = self._prod[bee.ressource()] - bee.cost()
+			if bee.category() == "fighter":
+				self._prod[bee.price()[1]] = self._prod[bee.price()[1]] - bee.cost()
+
 		self.track_bees()
 		self.calcul_upgrades()
 		print(self._prod)
@@ -173,3 +176,9 @@ class hive():
 						if result.lvl() < upgrade.lvl():
 							result = upgrade
 		return result
+
+	def get_territory(self, given_territory):
+		for territory in self._territories:
+			if territory._name == given_territory:
+				territory._possession = True
+				break

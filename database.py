@@ -120,10 +120,11 @@ class database():
                 print(possession)
                 self._upgrades.append(upgrade(name, lvl, required_level, [ressource_price,price], category, possession, (x,y),"chong","./Images/bak.jpg"))
                 print(self._upgrades)
-            cur.execute("SELECT Nom, Niveau_Requis, Numero, Ressource, Espace, Possession, Nom_Affichage, Description FROM territoires")
+            cur.execute("SELECT Nom, Niveau_Requis, Numero, Ressource, Espace, Possession, Nom_Affichage, Description, Force FROM territoires")
             rows = cur.fetchall()
             print("territoires :")
             for row in rows:
+                #name = None, lvl_require = 0 , number = 0, ressource = None, space = 0, bees = [], strength = 10, possession = False, display_name = '', description = ''
                 list_bee = []
                 print(row)
                 name = row[0]
@@ -134,6 +135,7 @@ class database():
                 possession = row[5]
                 display_name = row[6]
                 description = row[7]
+                force = row[8]
                 if possession == 0:
                     possession = False
                 else:
@@ -142,7 +144,7 @@ class database():
                     if bee.category() == "worker":
                         if bee._territory == name:
                             list_bee.append(bee)
-                self._territories.append(territory(name, lvl, numero, ressource, space, list_bee, possession, display_name, description))
+                self._territories.append(territory(name, lvl, numero, ressource, space, list_bee, 10, possession, display_name, description, force))
 
             return self._level, self._exp, self._ressource, self._prod, self._bees, self._upgrades, self._territories
         
