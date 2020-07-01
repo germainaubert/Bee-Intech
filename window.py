@@ -231,6 +231,10 @@ class window():
                         for button in self._display._button_dic["upgrade_purchase"]:
                             if button.is_over(event.pos):
                                 print("c cool")
+                    if "desc" in self._display._button_dic:
+                        for button in self._display._button_dic["desc"]:
+                            if button.is_over(event.pos):
+                                print("JAJOAJOAJOA")
                     # Shop_ALERT
                     if "cant_buy_alert" in self._display._button_dic:
                         if self._display._button_dic["cant_buy_alert"].is_over(event.pos):

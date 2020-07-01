@@ -188,16 +188,30 @@ class display():
             surface_dic["buttons"][i]._x += 400
             surface_dic["buttons"][i]._y += 200
 
-        decal = 0
-        total_height = 375
-        but_id = -1
-        print(cpt_list)
-        for value in cpt_list:
-            for i in range(value):
-                but_id += 1
-                surface_dic["buttons"][but_id]._y = total_height
-                surface_dic["buttons"][but_id + 1]._y = total_height
-            total_height += decal
+        # decal = 200
+        # total_height = 375
+        # but_id = -1
+        # print(cpt_list)
+        # for value in cpt_list:
+        #     for i in range(value):
+        #         but_id += 1
+        #         surface_dic["buttons"][but_id]._y = total_height
+        #         surface_dic["buttons"][but_id + 1]._y = total_height + 100
+        #     total_height += decal
+
+        
+
+        but_id = 0
+        decal = height
+        butt_id = cpt_list[0] * 2
+        for i in range (1, len(cpt_list)):
+            for j in range (0, cpt_list[i]):
+                surface_dic['buttons'][butt_id]._y += decal
+                butt_id += 1
+                surface_dic['buttons'][butt_id]._y += decal
+                butt_id += 1
+            decal += height
+
 
         # for i in range (3, len(surface_dic['buttons'])):
             
