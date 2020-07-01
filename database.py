@@ -16,6 +16,33 @@ class database():
         self._prod = prod
         self._save_count = 1
 
+    def init_hive():
+        conn = self._conn
+        cur = conn.cursor()
+        cur.execute("UPDATE ruche SET Experience = 0, Niveau = 0, Verification = 1 WHERE id = 1")
+        conn.commit()
+
+        cur.execute("DELETE from abeilles")
+        conn.commit()
+            
+        cur.execute("UPDATE ressources SET Quantite = ?, Production = ? WHERE nom = 'honey'")
+        conn.commit()
+        cur.execute("UPDATE ressources SET Quantite = ?, Production = ? WHERE nom = 'water'")
+        conn.commit()
+        cur.execute("UPDATE ressources SET Quantite = ?, Production = ? WHERE nom = 'metal'")
+        conn.commit()
+        cur.execute("UPDATE ressources SET Quantite = ?, Production = ? WHERE nom = 'uranium'")
+        conn.commit()
+        cur.execute("UPDATE ressources SET Quantite = ?, Production = ? WHERE nom = 'pollen'")
+        conn.commit()
+
+        cur.execute("UPDATE territoires SET Possession = 0")
+        conn.commit()
+        
+        cur.execute("UPDATE amelioration SET Possession = 0")
+        conn.commit()
+
+        
     def check_first_time(self):
         conn = self._conn
         cur = conn.cursor()
