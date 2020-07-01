@@ -44,7 +44,7 @@ class window():
         
         self._live = None # attribut pour déterminer si un affichage doit se faire à chaque itération de la boucle principales
         self._alert = None # Pareil que live mais pour les alertes
-        self._first_call = None # Sert à déterminer quand les boutons doivent être stockés pour alerte de live display
+        self._first_call = True # Sert à déterminer quand les boutons doivent être stockés pour alerte de live display
 
         # valeur pour le scroll
         self._scroll_y = 0
@@ -84,17 +84,24 @@ class window():
                 elif self._live == "shop":
                     live_surface, self._bee_quantity, self._display._button_dic, self._first_call, self._alert, self._scroll_y = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y, self._territory) # prend event en parametre pour permettre l'input
                 elif self._live == "fight_menu":
-                    live_surface, self._display._button_dic, self._first_call = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y, self._territory)
+                    if self._alert == "attack":
+                        if who_won(self._hive, self._territory, self._hive._territories):
+                            self._alert = "victory"
+                            print("victoire")
+                            live_surface, self._display._button_dic, self._first_call, self._alert = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y, self._territory)
+                        else:
+                            print("cant win")
+                            self._alert = "cant_win"
+                            live_surface, self._display._button_dic, self._first_call, self._alert = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y, self._territory)
+                    else:
+                        live_surface, self._display._button_dic, self._first_call, self._alert = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y, self._territory)
+
                 elif self._live == "menu":
                     live_surface, self._display._button_dic = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y, self._territory)
                 elif self._live == "up":
                     live_surface, self._scroll_y, self._display._button_dic = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y, self._territory)
-                elif self._live == "fight":
-                    if who_won():
-                        self._surface = self._display.display_map(self._w, self._h)
-                        self._alert = "victory"
-                        self._live = "fight_menu"
                 else: 
+
                     live_surface = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y, self._territory)
                 
                 self._window.blit(pygame.transform.scale(live_surface, (self._w, self._h)), (0,0)) # transforme l'image selon la résolution de l'image
@@ -169,6 +176,7 @@ class window():
                             self._surface = self._display.display_menu(self._w, self._h)
                             self._live = "menu"
                             self._alert = None
+                            self._first_call = True
                             break
                     if "bees_button" in self._display._button_dic:
                         if self._display._button_dic["bees_button"].is_over(event.pos):
@@ -190,6 +198,7 @@ class window():
                         if self._display._button_dic["fight_menu_button"].is_over(event.pos):
                             self._surface = self._display.display_map(self._w, self._h)
                             self._live = "fight_menu"
+                            self._first_time = True
                             break
                     
                     # TEST
@@ -252,15 +261,19 @@ class window():
                             if button.is_over(event.pos):
                                 self._territory = button._text
                                 self._first_call = True
+                    if "confirm" in self._display._button_dic:
+                        if self._display._button_dic["confirm"].is_over(event.pos):
+                            self._territory = None
+                            self._first_call = True
+                            self._alert = "Done"
                     if "attack" in self._display._button_dic:
                         if self._display._button_dic["attack"].is_over(event.pos):
-                            self._first_call = None
-                            self._alert = None
-                            self._live = "fight"
+                            self._first_call = True
+                            self._alert = "attack"
                     if "back" in self._display._button_dic:
                         if self._display._button_dic["back"].is_over(event.pos):
                             self._alert = None
-                            self._first_call = True
+                            self._territory = None
                     if 'upgrade_purchase' in self._display._button_dic:
                         for button in self._display._button_dic["upgrade_purchase"]: 
                             if button.is_over(event.pos):
