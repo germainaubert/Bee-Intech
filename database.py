@@ -16,6 +16,33 @@ class database():
         self._prod = prod
         self._save_count = 1
 
+    def init_hive():
+        conn = self._conn
+        cur = conn.cursor()
+        cur.execute("UPDATE ruche SET Experience = 0, Niveau = 0, Verification = 1 WHERE id = 1")
+        conn.commit()
+
+        cur.execute("DELETE from abeilles")
+        conn.commit()
+            
+        cur.execute("UPDATE ressources SET Quantite = ?, Production = ? WHERE nom = 'honey'")
+        conn.commit()
+        cur.execute("UPDATE ressources SET Quantite = ?, Production = ? WHERE nom = 'water'")
+        conn.commit()
+        cur.execute("UPDATE ressources SET Quantite = ?, Production = ? WHERE nom = 'metal'")
+        conn.commit()
+        cur.execute("UPDATE ressources SET Quantite = ?, Production = ? WHERE nom = 'uranium'")
+        conn.commit()
+        cur.execute("UPDATE ressources SET Quantite = ?, Production = ? WHERE nom = 'pollen'")
+        conn.commit()
+
+        cur.execute("UPDATE territoires SET Possession = 0")
+        conn.commit()
+        
+        cur.execute("UPDATE amelioration SET Possession = 0")
+        conn.commit()
+
+        
     def check_first_time(self):
         conn = self._conn
         cur = conn.cursor()
@@ -93,7 +120,7 @@ class database():
                 print(possession)
                 self._upgrades.append(upgrade(name, lvl, required_level, [ressource_price,price], category, possession, (x,y),"chong","./Images/bak.jpg"))
                 print(self._upgrades)
-            cur.execute("SELECT Nom, Niveau_Requis, Numero, Ressource, Espace, Possession, Nom_Affichage, Description FROM territoires")
+            cur.execute("SELECT Nom, Niveau_Requis, Numero, Ressource, Espace, Possession, Nom_Affichage, Description, Force FROM territoires")
             rows = cur.fetchall()
             print("territoires :")
             for row in rows:
@@ -108,6 +135,7 @@ class database():
                 possession = row[5]
                 display_name = row[6]
                 description = row[7]
+                force = row[8]
                 if possession == 0:
                     possession = False
                 else:
@@ -116,7 +144,7 @@ class database():
                     if bee.category() == "worker":
                         if bee._territory == name:
                             list_bee.append(bee)
-                self._territories.append(territory(name, lvl, numero, ressource, space, list_bee, 10, possession, display_name, description))
+                self._territories.append(territory(name, lvl, numero, ressource, space, list_bee, force, possession, display_name, description))
 
             return self._level, self._exp, self._ressource, self._prod, self._bees, self._upgrades, self._territories
         

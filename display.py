@@ -188,13 +188,15 @@ class display():
             surface_dic["buttons"][i]._x += 400
             surface_dic["buttons"][i]._y += 200
 
-        decal = 600
+        decal = 0
         total_height = 375
         but_id = -1
+        print(cpt_list)
         for value in cpt_list:
             for i in range(value):
                 but_id += 1
                 surface_dic["buttons"][but_id]._y = total_height
+                surface_dic["buttons"][but_id + 1]._y = total_height
             total_height += decal
 
         # for i in range (3, len(surface_dic['buttons'])):
