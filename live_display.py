@@ -74,17 +74,33 @@ class live_display():
                     }
                     buttons["attack"].draw_button(surface)
                     buttons["back"].draw_button(surface)
+        elif alert == "Done":
+            buttons = self._temp_buttons
+            alert = None
         elif alert == "victory":
             black_surface = pygame.Surface((1920,1080), 255)
             black_surface.set_alpha(100)
             surface.blit(black_surface, (0,0))
-            buttons = self._temp_buttons
+            font = pygame.font.SysFont('comicsans', 40)
+            msg = font.render("Vous avez envahi ce territoire !", 1, (255,255,255))
+            surface.blit(msg, (700,550))
+            buttons = {"confirm" : button((255,180,255), 700, 600, 150, 80, self._w, self._h, 'Cool !', font='comicsans', sizeFont=40)}
+            buttons["confirm"].draw_button(surface)
             first_call = True
+        elif alert == "cant_win":
+            font = pygame.font.SysFont('comicsans', 40)
+            msg = font.render("Votre armée est trop faible pour envahir le territoire", 1, (255,255,255))
+            surface.blit(msg, (700,550))
+            buttons = {"confirm" : button((255,180,255), 700, 600, 150, 80, self._w, self._h, 'Retourner sur la carte', font='comicsans', sizeFont=40)}
+            buttons["confirm"].draw_button(surface)
         elif alert == None and first_call == False:
             buttons = self._temp_buttons
             first_call = True
+        elif sent_territory == None and alert == None:
+            self._temp_buttons = buttons
+            
 
-        return surface, buttons, first_call
+        return surface, buttons, first_call, alert
 
     def live_menu(self, surface, alert, buttons):
         

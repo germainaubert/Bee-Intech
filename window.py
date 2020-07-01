@@ -10,6 +10,7 @@ from Territory import territory
 from database import database
 from Upgrade import upgrade
 from Shop import shop
+from Upgrade import upgrade
 from fight import who_won
 
 class window():
@@ -43,7 +44,7 @@ class window():
         
         self._live = None # attribut pour déterminer si un affichage doit se faire à chaque itération de la boucle principales
         self._alert = None # Pareil que live mais pour les alertes
-        self._first_call = None # Sert à déterminer quand les boutons doivent être stockés pour alerte de live display
+        self._first_call = True # Sert à déterminer quand les boutons doivent être stockés pour alerte de live display
 
         # valeur pour le scroll
         self._scroll_y = 0
@@ -83,17 +84,24 @@ class window():
                 elif self._live == "shop":
                     live_surface, self._bee_quantity, self._display._button_dic, self._first_call, self._alert, self._scroll_y = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y, self._territory) # prend event en parametre pour permettre l'input
                 elif self._live == "fight_menu":
-                    live_surface, self._display._button_dic, self._first_call = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y, self._territory)
+                    if self._alert == "attack":
+                        if who_won(self._hive, self._territory, self._hive._territories):
+                            self._alert = "victory"
+                            print("victoire")
+                            live_surface, self._display._button_dic, self._first_call, self._alert = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y, self._territory)
+                        else:
+                            print("cant win")
+                            self._alert = "cant_win"
+                            live_surface, self._display._button_dic, self._first_call, self._alert = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y, self._territory)
+                    else:
+                        live_surface, self._display._button_dic, self._first_call, self._alert = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y, self._territory)
+
                 elif self._live == "menu":
                     live_surface, self._display._button_dic = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y, self._territory)
                 elif self._live == "up":
                     live_surface, self._scroll_y, self._display._button_dic = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y, self._territory)
-                elif self._live == "fight":
-                    if who_won():
-                        self._surface = self._display.display_map(self._w, self._h)
-                        self._alert = "victory"
-                        self._live = "fight_menu"
                 else: 
+
                     live_surface = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y, self._territory)
                 
                 self._window.blit(pygame.transform.scale(live_surface, (self._w, self._h)), (0,0)) # transforme l'image selon la résolution de l'image
@@ -168,6 +176,7 @@ class window():
                             self._surface = self._display.display_menu(self._w, self._h)
                             self._live = "menu"
                             self._alert = None
+                            self._first_call = True
                             break
                     if "bees_button" in self._display._button_dic:
                         if self._display._button_dic["bees_button"].is_over(event.pos):
@@ -189,6 +198,7 @@ class window():
                         if self._display._button_dic["fight_menu_button"].is_over(event.pos):
                             self._surface = self._display.display_map(self._w, self._h)
                             self._live = "fight_menu"
+                            self._first_time = True
                             break
                     
                     # TEST
@@ -251,15 +261,36 @@ class window():
                             if button.is_over(event.pos):
                                 self._territory = button._text
                                 self._first_call = True
+                    if "confirm" in self._display._button_dic:
+                        if self._display._button_dic["confirm"].is_over(event.pos):
+                            self._territory = None
+                            self._first_call = True
+                            self._alert = "Done"
                     if "attack" in self._display._button_dic:
                         if self._display._button_dic["attack"].is_over(event.pos):
-                            self._first_call = None
-                            self._alert = None
-                            self._live = "fight"
+                            self._first_call = True
+                            self._alert = "attack"
                     if "back" in self._display._button_dic:
                         if self._display._button_dic["back"].is_over(event.pos):
                             self._alert = None
                             self._territory = None
+                    if 'upgrade_purchase' in self._display._button_dic:
+                        for button in self._display._button_dic["upgrade_purchase"]: 
+                            if button.is_over(event.pos):
+                                for upgrade in self._hive.upgrades():
+                                    if upgrade.name() == button.get()[0] and upgrade.lvl() == button.get()[1]:
+                                        if self._hive.check_purchase_upgrade(upgrade):
+                                            self._hive.buy_upgrade(upgrade)
+                                            upgrade.purchase_upgrade()
+                                            self._hive.calcul_prod()
+                                            self._alert = None
+                                            self._live = "up"
+                                            self._scroll_y = 0
+                                            self._display._button_dic = {}
+                                            self._surface, self._bees_surfaces = self._display.display_upgrades(self._w, self._h, self._hive, "hive")
+
+
+ 
 
             # Input clavier
             if event.type == KEYDOWN:
@@ -284,49 +315,21 @@ class window():
             # Commencer avec les upgrades concernant la ruche, puis le combat
             # name, lvl, required_level , price, category, possession, placement = (0,0)
             upgrades = [
-            upgrade("boost production", 0, 10, [10,"honey"], "hive", False, (0,0),"chong","./Images/bak.jpg"),
-            upgrade("saucisse", 0, 12, [10,"honey"], "hive", False, (1,1),"chong","./Images/bak.jpg"),
-            upgrade("jajomobile", 0, 0, [10,"honey"], "hive", False, (1,2),"chong","./Images/bak.jpg"),
-            upgrade("jajomobile", 0, 0, [10,"honey"], "hive", False, (2,2),"chong","./Images/bak.jpg"),
-            upgrade("jajomobile", 0, 0, [10,"honey"], "hive", False, (3,2),"chong","./Images/bak.jpg"),
-            upgrade("BONJOUR OLIVIER DE CHEZ CARGLASS", 0, 0, [10,"honey"], "fight", False, (0,0),"chong","./Images/bak.jpg"),
-            upgrade("BLACK LIVES MATTER", 0, 0, [10,"honey"], "fight", False, (0,1),"chong","./Images/bak.jpg"),
-            upgrade("BLACK LIVES MATTER", 0, 0, [10,"honey"], "fight", False, (1,1),"chong","./Images/bak.jpg")
+            upgrade("production de miel", 1, 0, ["honey",10], "hive", False, (0,0),"chong","./Images/bak.jpg"),
+            upgrade("production de miel", 2, 0, ["honey",10], "hive", False, (1,1),"chong","./Images/bak.jpg"),
+            upgrade("production de miel", 3, 0, ["honey",10], "hive", False, (1,2),"chong","./Images/bak.jpg"),
+            upgrade("jajomobile1", 0, 0, ["honey",10], "hive", False, (2,2),"chong","./Images/bak.jpg"),
+            upgrade("jajomobile2", 0, 0, ["honey",10], "hive", False, (3,2),"chong","./Images/bak.jpg"),
+            upgrade("BONJOUR OLIVIER DE CHEZ CARGLASS", 0, 0, ["honey",10], "fight", False, (0,0),"chong","./Images/bak.jpg"),
+            upgrade("BLACK LIVES MATTER", 0, 0, ["honey",10], "fight", False, (0,1),"chong","./Images/bak.jpg"),
+            upgrade("BLACK LIVES MATTER", 0, 0, ["honey",10], "fight", False, (1,1),"chong","./Images/bak.jpg")
             ],
             
             territories = []
 
             )
 
-        self._database = database()
         saved_hive = self._database.load_data()
-        self._hive = hive(
-            level = saved_hive[0],
-            exp = saved_hive[1],
-            ressource = saved_hive[2],
-            prod = saved_hive[3],
-            bees= saved_hive[4],
-            upgrades = saved_hive[5],
-            territories = [territory("base", 0, 0, "honey", 5, [], True, '', ''), 
-            territory("base2", 0, 1, "honey", 7, [], True, '', ''),
-            territory("hauteurs", 0, 0, "honey", 5, [], False, "Abeilles des hauteurs", "Des abeilles qui font le truc oui"),
-            territory("urbaines", 0, 0, "honey", 5, [], False, "Abeilles urbaines", "dzqdzq"), 
-            territory("profondeurs", 0, 0, "honey", 5, [], False, "Abeilles des profondeurs", "fff"),
-            territory("mutantes", 0, 0, "honey", 5, [], False, "Abeilles mutantes", "ggg"),
-            territory("plaines", 0, 0, "honey", 5, [], False, "Abeilles des plaines", "gdrfgf"),
-            territory("solitaires", 0, 0, "honey", 5, [], False, "Abeilles solitaires", "uuuuu"),
-            territory("arboricoles", 0, 0, "honey", 5, [], False, "Abeilles arboricoles", "jejarbre"),
-            territory("ruines", 0, 0, "honey", 5, [], False, "Abeilles des ruines", "llll"),
-            territory("eau douce", 0, 0, "honey", 5, [], False, "Abeilles d'eau douce", "poi"),
-            territory("tour", 0, 0, "honey", 5, [], False, "Abeilles de la tour", "jdtgri"),
-            territory("macabres", 0, 0, "honey", 5, [], False, "Abeilles macabres", "nnnn"),
-            territory("RUSSIA", 0, 0, "honey", 5, [], False, "La mère patrie", "mmm"),
-            territory("rurales", 0, 0, "honey", 5, [], False, "Abeilles rurales", "azer")
-            ]
-
-            )
-
-        saved_hive = None #self._database.load_data()
         if saved_hive is not None:
             self._hive = hive(
                 level = saved_hive[0],
