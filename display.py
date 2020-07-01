@@ -107,7 +107,7 @@ class display():
 
         # taille de la surface
         width = 1200 
-        height = 400
+        height = 600
         total_height = 0
         font = pygame.font.SysFont('comicsans', 50)
         surface_dic = {}
@@ -128,19 +128,43 @@ class display():
                     surface_dic['surface'][cpt].blit(prod, (x, 0))
 
                     print(f"test {upgrade.name()} {upgrade.possession()}")
+
+                    prix = font.render( "Prix: " + str(upgrade.price()[1]), 1, (0,0,0))
+                    surface_dic['surface'][cpt].blit(prix, (x, 300))
+
+                    if upgrade.price()[0] == "honey":
+                        image = pygame.image.load("./Images/honey.png")
+                        surface_dic['surface'][cpt].blit(pygame.transform.scale(image, (45, 45)), ( x + 80 + 20*len(str(upgrade.price()[1])), 293 ))
+                    elif upgrade.price()[0] == "water":
+                        image = pygame.image.load("./Images/water.png")
+                        surface_dic['surface'][cpt].blit(pygame.transform.scale(image, (30, 30)), ( x + 90 + 20*len(str(upgrade.price()[1])), 300 ))
+                    elif upgrade.price()[0] == "metal":
+                        image = pygame.image.load("./Images/metal.png")
+                        surface_dic['surface'][cpt].blit(pygame.transform.scale(image, (30, 30)), ( x + 90 + 20*len(str(upgrade.price()[1])), 300 ))
+                    elif upgrade.price()[0] == "uranium":
+                        image = pygame.image.load("./Images/uranium.png")
+                        surface_dic['surface'][cpt].blit(pygame.transform.scale(image, (30, 30)), ( x + 90 + 20*len(str(upgrade.price()[1])), 300 ))
+                    elif upgrade.price()[0] == "pollen":
+                        image = pygame.image.load("./Images/pollen.png")
+                        surface_dic['surface'][cpt].blit(pygame.transform.scale(image, (30, 30)), ( x + 90 + 20*len(str(upgrade.price()[1])), 300 ))
                     
                     if upgrade.required_level() > hive.level():
-                        button_temp = button((169, 169, 169), x, 275, 300, 75, w, h,"Niveau " + str(upgrade.required_level()) + " requis" , font='comicsans', sizeFont=50, get=None)
+                        button_temp = button((169, 169, 169), x, 450, 300, 75, w, h,"Niveau " + str(upgrade.required_level()) + " requis" , font='comicsans', sizeFont=50, get=None)
                         surface_dic["buttons"].append(button_temp)
                         button_temp.draw_button(surface_dic["surface"][cpt])
                     elif upgrade.possession() == True:
-                        button_temp = button((169, 169, 169), x, 275, 300, 75, w, h,"Possédé" , font='comicsans', sizeFont=50, get=None)
+                        button_temp = button((169, 169, 169), x, 450, 300, 75, w, h,"Possédé" , font='comicsans', sizeFont=50, get=None)
                         surface_dic["buttons"].append(button_temp)
                         button_temp.draw_button(surface_dic["surface"][cpt])
                     else:
-                        button_temp = button((212,180,0), x, 275, 300, 75, w, h, "Acheter", font='comicsans', sizeFont=50, get = [upgrade.name(),upgrade.lvl()])
+                        button_temp = button((212,180,0), x, 450, 300, 75, w, h, "Acheter", font='comicsans', sizeFont=50, get = [upgrade.name(),upgrade.lvl()])
                         surface_dic["buttons"].append(button_temp)
                         button_temp.draw_button(surface_dic["surface"][cpt])
+
+                    button_temp = button((212,180,0), x, 350, 300, 75, w, h, "Description", font='comicsans', sizeFont=50, get = "Test 1: chong")#[upgrade.name(),upgrade.lvl()])
+                    surface_dic["buttons"].append(button_temp)
+                    button_temp.draw_button(surface_dic["surface"][cpt])
+
                 x += 400
 
         final_surface = pygame.Surface((width, total_height), pygame.SRCALPHA)
@@ -162,9 +186,9 @@ class display():
         
         for i in range (0, len(surface_dic["buttons"])):
             surface_dic["buttons"][i]._x += 400
-            surface_dic["buttons"][i]._y += 100
+            surface_dic["buttons"][i]._y += 200
 
-        decal = 400
+        decal = 600
         total_height = 375
         but_id = -1
         for value in cpt_list:

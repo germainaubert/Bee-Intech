@@ -282,17 +282,18 @@ class window():
                     if 'upgrade_purchase' in self._display._button_dic:
                         for button in self._display._button_dic["upgrade_purchase"]: 
                             if button.is_over(event.pos):
-                                for upgrade in self._hive.upgrades():
-                                    if upgrade.name() == button.get()[0] and upgrade.lvl() == button.get()[1]:
-                                        if self._hive.check_purchase_upgrade(upgrade):
-                                            self._hive.buy_upgrade(upgrade)
-                                            upgrade.purchase_upgrade()
-                                            self._hive.calcul_prod()
-                                            self._alert = None
-                                            self._live = "up"
-                                            self._scroll_y = 0
-                                            self._display._button_dic = {}
-                                            self._surface, self._bees_surfaces = self._display.display_upgrades(self._w, self._h, self._hive, "hive")
+                                if button.get() != None:
+                                    for upgrade in self._hive.upgrades():
+                                        if upgrade.name() == button.get()[0] and upgrade.lvl() == button.get()[1]:
+                                            if self._hive.check_purchase_upgrade(upgrade):
+                                                self._hive.buy_upgrade(upgrade)
+                                                upgrade.purchase_upgrade()
+                                                self._hive.calcul_prod()
+                                                self._alert = None
+                                                self._live = "up"
+                                                self._scroll_y = 0
+                                                self._display._button_dic = {}
+                                                self._surface, self._bees_surfaces = self._display.display_upgrades(self._w, self._h, self._hive, "hive")
 
 
  
