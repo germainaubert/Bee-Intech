@@ -11,11 +11,14 @@ class live_display():
     _accepted_event2 = [K_BACKSPACE, K_DELETE, K_RETURN, K_RIGHT, K_LEFT, K_END, K_HOME, KEYUP]
     _temp_buttons = None
     _scroll_y = 0
+    _black_surface = pygame.Surface((1920,1080), 255)
+    _black_surface.set_alpha(190)
 
     def __init__(self, w, h, hive):
         self._w = w
         self._h = h
         self._hive = hive
+        
 
     def give_display(self, live, alert, surface, events, buttons, first_call, bees_surfaces, scroll_y, territory): # permet d'appeler la méthode de live_display correspondant à l'affichage en cours, grâce à live
         if live == "menu":
@@ -53,7 +56,7 @@ class live_display():
 
     def live_fight_menu(self, surface, buttons, alert, first_call, sent_territory):
         
-        print(sent_territory, alert, first_call)
+        # print(sent_territory, alert, first_call)
 
         if sent_territory != None and alert == None:
             if first_call == True:
@@ -62,27 +65,39 @@ class live_display():
             
             for territory in self._hive._territories:
                 if territory._name == sent_territory:
-                    black_surface = pygame.Surface((1920,1080), 255)
-                    black_surface.set_alpha(100)
-                    surface.blit(black_surface, (0,0))
+                    
+                    surface.blit(self._black_surface, (0,0))
                     font = pygame.font.SysFont('comicsans', 50)
                     msg = font.render(territory._display_name, 1, (255,255,255))
                     surface.blit(msg, (800,500))
                     msg = font.render(territory._description, 1, (255,255,255))
                     surface.blit(msg, (800,550))
-                    buttons = {
-                        "attack": button((255,180,255), 700, 600, 150, 80, self._w, self._h, 'Attaquer', font='comicsans', sizeFont=40),
-                        "back": button((255,180,255), 950, 600, 150, 80, self._w, self._h, 'Retour', font='comicsans', sizeFont=40)
-                    }
-                    buttons["attack"].draw_button(surface)
-                    buttons["back"].draw_button(surface)
+                    print(territory)
+                    if territory._possession == False:
+                        buttons["back"] = button((255,180,255), 950, 600, 150, 80, self._w, self._h, 'Retour', font='comicsans', sizeFont=40)
+                        buttons["back"].draw_button(surface)
+
+                        buttons["attack"]: button((255,180,255), 700, 600, 150, 80, self._w, self._h, 'Attaquer', font='comicsans', sizeFont=40)
+                        buttons["attack"].draw_button(surface)
+                    
+                    else:
+                        msg = font.render('Vous possédez déjà ce territoire !', 1, (255,255,255))
+                        surface.blit(msg, (800,600))
+                        buttons["back"] = button((255,180,255), 950, 700, 150, 80, self._w, self._h, 'Retour', font='comicsans', sizeFont=40)
+                        buttons["back"].draw_button(surface)
+
         elif alert == "Done":
             buttons = self._temp_buttons
             alert = None
+        elif alert == "mine":
+            font = pygame.font.SysFont('comicsans', 40)
+            msg = font.render("Vous possédez déjà ce territoire", 1, (255,255,255))
+            surface.blit(msg, (700,550))
+            buttons = {"confirm" : button((255,180,255), 700, 600, 150, 80, self._w, self._h, 'Retourner sur la carte', font='comicsans', sizeFont=40)}
+            buttons["confirm"].draw_button(surface)
         elif alert == "victory":
-            black_surface = pygame.Surface((1920,1080), 255)
-            black_surface.set_alpha(100)
-            surface.blit(black_surface, (0,0))
+            
+            surface.blit(self._black_surface, (0,0))
             font = pygame.font.SysFont('comicsans', 40)
             msg = font.render("Vous avez envahi ce territoire !", 1, (255,255,255))
             surface.blit(msg, (700,550))
@@ -112,9 +127,8 @@ class live_display():
         if alert == "upgrade_choice":
             
 
-            black_surface = pygame.Surface((1920,1080), 255)
-            black_surface.set_alpha(100)
-            surface.blit(black_surface, (0,0))
+            
+            surface.blit(self._black_surface, (0,0))
             # display_surface = pygame.Surface((600, 150), pygame.SRCALPHA)
             
             # surface.blit(display_surface, (760, 480)) 
@@ -199,9 +213,8 @@ class live_display():
                 first_call = False
                 buttons = {}
             elif first_call == False:
-                black_surface = pygame.Surface((1920,1080), 255)
-                black_surface.set_alpha(100)
-                surface.blit(black_surface, (0,0))
+                
+                surface.blit(self._black_surface, (0,0))
                 input_surface = pygame.Surface((400, 80))
                 input_surface.fill(pygame.Color('White'))
                 input_surface.blit(self._shop_input.get_surface(), (100,35))
@@ -226,9 +239,8 @@ class live_display():
                 first_call = False
                 buttons = {}
             elif first_call == False:
-                black_surface = pygame.Surface((1920,1080), 255)
-                black_surface.set_alpha(100)
-                surface.blit(black_surface, (0,0))
+                
+                surface.blit(self._black_surface, (0,0))
                 buttons = {"cant_buy_alert" : button((255,50,0,0), 760, 480, 400, 60, self._w, self._h,'Ressource insuffisante', font='comicsans', sizeFont=50)}
                 buttons["cant_buy_alert"].draw_button(surface)
         elif alert == "GetRideOfThisShit":
@@ -238,9 +250,8 @@ class live_display():
             alert = None 
 
         elif alert == "confirm_purchase":
-            black_surface = pygame.Surface((1920,1080), 255)
-            black_surface.set_alpha(100)
-            surface.blit(black_surface, (0,0))
+            
+            surface.blit(self._black_surface, (0,0))
             display_surface = pygame.Surface((400, 80))
             font = pygame.font.SysFont('comicsans', 50)
             msg = font.render("Achat effectué !", 1, (0,0,0))

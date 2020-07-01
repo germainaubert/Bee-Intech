@@ -176,3 +176,9 @@ class hive():
 						if result.lvl() < upgrade.lvl():
 							result = upgrade
 		return result
+
+	def get_territory(self, given_territory):
+		for territory in self._territories:
+			if territory._name == given_territory:
+				territory._possession = True
+				break

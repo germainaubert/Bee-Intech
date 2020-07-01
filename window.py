@@ -85,13 +85,18 @@ class window():
                     live_surface, self._bee_quantity, self._display._button_dic, self._first_call, self._alert, self._scroll_y = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y, self._territory) # prend event en parametre pour permettre l'input
                 elif self._live == "fight_menu":
                     if self._alert == "attack":
-                        if who_won(self._hive, self._territory, self._hive._territories):
+                        flag = who_won(self._hive, self._territory, self._hive._territories)
+                        if flag == "good":
                             self._alert = "victory"
+                            self._hive.get_territory(self._territory)
                             print("victoire")
                             live_surface, self._display._button_dic, self._first_call, self._alert = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y, self._territory)
-                        else:
+                        elif flag == "notgood":
                             print("cant win")
                             self._alert = "cant_win"
+                            live_surface, self._display._button_dic, self._first_call, self._alert = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y, self._territory)
+                        elif flag == "mine":
+                            self._alert = "mine"
                             live_surface, self._display._button_dic, self._first_call, self._alert = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y, self._territory)
                     else:
                         live_surface, self._display._button_dic, self._first_call, self._alert = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y, self._territory)
@@ -341,6 +346,7 @@ class window():
                 upgrades = saved_hive[5],
                 territories = saved_hive[6]
             )
+        print(self._hive._territories)
         self._shop = shop()
         self._tick_update = tick_update(self._hive, self._tick)
         self._live_display = live_display(self._w, self._h, self._hive)

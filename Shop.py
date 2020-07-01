@@ -9,16 +9,10 @@ class shop():
 	def __init__(self):
 
 		# liste des abeilles dans le shop
-		self._bees = [worker_bee('hervé2', 5, 'worker', [10,"pollen"], 1, "./Images/bak.jpg", 15, "pollen", None),
-		worker_bee('hervé3', 10, 'worker', [10,"pollen"], 1, "./Images/merveille.jpg",  20 , "pollen", None),
-		worker_bee('stonks', 20, 'worker', [10,"pollen"], 1, "./Images/stonks.jpeg",  10000 , "pollen", None),
-		worker_bee('avatarar', 20, 'worker', [10,"honey"], 1, "./Images/diobrando.jpg",  40 , "honey", None),
-		worker_bee('avatgugu', 20, 'worker', [10,"honey"], 1, "./Images/bak.jpg",  40 , "honey", None),
-		worker_bee('avatarar', 20, 'worker', [20,"honey"], 1, "./Images/diobrando.jpg",  40 , "honey", None),
-		worker_bee('avatfefsrar', 20, 'worker', [20,"honey"], 1, "./Images/diobrando.jpg",  40 , "honey", None),
-		worker_bee('avsatarar', 20, 'worker', [20,"honey"], 1, "./Images/diobrando.jpg",  40 , "honey", None),
-		worker_bee('avatarggggggar', 20, 'worker', [20,"honey"], 10, "./Images/diobrando.jpg",  40 , "honey", None),
-		fighter_bee('fighter', 20, 'fighter', [20,"honey"], 1, "./Images/diobrando.jpg", 20)
+		self._bees = [worker_bee('Abeille basique', 5, 'worker', [10,"honey"], 1, "./Images/bees/basic_bee.png", 15, "honey", None),
+		worker_bee('Combattante basique', 10, 'fighter', [10,"honey"], 1, "./Images/bees/punch.png",  10),
+		worker_bee('Epéiste', 20, 'fighter', [10,"honey"], 1, "./Images/bees/sword.png",  30),
+		worker_bee('Aquabeille', 20, 'worker', [10,"water"], 1, "./Images/bees/water.png",  40 , "water", None),
 		]
 #fighter_bee('fighter', 20, 'fighter', [20,"honey"], 1, "./Images/diobrando.jpg", 20)
 		# liste des upgrades dans le shop
