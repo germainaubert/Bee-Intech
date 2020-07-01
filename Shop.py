@@ -10,8 +10,8 @@ class shop():
 
 		# liste des abeilles dans le shop
 		self._bees = [worker_bee('Abeille basique', 5, 'worker', [10,"honey"], 1, "./Images/bees/basic_bee.png", 15, "honey", None),
-		worker_bee('Combattante basique', 10, 'fighter', [10,"honey"], 1, "./Images/bees/punch.png",  10),
-		worker_bee('Epéiste', 20, 'fighter', [10,"honey"], 1, "./Images/bees/sword.png",  30),
+		fighter_bee('Combattante basique', 10, 'fighter', [10,"honey"], 1, "./Images/bees/punch.png",  10),
+		fighter_bee('Epéiste', 20, 'fighter', [10,"honey"], 1, "./Images/bees/sword.png",  30),
 		worker_bee('Aquabeille', 20, 'worker', [10,"water"], 1, "./Images/bees/water.png",  40 , "water", None),
 		]
 #fighter_bee('fighter', 20, 'fighter', [20,"honey"], 1, "./Images/diobrando.jpg", 20)

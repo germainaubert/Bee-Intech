@@ -80,9 +80,9 @@ class window():
                 jaj = pygame.Surface.copy(self._surface) # pour éviter la shadow copie de l'enfer
                 
                 if self._live == "management":
-                    live_surface, self._bee_quantity, self._display._button_dic, self._alert, self._scroll_y = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y, self._territory)
+                    live_surface, self._bee_quantity, self._display._button_dic, self._alert, self._scroll_y = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y, self._territory, self._hive._territories)
                 elif self._live == "shop":
-                    live_surface, self._bee_quantity, self._display._button_dic, self._first_call, self._alert, self._scroll_y = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y, self._territory) # prend event en parametre pour permettre l'input
+                    live_surface, self._bee_quantity, self._display._button_dic, self._first_call, self._alert, self._scroll_y = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y, self._territory, self._hive._territories) # prend event en parametre pour permettre l'input
                 elif self._live == "fight_menu":
                     if self._alert == "attack":
                         flag = who_won(self._hive, self._territory, self._hive._territories)
@@ -90,24 +90,24 @@ class window():
                             self._alert = "victory"
                             self._hive.get_territory(self._territory)
                             print("victoire")
-                            live_surface, self._display._button_dic, self._first_call, self._alert = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y, self._territory)
+                            live_surface, self._display._button_dic, self._first_call, self._alert = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y, self._territory, self._hive._territories)
                         elif flag == "notgood":
                             print("cant win")
                             self._alert = "cant_win"
-                            live_surface, self._display._button_dic, self._first_call, self._alert = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y, self._territory)
-                        elif flag == "mine":
-                            self._alert = "mine"
-                            live_surface, self._display._button_dic, self._first_call, self._alert = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y, self._territory)
+                            live_surface, self._display._button_dic, self._first_call, self._alert = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y, self._territory, self._hive._territories)
+                        # elif flag == "mine":
+                        #     self._alert = "mine"
+                        #     live_surface, self._display._button_dic, self._first_call, self._alert = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y, self._territory)
                     else:
-                        live_surface, self._display._button_dic, self._first_call, self._alert = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y, self._territory)
+                        live_surface, self._display._button_dic, self._first_call, self._alert = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y, self._territory, self._hive._territories)
 
                 elif self._live == "menu":
-                    live_surface, self._display._button_dic = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y, self._territory)
+                    live_surface, self._display._button_dic = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y, self._territory, self._hive._territories)
                 elif self._live == "up":
-                    live_surface, self._scroll_y, self._display._button_dic = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y, self._territory)
+                    live_surface, self._scroll_y, self._display._button_dic = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y, self._territory, self._hive._territories)
                 else: 
 
-                    live_surface = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y, self._territory)
+                    live_surface = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y, self._territory, self._hive._territories)
                 
                 self._window.blit(pygame.transform.scale(live_surface, (self._w, self._h)), (0,0)) # transforme l'image selon la résolution de l'image
 
@@ -265,6 +265,7 @@ class window():
                         for button in self._display._button_dic["ennemy_ter"]:
                             if button.is_over(event.pos):
                                 self._territory = button._text
+                                print('window', self._territory)
                                 self._first_call = True
                     if "confirm" in self._display._button_dic:
                         if self._display._button_dic["confirm"].is_over(event.pos):

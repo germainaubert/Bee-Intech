@@ -20,7 +20,7 @@ class live_display():
         self._hive = hive
         
 
-    def give_display(self, live, alert, surface, events, buttons, first_call, bees_surfaces, scroll_y, territory): # permet d'appeler la méthode de live_display correspondant à l'affichage en cours, grâce à live
+    def give_display(self, live, alert, surface, events, buttons, first_call, bees_surfaces, scroll_y, territory, hive_territories): # permet d'appeler la méthode de live_display correspondant à l'affichage en cours, grâce à live
         if live == "menu":
              return self.live_menu(surface, alert, buttons)
         elif live == "management":
@@ -28,7 +28,7 @@ class live_display():
         elif live == "shop":
             return self.live_shop(surface, events, buttons, alert, first_call, bees_surfaces, scroll_y)
         elif live == "fight_menu":
-            return self.live_fight_menu(surface, buttons, alert, first_call, territory)
+            return self.live_fight_menu(surface, buttons, alert, first_call, territory, hive_territories)
         elif live == "up":
             return self.live_up(surface, bees_surfaces, scroll_y, events, buttons)
     
@@ -41,10 +41,8 @@ class live_display():
 
         buttons['upgrade_purchase'] = up_buttons
 
-        print(up_buttons)
-
         pos_x = 400
-        pos_y = -75 # valeurs liées aux boutons de display de la bee_surface
+        pos_y = 200 # valeurs liées aux boutons de display de la bee_surface
         
         container_surface = pygame.Surface((1200, 1000), pygame.SRCALPHA)
         
@@ -54,7 +52,7 @@ class live_display():
         
         return surface, scroll_y, buttons
 
-    def live_fight_menu(self, surface, buttons, alert, first_call, sent_territory):
+    def live_fight_menu(self, surface, buttons, alert, first_call, sent_territory, hive_territories):
         
         # print(sent_territory, alert, first_call)
 
@@ -63,21 +61,21 @@ class live_display():
                 self._temp_buttons = buttons
                 first_call = False
             
-            for territory in self._hive._territories:
+            for territory in hive_territories:
                 if territory._name == sent_territory:
-                    
+                    buttons = {}
                     surface.blit(self._black_surface, (0,0))
                     font = pygame.font.SysFont('comicsans', 50)
                     msg = font.render(territory._display_name, 1, (255,255,255))
                     surface.blit(msg, (800,500))
                     msg = font.render(territory._description, 1, (255,255,255))
                     surface.blit(msg, (800,550))
-                    print(territory)
+                    
                     if territory._possession == False:
                         buttons["back"] = button((255,180,255), 950, 600, 150, 80, self._w, self._h, 'Retour', font='comicsans', sizeFont=40)
                         buttons["back"].draw_button(surface)
 
-                        buttons["attack"]: button((255,180,255), 700, 600, 150, 80, self._w, self._h, 'Attaquer', font='comicsans', sizeFont=40)
+                        buttons["attack"] = button((255,180,255), 700, 600, 150, 80, self._w, self._h, 'Attaquer', font='comicsans', sizeFont=40)
                         buttons["attack"].draw_button(surface)
                     
                     else:
@@ -89,12 +87,12 @@ class live_display():
         elif alert == "Done":
             buttons = self._temp_buttons
             alert = None
-        elif alert == "mine":
-            font = pygame.font.SysFont('comicsans', 40)
-            msg = font.render("Vous possédez déjà ce territoire", 1, (255,255,255))
-            surface.blit(msg, (700,550))
-            buttons = {"confirm" : button((255,180,255), 700, 600, 150, 80, self._w, self._h, 'Retourner sur la carte', font='comicsans', sizeFont=40)}
-            buttons["confirm"].draw_button(surface)
+        # elif alert == "mine":
+        #     font = pygame.font.SysFont('comicsans', 40)
+        #     msg = font.render("Vous possédez déjà ce territoire", 1, (255,255,255))
+        #     surface.blit(msg, (700,550))
+        #     buttons = {"confirm" : button((255,180,255), 700, 600, 150, 80, self._w, self._h, 'Retourner sur la carte', font='comicsans', sizeFont=40)}
+        #     buttons["confirm"].draw_button(surface)
         elif alert == "victory":
             
             surface.blit(self._black_surface, (0,0))
@@ -268,7 +266,8 @@ class live_display():
     def scroll(self, surface, events, y, max_y):
         buttons = surface['buttons']
         surface = surface['surface']
-        
+        for button in buttons:
+            print(button._x, button._y)
         pixels = 40
         for event in events:
             if event.type == MOUSEBUTTONDOWN and event.button == 5: # vers le haut

@@ -1,11 +1,12 @@
 
 def who_won(hive, territory, territories): # retourne true si victoire, false si défaite
-    print(hive._bees)
     for terr in territories:
         if terr._name == territory:
             territory = terr
             break
+    #print(territory._name)
     if territory._possession == False:
+        
         bees = hive._bees
         tot_strength = 0
         for bee in bees:
@@ -16,4 +17,5 @@ def who_won(hive, territory, territories): # retourne true si victoire, false si
         else:
             return "notgood"
     else:
+        
         return "mine"
