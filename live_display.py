@@ -311,12 +311,12 @@ class live_display():
             texte = self.translate_ressources(ressource)
             disp = texte + ": " + str(math.ceil(self._hive._ressource[ressource]))
             texte = self.text_rendering("comicsans", 40, disp)
-            surface.blit(texte, (x, 10))
+            surface.blit(texte, (x, 14))
             x += 300
         
         text = "Lvl: " + str(self._hive._level)
         text = self.text_rendering("comicsans", 40, text)
-        surface.blit(text, (x + 300, 10))
+        surface.blit(text, (x, 14))
         
         return surface
 

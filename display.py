@@ -31,6 +31,19 @@ class display():
 
         return surface
     
+    def standard_line(self, surface):
+        pygame.draw.rect(surface, (255, 247, 153), (0,0,1920,50))
+        pygame.draw.line(surface, (0,0,0), (0, 0), (1920, 0), 10)
+        pygame.draw.line(surface, (0,0,0), (0, 50), (1920, 50), 5)
+        pygame.draw.line(surface, (0,0,0), (0, 0), (0, 50), 10)
+        pygame.draw.line(surface, (0,0,0), (1920, 0), (1920, 50), 10)
+        pygame.draw.line(surface, (0,0,0), (290, 0), (290, 50), 3)
+        pygame.draw.line(surface, (0,0,0), (588, 0), (588, 50), 3)
+        pygame.draw.line(surface, (0,0,0), (894, 0), (894, 50), 3)
+        pygame.draw.line(surface, (0,0,0), (1190, 0), (1190, 50), 3)
+        pygame.draw.line(surface, (0,0,0), (1486, 0), (1486, 50), 3)
+        return surface
+
     def display_menu(self, w, h):
         surface = pygame.Surface((1920,1080))
         # On désinitialise nos boutons quit et launch
@@ -41,6 +54,7 @@ class display():
             "fight_menu_button" : button((212,180,0), 720, 803, 480, 75, w, h, 'Combat!', sizeFont=50),
             "quit_button" : button((212,180,0), 1720, 985, 180, 75, w, h,'Quitter', font='comicsans', sizeFont=50)
         }
+        
         #On redessine le background
         #self._background.fill((255,255,255))
         surface.blit(self._background, (0, 0))
@@ -55,6 +69,8 @@ class display():
         # Bouton Quitter
         self._button_dic['quit_button'].draw_button(surface)
         
+        surface = self.standard_line(surface)
+
         return surface
 
     # def display_fight_upgrades(self, w, h, hive):
@@ -223,9 +239,12 @@ class display():
         # for butts in surface_dic["buttons"]:
             
 
-        self._button_dic["back_button"] = button((212,180,0), 1720, 985, 180, 75, w, h,'Retour', font='comicsans', sizeFont=50)
+        self._button_dic["back_button"] = button((255,180,255), 1720, 985, 180, 75, w, h,'Retour', font='comicsans', sizeFont=50)
         
         self._button_dic["back_button"].draw_button(surface)
+
+        surface = self.standard_line(surface)
+
         return surface, surface_dic
 
     def display_map(self, w, h):
@@ -250,7 +269,7 @@ class display():
                 button((0,0,0), 317, 876, 79, 111, w, h,'RUSSIA', font='comicsans', sizeFont=50),
                 button((0,0,0), 252, 356, 193, 313, w, h,'rurales', font='comicsans', sizeFont=50)
             ],
-            "back_button" : button((212,180,0), 1720, 985, 180, 75, w, h,'Retour', font='comicsans', sizeFont=50)
+            "back_button" : button((255,180,255), 1720, 985, 180, 75, w, h,'Retour', font='comicsans', sizeFont=50)
         }
         self._button_dic["back_button"].draw_button(surface)
     
@@ -319,8 +338,7 @@ class display():
     def display_management(self, w, h, hive, scroll_y):
         surface = pygame.Surface((1920,1080))
         self._button_dic = {
-            "back_button" : button((255,180,255), 1700, 130, 180, 75, w, h, 'back', sizeFont=60),
-            "quit_button" : button((212,180,0), 1700, 20, 180, 75, w, h,'Quitter', font='comicsans', sizeFont=50),
+            "back_button" : button((255,180,255), 1720, 985, 180, 75, w, h, 'Retour', sizeFont=50),
         }
         
             
@@ -351,8 +369,9 @@ class display():
             list_bee = list(list_bee)
 
         bees_surface = self.display_management_bee(list_bee, w, h, scroll_y)
-        self._button_dic["quit_button"].draw_button(surface)
         self._button_dic["back_button"].draw_button(surface)
+
+        surface = self.standard_line(surface)
              
         return surface, bees_surface
     
@@ -495,18 +514,14 @@ class display():
         surface.blit(self._background, (0, 0))
 
         # création du texte du shop
-        font = pygame.font.SysFont('comicsans', 50)
-        print("Magasin en developpement!")
-        welcome = font.render("Bienvenue dans le magasin", 1, (0,0,0))
-        buy = font.render("Achetez des Abeilles!", 1, (0,0,0))
-        surface.blit(welcome, (150, 120))
-        surface.blit(buy, (150, 170))
+        font = pygame.font.SysFont('comicsans', 70)
+        welcome = font.render("Magasin", 1, (0,0,0))
+        surface.blit(welcome, (820, 120))
 
         #Init des boutons
         self._button_dic = {
             "buy_bee_button" : [],
-            "quit_button" : button((212,180,0), 1700, 20, 180, 75, w, h,'Quitter', font='comicsans', sizeFont=50),
-            "back_button" : button((255,180,255), 1700, 130, 180, 75, w, h, 'back', sizeFont=60)
+            "back_button" : button((255,180,255), 1720, 985, 180, 75, w, h, 'Retour', sizeFont=50)
         }
 
         # liste des surfaces
@@ -514,9 +529,10 @@ class display():
 
         # Bouton Quitter
 
-        self._button_dic["quit_button"].draw_button(surface)
         self._button_dic["back_button"].draw_button(surface)
-        # 
+    
+        surface = self.standard_line(surface)
+
         return surface, bees_surfaces
     
     
