@@ -13,6 +13,9 @@ class upgrade():
 		self._sprite = sprite
 		self._description = description
 
+	def category(self):
+		return self._category
+
 	def possession(self):
 		return self._possession
 
