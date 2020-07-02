@@ -74,7 +74,7 @@ class live_display():
             surface.blit(self._black_surface, (0,0))
 
             msg = font.render(good_up._description, 1, (255,255,255))
-            surface.blit(msg, (900,550))
+            surface.blit(msg, (700,550))
             
             buttons = {"ok": button((255,180,255), 900, 600, 150, 80, self._w, self._h, 'Ok', font='comicsans', sizeFont=40)}
             buttons["ok"].draw_button(surface)
