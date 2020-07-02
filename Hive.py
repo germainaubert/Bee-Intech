@@ -108,10 +108,10 @@ class hive():
 	def calcul_upgrades(self):
 
 		upgrades = {
-		"honey" : "production de miel",
-		"water" : "production d'eau",
-		"metal" : "production de metal" ,
-		"uranium" : "production d'uranium"
+		"honey" : "Pluie de miel",
+		"water" : "Amphibien",
+		"metal" : "Forgeron" ,
+		"uranium" : "Radioactif"
 		}
 
 		for key in upgrades:
