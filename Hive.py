@@ -148,6 +148,8 @@ class hive():
 						return 1.3
 				else:
 					return 1
+			else:
+				return 1
 
 
 	def check_territories(self):
