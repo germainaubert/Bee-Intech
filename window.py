@@ -291,7 +291,7 @@ class window():
                                 self._first_time = True
                                 for upgrade in self._hive._upgrades:
                                     if upgrade.name() == button.get()[1] and upgrade.lvl() == button.get()[2]:
-                                        self._alert = button.get()[1]
+                                        self._alert = button.get()
                     if 'upgrade_purchase' in self._display._button_dic:
                         for button in self._display._button_dic["upgrade_purchase"]: 
                             if button.is_over(event.pos):

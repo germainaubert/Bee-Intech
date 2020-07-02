@@ -128,35 +128,30 @@ class hive():
 	def calcul_upgrade_fight(self,bee):
 		
 		upgrades = {
-		# "Cogneur" : "BIM BAM BOUM",
-		# "Epéiste" : "Fine Lame",
-		# "Pistoleto" : "Pistolero",
-		# "Panpan" : "Pistolero",
-		# "TireurTueur" : "Pistolero",
-		# "Epéiste" : "Vrai ninja des rues",
-		# "Tridento" : "Vrai ninja des rues",
-		# "Cutter" : "Vrai ninja des rues",
-		# "BeeWalker" : "Vrai ninja des rues",
-		#"" : "",
-		#"" : "" ,
-		#"" : ""
+		"Cogneur" : "BIM BAM BOUM",
+		"Epéiste" : "Fine Lame",
+		"Pistoleto" : "Pistolero",
+		"Panpan" : "Pistolero",
+		"TireurTueur" : "Pistolero",
+		"Tridento" : "Vrai ninja des rues",
+		"Cutter" : "Vrai ninja des rues",
+		"BeeWalker" : "Vrai ninja des rues"
 		}
-
+		print(f"result1: {bee.name()}")
 		for key in upgrades:
+			print(f"result1: {bee.name()} et {key}")
 			if key == bee.name():
 				upgrade = self.max_lvl_upgrade(upgrades[key])
-				print(f"result: {upgrade}")
+				#print(f"result: {upgrade}")
 				if upgrade != None:
 					if upgrade.lvl() == 1:
-						return 1.1
+						return 1.2
 					elif upgrade.lvl() == 2:
-						return 1.2					
+						return 1.5					
 					elif upgrade.lvl() == 3:
-						return 1.3
+						return 2
 				else:
 					return 1
-			else:
-				return 1
 
 
 	def check_territories(self):
