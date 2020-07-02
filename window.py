@@ -284,11 +284,17 @@ class window():
                         if self._display._button_dic["back"].is_over(event.pos):
                             self._alert = None
                             self._territory = None
+                    if 'desc' in self._display._button_dic:
+                        for button in self._display._button_dic['desc']:
+                            if button.is_over(event.pos): 
+                                for upgrade in self._hive._upgrades:
+                                    if upgrade.name() == button.get()[1] and upgrade.lvl() == button.get()[2]:
+                                        print(f"description: {upgrade.description()}")
                     if 'upgrade_purchase' in self._display._button_dic:
                         for button in self._display._button_dic["upgrade_purchase"]: 
                             if button.is_over(event.pos):
                                 if button.get() != None:
-                                    for upgrade in self._hive.upgrades():
+                                    for upgrade in self._hive.upgrades():                                            
                                         if upgrade.name() == button.get()[0] and upgrade.lvl() == button.get()[1]:
                                             if self._hive.check_purchase_upgrade(upgrade):
                                                 self._hive.buy_upgrade(upgrade)
