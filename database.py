@@ -104,7 +104,7 @@ class database():
             self._ressource = tuple(self._ressource)
             self._prod = tuple(self._prod)
 
-            cur.execute("SELECT Nom, Niveau, Niveau_Requis, Cout, Ressource_Prix, Categorie, Possession, x, y FROM amelioration WHERE ruche_id = 1")
+            cur.execute("SELECT Nom, Niveau, Niveau_Requis, Cout, Ressource_Prix, Categorie, Possession, x, y, Sprite, Description FROM amelioration WHERE ruche_id = 1")
             rows = cur.fetchall()
             print("upgrades :")
             for row in rows:
@@ -118,12 +118,14 @@ class database():
                 possession = row[6]
                 x = row[7]
                 y = row [8]
+                Sprite = row[9]
+                Description = row[10]
                 if possession == 0:
                     possession = False
                 else:
                     possession = True
                 print(possession)
-                self._upgrades.append(upgrade(name, lvl, required_level, [ressource_price,price], category, possession, (x,y),"chong","./Images/bak.jpg"))
+                self._upgrades.append(upgrade(name, lvl, required_level, [ressource_price,price], category, possession, (x,y), Description, Sprite))
                 print(self._upgrades)
             cur.execute("SELECT Nom, Niveau_Requis, Numero, Ressource, Espace, Possession, Nom_Affichage, Description, Force FROM territoires")
             rows = cur.fetchall()

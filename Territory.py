@@ -1,8 +1,7 @@
 
 class territory():
 
-	def __init__(self, name = None, lvl_require = 0 , number = 0, ressource = None, space = 0, bees = [], strength = 10, possession = False, display_name = '', description = '', 
-reward = {} ):
+	def __init__(self, name = None, lvl_require = 0 , number = 0, ressource = None, space = 0, bees = [], strength = 10, possession = False, display_name = '', description = ''):
 		self._name = name
 		self._lvl_require = lvl_require
 		self._number = number
@@ -13,7 +12,6 @@ reward = {} ):
 		self._possession = possession
 		self._display_name = display_name
 		self._description = description
-		self._reward = reward
 
 	def ressource(self):
 		return self._ressource
