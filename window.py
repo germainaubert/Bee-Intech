@@ -104,7 +104,7 @@ class window():
                 elif self._live == "menu":
                     live_surface, self._display._button_dic = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y, self._territory, self._hive._territories)
                 elif self._live == "up":
-                    live_surface, self._scroll_y, self._display._button_dic = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y, self._territory, self._hive._territories)
+                    live_surface, self._scroll_y, self._display._button_dic, self._alert, self._first_call = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y, self._territory, self._hive._territories)
                 else: 
 
                     live_surface = self._live_display.give_display(self._live, self._alert, jaj, events, self._display._button_dic, self._first_call, self._bees_surfaces, self._scroll_y, self._territory, self._hive._territories)
@@ -119,7 +119,6 @@ class window():
                 self._bee_quantity = int(self._bee_quantity)
             
             # ------------------------
-            
             
             pygame.display.flip()
             run = self.event_handler(events)
@@ -231,11 +230,7 @@ class window():
                         for button in self._display._button_dic["upgrade_purchase"]:
                             if button.is_over(event.pos):
                                 print("c cool")
-                    if "desc" in self._display._button_dic:
-                        for button in self._display._button_dic["desc"]:
-                            if button.is_over(event.pos):
-                                print("JAJOAJOAJOA")
-                                print("a")
+                    
                     # Shop_ALERT
                     if "cant_buy_alert" in self._display._button_dic:
                         if self._display._button_dic["cant_buy_alert"].is_over(event.pos):
@@ -285,12 +280,18 @@ class window():
                         if self._display._button_dic["back"].is_over(event.pos):
                             self._alert = None
                             self._territory = None
+                            self._first_time = True
+                    if "ok" in self._display._button_dic:
+                        if self._display._button_dic["ok"].is_over(event.pos):
+                            self._alert = None
+                            self._first_call = False
                     if 'desc' in self._display._button_dic:
                         for button in self._display._button_dic['desc']:
-                            if button.is_over(event.pos): 
+                            if button.is_over(event.pos):   
+                                self._first_time = True
                                 for upgrade in self._hive._upgrades:
                                     if upgrade.name() == button.get()[1] and upgrade.lvl() == button.get()[2]:
-                                        print(f"description: {upgrade.description()}")
+                                        self._alert = button.get()[1]
                     if 'upgrade_purchase' in self._display._button_dic:
                         for button in self._display._button_dic["upgrade_purchase"]: 
                             if button.is_over(event.pos):
