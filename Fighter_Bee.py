@@ -7,6 +7,3 @@ class fighter_bee(bee):
 
 		super().__init__( name, cost, category, price ,required_level, sprite)
 		self._strength = strength
-
-	def strength(self):
-		return self._strength

@@ -39,7 +39,14 @@ class live_display():
     
         surface = self.display_ressources(surface)
 
-        buttons['upgrade_purchase'] = up_buttons
+        buttons['upgrade_purchase'] = []
+        buttons['desc'] = []
+
+        for but in up_buttons:
+            if but._text == "Description":
+                buttons['desc'].append(but)
+            else:
+                buttons['upgrade_purchase'].append(but)
 
         pos_x = 400
         pos_y = 200 # valeurs liées aux boutons de display de la bee_surface
@@ -149,7 +156,7 @@ class live_display():
 
         surface = self.display_ressources(surface)
 
-        pos_x = 80
+        pos_x = 400
         pos_y = 250
         
         container_surface = pygame.Surface((1500, 850), pygame.SRCALPHA)
@@ -215,7 +222,7 @@ class live_display():
                 surface.blit(self._black_surface, (0,0))
                 input_surface = pygame.Surface((400, 80))
                 input_surface.fill(pygame.Color('White'))
-                input_surface.blit(self._shop_input.get_surface(), (180,27))
+                input_surface.blit(self._shop_input.get_surface(), (100,35))
                 
                 
                 
@@ -266,8 +273,6 @@ class live_display():
     def scroll(self, surface, events, y, max_y):
         buttons = surface['buttons']
         surface = surface['surface']
-        for button in buttons:
-            print(button._x, button._y)
         pixels = 40
         for event in events:
             if event.type == MOUSEBUTTONDOWN and event.button == 5: # vers le haut
@@ -306,12 +311,12 @@ class live_display():
             texte = self.translate_ressources(ressource)
             disp = texte + ": " + str(math.ceil(self._hive._ressource[ressource]))
             texte = self.text_rendering("comicsans", 40, disp)
-            surface.blit(texte, (x, 10))
+            surface.blit(texte, (x, 14))
             x += 300
         
         text = "Lvl: " + str(self._hive._level)
         text = self.text_rendering("comicsans", 40, text)
-        surface.blit(text, (x + 300, 10))
+        surface.blit(text, (x, 14))
         
         return surface
 
