@@ -125,6 +125,29 @@ class hive():
 				elif upgrade.lvl() == 3:
 					self._prod[key]= self._prod[key]*1.3
 
+	def calcul_upgrade_fight(self,bee):
+		
+		upgrades = {
+		"Combattante basique" : "Combattant",
+		"Epéiste" : "Epéiste"
+		#"" : "",
+		#"" : "" ,
+		#"" : ""
+		}
+
+		for key in upgrades:
+			if key == bee.name():
+				upgrade = self.max_lvl_upgrade(upgrades[key])
+				print(f"result: {upgrade}")
+				if upgrade != None:
+					if upgrade.lvl() == 1:
+						return 1.1
+					elif upgrade.lvl() == 2:
+						return 1.2					
+					elif upgrade.lvl() == 3:
+						return 1.3
+				else:
+					return 1
 
 
 	def check_territories(self):

@@ -305,7 +305,7 @@ class window():
                                                 self._live = "up"
                                                 self._scroll_y = 0
                                                 self._display._button_dic = {}
-                                                self._surface, self._bees_surfaces = self._display.display_upgrades(self._w, self._h, self._hive, "hive")
+                                                self._surface, self._bees_surfaces = self._display.display_upgrades(self._w, self._h, self._hive, button.get()[2])
 
 
  

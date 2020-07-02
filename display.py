@@ -173,7 +173,7 @@ class display():
                         surface_dic["buttons"].append(button_temp)
                         button_temp.draw_button(surface_dic["surface"][cpt])
                     else:
-                        button_temp = button((212,180,0), x, 450, 300, 75, w, h, "Acheter", font='comicsans', sizeFont=50, get = [upgrade.name(),upgrade.lvl()])
+                        button_temp = button((212,180,0), x, 450, 300, 75, w, h, "Acheter", font='comicsans', sizeFont=50, get = [upgrade.name(),upgrade.lvl(),upgrade.category()])
                         surface_dic["buttons"].append(button_temp)
                         button_temp.draw_button(surface_dic["surface"][cpt])
 
@@ -379,7 +379,7 @@ class display():
         for bee in hive._bees:
             if bee._category == "fighter":
                 nbr_fighter += 1
-                tot_strength += bee._strength
+                tot_strength = tot_strength + bee._strength * hive.calcul_upgrade_fight(bee)
 
         nbr_worker = len(hive._bees) - nbr_fighter
 
@@ -389,7 +389,7 @@ class display():
         worker = font.render("Ouvrières: " + str(nbr_worker), 1, (0,0,0))
         surface.blit(worker, (1050, 70))
 
-        strength = font.render("Force d'armée: " + str(tot_strength), 1, (0,0,0))
+        strength = font.render("Force d'armée: " + str(int(tot_strength)), 1, (0,0,0))
         surface.blit(strength, (1450, 70))
 
 
