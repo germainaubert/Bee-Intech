@@ -1,4 +1,3 @@
-
 def who_won(hive, territory, territories): # retourne true si victoire, false si défaite
     for terr in territories:
         if terr._name == territory:

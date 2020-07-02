@@ -73,7 +73,7 @@ class hive():
 		self.calcul_prod()
 		return bee
 
-	def calcul_territory_sapce(self):
+	def calcul_territory_space(self):
 
 		space = {"honey" : [0,0], "water" : [0,0], "metal" : [0,0],"uranium" : [0,0],"pollen" : [0,0]}
 
