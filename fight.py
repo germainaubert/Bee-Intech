@@ -14,6 +14,9 @@ def who_won(hive, territory, territories): # retourne true si victoire, false si
                 tot_strength = tot_strength + bee._strength * hive.calcul_upgrade_fight(bee)
         print(f"force {tot_strength} ")
         if tot_strength > territory._strength:
+            hive._ressource[territory.ressource()] += territory.strength()
+            hive._ressource["pollen"] += territory.strength()
+            hive._level += 1
             return "good"
         else:
             return "notgood"

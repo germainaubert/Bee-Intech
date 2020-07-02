@@ -30,9 +30,9 @@ class live_display():
         elif live == "fight_menu":
             return self.live_fight_menu(surface, buttons, alert, first_call, territory, hive_territories)
         elif live == "up":
-            return self.live_up(surface, bees_surfaces, scroll_y, events, buttons)
+            return self.live_up(surface, bees_surfaces, scroll_y, events, buttons, alert, first_call)
     
-    def live_up(self, surface, bees_surfaces, scroll_y, events, buttons):
+    def live_up(self, surface, bees_surfaces, scroll_y, events, buttons, alert, first_time):
         max_y = 950
         scroll_surface, up_buttons, scroll_y = self.scroll(bees_surfaces, events, scroll_y, max_y)
         #positionner correctement purchase buttons
@@ -56,8 +56,38 @@ class live_display():
         container_surface.blit(scroll_surface, (0, scroll_y))
 
         surface.blit(container_surface, (pos_x, pos_y))
+
+        good_up = None
+
+        font = pygame.font.SysFont('comicsans', 50)
+
+        print("DEBUT", alert, first_time)
+
+        if alert != None:
+            if first_time == True:
+                self._temp_buttons = buttons
+                first_time = False
+            for up in self._hive._upgrades:
+                if up._name == alert:
+                    good_up = up
+
+            surface.blit(self._black_surface, (0,0))
+
+            msg = font.render(good_up._description, 1, (255,255,255))
+            surface.blit(msg, (900,550))
+            
+            buttons = {"ok": button((255,180,255), 900, 600, 150, 80, self._w, self._h, 'Ok', font='comicsans', sizeFont=40)}
+            buttons["ok"].draw_button(surface)
+        elif alert == None and first_time == False:
+            buttons = {}
+            buttons = self._temp_buttons
+            first_time = True
+
         
-        return surface, scroll_y, buttons
+
+        
+        
+        return surface, scroll_y, buttons, alert, first_time
 
     def live_fight_menu(self, surface, buttons, alert, first_call, sent_territory, hive_territories):
         
