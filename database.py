@@ -37,7 +37,7 @@ class database():
         cur.execute("UPDATE ressources SET Quantite = 0, Production = 0 WHERE nom = 'pollen'")
         conn.commit()
 
-        cur.execute("UPDATE territoires SET Possession = 0 where id != 1 AND id != 2")
+        cur.execute("UPDATE territoires SET Possession = 0 where id != 1 AND id != 14")
         conn.commit()
         
         cur.execute("UPDATE amelioration SET Possession = 0")
