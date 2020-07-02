@@ -156,7 +156,7 @@ class live_display():
 
         surface = self.display_ressources(surface)
 
-        pos_x = 400
+        pos_x = 80
         pos_y = 250
         
         container_surface = pygame.Surface((1500, 850), pygame.SRCALPHA)
@@ -222,7 +222,7 @@ class live_display():
                 surface.blit(self._black_surface, (0,0))
                 input_surface = pygame.Surface((400, 80))
                 input_surface.fill(pygame.Color('White'))
-                input_surface.blit(self._shop_input.get_surface(), (100,35))
+                input_surface.blit(self._shop_input.get_surface(), (180,27))
                 
                 
                 
