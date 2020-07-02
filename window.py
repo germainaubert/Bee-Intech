@@ -289,7 +289,9 @@ class window():
                             if button.is_over(event.pos):
                                 if button.get() != None:
                                     for upgrade in self._hive.upgrades():
-                                        if upgrade.name() == button.get()[0] and upgrade.lvl() == button.get()[1]:
+                                        if button.get()[0] == "description":
+                                            prnit("description")
+                                        elif upgrade.name() == button.get()[0] and upgrade.lvl() == button.get()[1]:
                                             if self._hive.check_purchase_upgrade(upgrade):
                                                 self._hive.buy_upgrade(upgrade)
                                                 upgrade.purchase_upgrade()

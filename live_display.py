@@ -39,14 +39,7 @@ class live_display():
     
         surface = self.display_ressources(surface)
 
-        buttons['upgrade_purchase'] = []
-        buttons['desc'] = []
-
-        for but in up_buttons:
-            if but._text == "Description":
-                buttons['desc'].append(but)
-            else:
-                buttons['upgrade_purchase'].append(but)
+        buttons['upgrade_purchase'] = up_buttons
 
         pos_x = 400
         pos_y = 200 # valeurs liées aux boutons de display de la bee_surface
@@ -273,6 +266,8 @@ class live_display():
     def scroll(self, surface, events, y, max_y):
         buttons = surface['buttons']
         surface = surface['surface']
+        for button in buttons:
+            print(button._x, button._y)
         pixels = 40
         for event in events:
             if event.type == MOUSEBUTTONDOWN and event.button == 5: # vers le haut
@@ -311,12 +306,12 @@ class live_display():
             texte = self.translate_ressources(ressource)
             disp = texte + ": " + str(math.ceil(self._hive._ressource[ressource]))
             texte = self.text_rendering("comicsans", 40, disp)
-            surface.blit(texte, (x, 14))
+            surface.blit(texte, (x, 10))
             x += 300
         
         text = "Lvl: " + str(self._hive._level)
         text = self.text_rendering("comicsans", 40, text)
-        surface.blit(text, (x, 14))
+        surface.blit(text, (x + 300, 10))
         
         return surface
 
