@@ -13,6 +13,8 @@ class shop():
 		fighter_bee('Combattante basique', 10, 'fighter', [10,"honey"], 1, "./Images/bees/punch.png",  10),
 		fighter_bee('Epéiste', 20, 'fighter', [10,"honey"], 1, "./Images/bees/sword.png",  30),
 		worker_bee('Aquabeille', 20, 'worker', [10,"water"], 1, "./Images/bees/water.png",  40 , "water", None),
+		worker_bee('Metabeille', 20, 'worker', [10,"metal"], 1, "./Images/bees/metal.png",  40 , "metal", None),
+		worker_bee('Urabeille', 20, 'worker', [10,"uranium"], 1, "./Images/bees/uranium.png",  40 , "uranium", None),
 		]
 #fighter_bee('fighter', 20, 'fighter', [20,"honey"], 1, "./Images/diobrando.jpg", 20)
 		# liste des upgrades dans le shop
