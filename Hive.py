@@ -108,10 +108,10 @@ class hive():
 	def calcul_upgrades(self):
 
 		upgrades = {
-		"honey" : "production de miel",
-		"water" : "production d'eau",
-		"metal" : "production de metal" ,
-		"uranium" : "production d'uranium"
+		"honey" : "Pluie de miel",
+		"water" : "Amphibien",
+		"metal" : "Forgeron" ,
+		"uranium" : "Radioactif"
 		}
 
 		for key in upgrades:
@@ -128,8 +128,15 @@ class hive():
 	def calcul_upgrade_fight(self,bee):
 		
 		upgrades = {
-		"Combattante basique" : "Combattant",
-		"Epéiste" : "Epéiste"
+		# "Cogneur" : "BIM BAM BOUM",
+		# "Epéiste" : "Fine Lame",
+		# "Pistoleto" : "Pistolero",
+		# "Panpan" : "Pistolero",
+		# "TireurTueur" : "Pistolero",
+		# "Epéiste" : "Vrai ninja des rues",
+		# "Tridento" : "Vrai ninja des rues",
+		# "Cutter" : "Vrai ninja des rues",
+		# "BeeWalker" : "Vrai ninja des rues",
 		#"" : "",
 		#"" : "" ,
 		#"" : ""

@@ -422,6 +422,7 @@ class display():
         for bee in hive._bees:
             if bee._category == "fighter":
                 nbr_fighter += 1
+                print(hive.calcul_upgrade_fight(bee))
                 tot_strength = tot_strength + bee._strength * hive.calcul_upgrade_fight(bee)
 
         nbr_worker = len(hive._bees) - nbr_fighter
