@@ -309,24 +309,25 @@ class display():
             surface_dic['surface'][indice].blit(quantity, (x, 300))
             if bees[i][0].category() == "worker":
                 tot_prod = bees[i][0].prod() * bees[i][1]
-                prod = font.render("Production totale: " + str(tot_prod) + "    /s" , 1, (0,0,0))
+                prod = font.render("PT: " + str(tot_prod) + "    /s" , 1, (0,0,0))
                 surface_dic['surface'][indice].blit(prod, (x, 350))
 
                 if bees[i][0].ressource() == "honey":
                     image = pygame.image.load("./Images/honey.png")
-                    surface_dic['surface'][indice].blit(pygame.transform.scale(image, (45, 45)), ( x + 305 + 20*len(str(tot_prod)), 343))
+                    surface_dic['surface'][indice].blit(pygame.transform.scale(image, (45, 45)), ( x + 55 + 21*len(str(tot_prod)), 343))
                 elif bees[i][0].ressource() == "water":
                     image = pygame.image.load("./Images/water.png")
-                    surface_dic['surface'][indice].blit(pygame.transform.scale(image, (30, 30)), ( x + 210 + 20*len(str(bees[i][0].prod())), 300 ))
+                    surface_dic['surface'][indice].blit(pygame.transform.scale(image, (30, 30)), ( x + 65 + 21*len(str(bees[i][0].prod())), 300 ))
                 elif bees[i][0].ressource() == "metal":
                     image = pygame.image.load("./Images/metal.png")
-                    surface_dic['surface'][indice].blit(pygame.transform.scale(image, (30, 30)), ( x + 210 + 20*len(str(bees[i][0].prod())), 300 ))
+                    surface_dic['surface'][indice].blit(pygame.transform.scale(image, (30, 30)), ( x + 65 + 21*len(str(bees[i][0].prod())), 300 ))
                 elif bees[i][0].ressource() == "uranium":
                     image = pygame.image.load("./Images/uranium.png")
-                    surface_dic['surface'][indice].blit(pygame.transform.scale(image, (30, 30)), ( x + 210 + 20*len(str(bees[i][0].prod())), 300 ))
+                    surface_dic['surface'][indice].blit(pygame.transform.scale(image, (30, 30)), ( x + 65 + 21*len(str(bees[i][0].prod())), 300 ))
                 elif bees[i].ressource() == "pollen":
                     image = pygame.image.load("./Images/pollen.png")
-                    surface_dic['surface'][indice].blit(pygame.transform.scale(image, (30, 30)), ( x + 210 + 20*len(str(bees[i].prod())), 300 ))
+                    surface_dic['surface'][indice].blit(pygame.transform.scale(image, (30, 30)), ( x + 65 + 21*len(str(bees[i].prod())), 300 ))
+
             # boutons
             bouton = button((212,180,0), x, 450, 390, 75, w, h,'Supprimer', font='comicsans', sizeFont=50, get=bees[i][0]._name)
             surface_dic['buttons'].append(bouton)
@@ -412,6 +413,12 @@ class display():
         self._button_dic["back_button"].draw_button(surface)
 
         surface = self.standard_line(surface)
+
+        font = pygame.font.SysFont('comicsans', 30)
+
+        PT = font.render("PT: Production totale", 1, (0,0,0))
+        surface.blit(PT, (10, 120))
+        
              
         return surface, bees_surface
     
@@ -444,74 +451,75 @@ class display():
             image = pygame.image.load(bees[i]._sprite)
             surface_dic['surface'][indice].blit(image, (x, 30))
 
-            # prix
 
+            if bees[i]._price[1] == "honey":
+                image = pygame.image.load("./Images/honey.png")
+                surface_dic['surface'][indice].blit(pygame.transform.scale(image, (45, 45)), ( x + 65 + 21*len(str(bees[i].cost())), 343 ))
+            elif bees[i].ressource() == "water":
+                image = pygame.image.load("./Images/water.png")
+                surface_dic['surface'][indice].blit(pygame.transform.scale(image, (30, 30)), ( x + 75 + 21*len(str(bees[i].cost())), 350 ))
+            elif bees[i].ressource() == "metal":
+                image = pygame.image.load("./Images/metal.png")
+                surface_dic['surface'][indice].blit(pygame.transform.scale(image, (30, 30)), ( x + 295 + 21*len(str(bees[i].cost())), 350 ))
+            elif bees[i].ressource() == "uranium":
+                image = pygame.image.load("./Images/uranium.png")
+                surface_dic['surface'][indice].blit(pygame.transform.scale(image, (30, 30)), ( x + 295 + 21*len(str(bees[i].cost())), 350 ))
+            elif bees[i].ressource() == "pollen":
+                image = pygame.image.load("./Images/pollen.png")
+                surface_dic['surface'][indice].blit(pygame.transform.scale(image, (30, 30)), ( x + 295 + 21*len(str(bees[i].cost())), 350 ))   
+
+            cost = font.render("CE: " + str(bees[i].cost()) , 1, (0,0,0))
+            surface_dic['surface'][indice].blit(cost, (x, 350)) 
+
+            if bees[i]._price[1] == "honey":
+                image = pygame.image.load("./Images/honey.png")
+                surface_dic['surface'][indice].blit(pygame.transform.scale(image, (45, 45)), ( x + 85 + 22*len(str(bees[i]._price[0])), 393 ))
+            elif bees[i].ressource() == "water":
+                image = pygame.image.load("./Images/water.png")
+                surface_dic['surface'][indice].blit(pygame.transform.scale(image, (30, 30)), ( x + 90 + 22*len(str(bees[i]._price[0])), 400 ))
+            elif bees[i].ressource() == "metal":
+                image = pygame.image.load("./Images/metal.png")
+                surface_dic['surface'][indice].blit(pygame.transform.scale(image, (30, 30)), ( x + 90 + 22*len(str(bees[i]._price[0])), 400 ))
+            elif bees[i].ressource() == "uranium":
+                image = pygame.image.load("./Images/uranium.png")
+                surface_dic['surface'][indice].blit(pygame.transform.scale(image, (30, 30)), ( x + 90 + 22*len(str(bees[i]._price[0])), 400 ))
+            elif bees[i].ressource() == "pollen":
+                image = pygame.image.load("./Images/pollen.png")
+                surface_dic['surface'][indice].blit(pygame.transform.scale(image, (30, 30)), ( x + 90 + 22*len(str(bees[i]._price[0])), 400 ))
+
+            prix = font.render( "Prix: " + str(bees[i]._price[0]), 1, (0,0,0))
+            surface_dic['surface'][indice].blit(prix, (x, 400))
+        
             if bees[i].category() == "worker":
                 prod = font.render("Production: " + str(bees[i].prod()) + "    /s" , 1, (0,0,0))
                 surface_dic['surface'][indice].blit(prod, (x, 300))
 
                 if bees[i].ressource() == "honey":
                     image = pygame.image.load("./Images/honey.png")
-                    surface_dic['surface'][indice].blit(pygame.transform.scale(image, (45, 45)), ( x + 200 + 20*len(str(bees[i].prod())), 293 ))
+                    surface_dic['surface'][indice].blit(pygame.transform.scale(image, (45, 45)), ( x + 200 + 21*len(str(bees[i].prod())), 293 ))
                 elif bees[i].ressource() == "water":
                     image = pygame.image.load("./Images/water.png")
-                    surface_dic['surface'][indice].blit(pygame.transform.scale(image, (30, 30)), ( x + 210 + 20*len(str(bees[i].prod())), 300 ))
+                    surface_dic['surface'][indice].blit(pygame.transform.scale(image, (30, 30)), ( x + 210 + 21*len(str(bees[i].prod())), 300 ))
                 elif bees[i].ressource() == "metal":
                     image = pygame.image.load("./Images/metal.png")
-                    surface_dic['surface'][indice].blit(pygame.transform.scale(image, (30, 30)), ( x + 210 + 20*len(str(bees[i].prod())), 300 ))
+                    surface_dic['surface'][indice].blit(pygame.transform.scale(image, (30, 30)), ( x + 210 + 21*len(str(bees[i].prod())), 300 ))
                 elif bees[i].ressource() == "uranium":
                     image = pygame.image.load("./Images/uranium.png")
-                    surface_dic['surface'][indice].blit(pygame.transform.scale(image, (30, 30)), ( x + 210 + 20*len(str(bees[i].prod())), 300 ))
+                    surface_dic['surface'][indice].blit(pygame.transform.scale(image, (30, 30)), ( x + 210 + 21*len(str(bees[i].prod())), 300 ))
                 elif bees[i].ressource() == "pollen":
                     image = pygame.image.load("./Images/pollen.png")
-                    surface_dic['surface'][indice].blit(pygame.transform.scale(image, (30, 30)), ( x + 210 + 20*len(str(bees[i].prod())), 300 ))
+                    surface_dic['surface'][indice].blit(pygame.transform.scale(image, (30, 30)), ( x + 210 + 21*len(str(bees[i].prod())), 300 ))
 
 
-                if bees[i]._price[1] == "honey":
-                    image = pygame.image.load("./Images/honey.png")
-                    surface_dic['surface'][indice].blit(pygame.transform.scale(image, (45, 45)), ( x + 80 + 20*len(str(bees[i]._price[0])), 393 ))
-                elif bees[i].ressource() == "water":
-                    image = pygame.image.load("./Images/water.png")
-                    surface_dic['surface'][indice].blit(pygame.transform.scale(image, (30, 30)), ( x + 90 + 20*len(str(bees[i]._price[0])), 400 ))
-                elif bees[i].ressource() == "metal":
-                    image = pygame.image.load("./Images/metal.png")
-                    surface_dic['surface'][indice].blit(pygame.transform.scale(image, (30, 30)), ( x + 90 + 20*len(str(bees[i]._price[0])), 400 ))
-                elif bees[i].ressource() == "uranium":
-                    image = pygame.image.load("./Images/uranium.png")
-                    surface_dic['surface'][indice].blit(pygame.transform.scale(image, (30, 30)), ( x + 90 + 20*len(str(bees[i]._price[0])), 400 ))
-                elif bees[i].ressource() == "pollen":
-                    image = pygame.image.load("./Images/pollen.png")
-                    surface_dic['surface'][indice].blit(pygame.transform.scale(image, (30, 30)), ( x + 90 + 20*len(str(bees[i]._price[0])), 400 ))
-
-                cost = font.render("Coût d'entretien: " + str(bees[i].cost()) , 1, (0,0,0))
-                surface_dic['surface'][indice].blit(cost, (x, 350))
-
-                prix = font.render( "Prix: " + str(bees[i]._price[0]), 1, (0,0,0))
-                surface_dic['surface'][indice].blit(prix, (x, 400))
+                
             
             elif bees[i].category() == "fighter":
 
-                if bees[i]._price[1] == "honey":
-                    image = pygame.image.load("./Images/honey.png")
-                    surface_dic['surface'][indice].blit(pygame.transform.scale(image, (45, 45)), ( x + 80 + 20*len(str(bees[i]._price[0])), 393 ))
-                elif bees[i].ressource() == "water":
-                    image = pygame.image.load("./Images/water.png")
-                    surface_dic['surface'][indice].blit(pygame.transform.scale(image, (30, 30)), ( x + 90 + 20*len(str(bees[i]._price[0])), 400 ))
-                elif bees[i].ressource() == "metal":
-                    image = pygame.image.load("./Images/metal.png")
-                    surface_dic['surface'][indice].blit(pygame.transform.scale(image, (30, 30)), ( x + 90 + 20*len(str(bees[i]._price[0])), 400 ))
-                elif bees[i].ressource() == "uranium":
-                    image = pygame.image.load("./Images/uranium.png")
-                    surface_dic['surface'][indice].blit(pygame.transform.scale(image, (30, 30)), ( x + 90 + 20*len(str(bees[i]._price[0])), 400 ))
-                elif bees[i].ressource() == "pollen":
-                    image = pygame.image.load("./Images/pollen.png")
-                    surface_dic['surface'][indice].blit(pygame.transform.scale(image, (30, 30)), ( x + 90 + 20*len(str(bees[i]._price[0])), 400 ))
+                image = pygame.image.load("./Images/sword.png")
+                surface_dic['surface'][indice].blit(pygame.transform.scale(image, (30, 30)), ( x + 92 + 21*len(str(bees[i].strength())), 300 )) 
 
-                strength = font.render("Points de combats: " + str(bees[i].strength()) , 1, (0,0,0))
+                strength = font.render("PDC: " + str(bees[i].strength()) , 1, (0,0,0))
                 surface_dic['surface'][indice].blit(strength, (x, 300))
-
-                cost = font.render("Coût d'entretien: " + str(bees[i].cost()) , 1, (0,0,0))
-                surface_dic['surface'][indice].blit(cost, (x, 350))
 
                 prix = font.render( "Prix: " + str(bees[i]._price[0]), 1, (0,0,0))
                 surface_dic['surface'][indice].blit(prix, (x, 400))
@@ -572,6 +580,12 @@ class display():
         self._button_dic["back_button"].draw_button(surface)
     
         surface = self.standard_line(surface)
+
+        font = pygame.font.SysFont('comicsans', 30)
+        PDC = font.render("PDC: point de combat", 1, (0,0,0))
+        surface.blit(PDC, (10, 80))
+        CE = font.render("CE: Coût d'entretien", 1, (0,0,0))
+        surface.blit(CE, (10, 100))
 
         return surface, bees_surfaces
     
