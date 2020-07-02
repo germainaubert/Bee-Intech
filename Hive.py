@@ -128,15 +128,15 @@ class hive():
 	def calcul_upgrade_fight(self,bee):
 		
 		upgrades = {
-		"Cogneur" : "BIM BAM BOUM",
-		"Epéiste" : "Fine Lame",
-		"Pistoleto" : "Pistolero",
-		"Panpan" : "Pistolero",
-		"TireurTueur" : "Pistolero",
-		"Epéiste" : "Vrai ninja des rues",
-		"Tridento" : "Vrai ninja des rues",
-		"Cutter" : "Vrai ninja des rues",
-		"BeeWalker" : "Vrai ninja des rues",
+		# "Cogneur" : "BIM BAM BOUM",
+		# "Epéiste" : "Fine Lame",
+		# "Pistoleto" : "Pistolero",
+		# "Panpan" : "Pistolero",
+		# "TireurTueur" : "Pistolero",
+		# "Epéiste" : "Vrai ninja des rues",
+		# "Tridento" : "Vrai ninja des rues",
+		# "Cutter" : "Vrai ninja des rues",
+		# "BeeWalker" : "Vrai ninja des rues",
 		#"" : "",
 		#"" : "" ,
 		#"" : ""
