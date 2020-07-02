@@ -110,6 +110,7 @@ class live_display():
             buttons["confirm"].draw_button(surface)
             first_call = True
         elif alert == "cant_win":
+            surface.blit(self._black_surface, (0,0))
             font = pygame.font.SysFont('comicsans', 40)
             msg = font.render("Votre armée est trop faible pour envahir le territoire", 1, (255,255,255))
             surface.blit(msg, (700,550))
