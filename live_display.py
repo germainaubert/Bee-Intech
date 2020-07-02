@@ -104,9 +104,9 @@ class live_display():
                     surface.blit(self._black_surface, (0,0))
                     font = pygame.font.SysFont('comicsans', 50)
                     msg = font.render(territory._display_name, 1, (255,255,255))
-                    surface.blit(msg, (800,500))
+                    surface.blit(msg, (900-len(territory._display_name)*8 ,500))
                     msg = font.render(territory._description, 1, (255,255,255))
-                    surface.blit(msg, (800,550))
+                    surface.blit(msg, (900-len(territory._description)*9,550))
                     
                     if territory._possession == False:
                         buttons["back"] = button((255,180,255), 950, 600, 150, 80, self._w, self._h, 'Retour', font='comicsans', sizeFont=40)
