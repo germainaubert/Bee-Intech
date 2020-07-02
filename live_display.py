@@ -157,7 +157,7 @@ class live_display():
 
         surface = self.display_ressources(surface)
 
-        pos_x = 80
+        pos_x = 150
         pos_y = 250
         
         container_surface = pygame.Surface((1500, 850), pygame.SRCALPHA)

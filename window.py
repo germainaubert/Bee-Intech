@@ -188,7 +188,7 @@ class window():
                             self._live = "management"
                             self._scroll_y = 0 # Valeur de scroll initial, pour ne pas que le scroll soit dans l'état ou il a été laissé
                             self._surface, self._bees_surfaces = self._display.display_management(self._w, self._h, self._hive, self._scroll_y)
-                            print(self._hive.calcul_territory_sapce())
+                            
                             break
                     if "upgrade_button" in self._display._button_dic:
                         if self._display._button_dic["upgrade_button"].is_over(event.pos):
