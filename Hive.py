@@ -73,6 +73,20 @@ class hive():
 		self.calcul_prod()
 		return bee
 
+	def calcul_territory_sapce(self):
+
+		space = {"honey" : [0,0], "water" : [0,0], "metal" : [0,0],"uranium" : [0,0],"pollen" : [0,0]}
+
+		for territory in self.territories():
+			if territory.possession():
+				space[territory.ressource()][1] += territory.space()
+		for bee in self.bees():
+			if bee.category() == "worker":
+				space[bee.ressource()][0] += 1
+
+		return space
+
+
 	def calcul_prod(self):
 
 		self._prod = {"honey" : 0, "water" : 0, "metal" : 0 ,"uranium" : 0,"pollen" : 0}

@@ -177,7 +177,7 @@ class display():
                         surface_dic["buttons"].append(button_temp)
                         button_temp.draw_button(surface_dic["surface"][cpt])
 
-                    button_temp = button((212,180,0), x, 350, 300, 75, w, h, "Description", font='comicsans', sizeFont=50, get = "Test 1: chong")#[upgrade.name(),upgrade.lvl()])
+                    button_temp = button((212,180,0), x, 350, 300, 75, w, h, "Description", font='comicsans', sizeFont=50, get = ["description",upgrade.name(),upgrade.lvl()])#[upgrade.name(),upgrade.lvl()])
                     surface_dic["buttons"].append(button_temp)
                     button_temp.draw_button(surface_dic["surface"][cpt])
 

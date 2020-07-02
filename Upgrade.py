@@ -37,3 +37,6 @@ class upgrade():
 	def lvl(self):
 		return self._lvl
 
+	def description(self):
+		return self._description
+
