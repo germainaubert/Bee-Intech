@@ -177,7 +177,7 @@ class display():
                         surface_dic["buttons"].append(button_temp)
                         button_temp.draw_button(surface_dic["surface"][cpt])
 
-                    button_temp = button((212,180,0), x, 350, 300, 75, w, h, "Description", font='comicsans', sizeFont=50, get = "Test 1: chong")#[upgrade.name(),upgrade.lvl()])
+                    button_temp = button((212,180,0), x, 350, 300, 75, w, h, "Description", font='comicsans', sizeFont=50, get = ["description",upgrade.name(),upgrade.lvl()])#[upgrade.name(),upgrade.lvl()])
                     surface_dic["buttons"].append(button_temp)
                     button_temp.draw_button(surface_dic["surface"][cpt])
 
@@ -300,11 +300,11 @@ class display():
             # nom abeille 
             nom_abeille = font.render(bees[i][0]._name, 1, (0,0,0))
             surface_dic['surface'][indice].blit(nom_abeille, (x, 0))
-            
+
             # image abeille
             image = pygame.image.load(bees[i][0]._sprite)
             surface_dic['surface'][indice].blit(image, (x, 20))
-            # quantité abeille
+
             quantity = font.render("Quantité: " + str(bees[i][1]), 1, (0,0,0))
             surface_dic['surface'][indice].blit(quantity, (x, 300))
             if bees[i][0].category() == "worker":
@@ -366,11 +366,11 @@ class display():
             
         # Affichage basique
         surface.blit(self._background, (0, 0))
-          
+         
         font = pygame.font.SysFont('comicsans', 40)
-
         pygame.draw.rect(surface, (255, 247, 153), (0,50,1920,60))
-        pygame.draw.line(surface, (0,0,0), (0, 110), (1920, 110), 5)
+        pygame.draw.line(surface, (0,0,0), (0, 110), (1920, 110), 5) 
+
         #infos de la ruche
         bees_possessed = font.render("Abeilles possédées: " + str(len(hive._bees)), 1, (0,0,0))
         surface.blit(bees_possessed, (230, 70))
@@ -381,7 +381,7 @@ class display():
             if bee._category == "fighter":
                 nbr_fighter += 1
                 tot_strength += bee._strength
-        
+
         nbr_worker = len(hive._bees) - nbr_fighter
 
         fighter = font.render("Combattantes: " + str(nbr_fighter), 1, (0,0,0))
@@ -392,6 +392,7 @@ class display():
 
         strength = font.render("Force d'armée: " + str(tot_strength), 1, (0,0,0))
         surface.blit(strength, (1450, 70))
+
 
         #infos sur les abeilles possédées
         list_bee = {}
@@ -528,7 +529,7 @@ class display():
                 surface_dic['buttons'].append(bouton)
                 bouton.draw_button(surface_dic['surface'][indice])
             else:
-                bouton = button((169, 169, 169), x, 450, 300, 75, w, h,"Niveau " + str(bees[i].required_level()) + " requis" , font='comicsans', sizeFont=50, get=None)
+                bouton = button((169, 169, 169), x, 450, 390, 75, w, h,"Niveau " + str(bees[i].required_level()) + " requis" , font='comicsans', sizeFont=50, get=None)
                 bouton.draw_button(surface_dic['surface'][indice])
 
             x += 450 

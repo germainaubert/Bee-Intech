@@ -9,4 +9,4 @@ class fighter_bee(bee):
 		self._strength = strength
 
 	def strength(self):
-		return self._strength
+		return self._strength 

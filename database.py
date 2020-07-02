@@ -1,6 +1,7 @@
 import sqlite3
 from Bee import bee
 from Worker_Bee import worker_bee
+from Fighter_Bee import fighter_bee
 from Upgrade import upgrade
 from Territory import territory
 
@@ -25,18 +26,18 @@ class database():
         cur.execute("DELETE from abeilles")
         conn.commit()
             
-        cur.execute("UPDATE ressources SET Quantite = ?, Production = ? WHERE nom = 'honey'")
+        cur.execute("UPDATE ressources SET Quantite = 100, Production = 0 WHERE nom = 'honey'")
         conn.commit()
-        cur.execute("UPDATE ressources SET Quantite = ?, Production = ? WHERE nom = 'water'")
+        cur.execute("UPDATE ressources SET Quantite = 0, Production = 0 WHERE nom = 'water'")
         conn.commit()
-        cur.execute("UPDATE ressources SET Quantite = ?, Production = ? WHERE nom = 'metal'")
+        cur.execute("UPDATE ressources SET Quantite = 0, Production = 0 WHERE nom = 'metal'")
         conn.commit()
-        cur.execute("UPDATE ressources SET Quantite = ?, Production = ? WHERE nom = 'uranium'")
+        cur.execute("UPDATE ressources SET Quantite = 0, Production = 0 WHERE nom = 'uranium'")
         conn.commit()
-        cur.execute("UPDATE ressources SET Quantite = ?, Production = ? WHERE nom = 'pollen'")
+        cur.execute("UPDATE ressources SET Quantite = 0, Production = 0 WHERE nom = 'pollen'")
         conn.commit()
 
-        cur.execute("UPDATE territoires SET Possession = 0")
+        cur.execute("UPDATE territoires SET Possession = 0 where id != 1 AND id != 2")
         conn.commit()
         
         cur.execute("UPDATE amelioration SET Possession = 0")
@@ -74,7 +75,7 @@ class database():
                 self._exp = row[0]
                 self._level = row[1]
 
-            cur.execute("SELECT Nom, Cout, Categorie, Prix, Ressource_Prix, Niveau_Requis, Sprite, Production, Ressource, territoire_nom FROM abeilles")
+            cur.execute("SELECT Nom, Cout, Categorie, Prix, Ressource_Prix, Niveau_Requis, Sprite, Production, Ressource, territoire_nom, Force FROM abeilles")
             rows = cur.fetchall()
             for row in rows:
                 print(row)
@@ -88,7 +89,11 @@ class database():
                 prod = row[7]
                 ressource = row[8]
                 territorygrospddetesmorts = row[9]
-                self._bees.append(worker_bee(name, cost, category, [ressource_price,price], required_level, sprite, prod, ressource, territorygrospddetesmorts))
+                strength = row[10]
+                if category == 'worker':
+                    self._bees.append(worker_bee(name, cost, category, [ressource_price,price], required_level, sprite, prod, ressource, territorygrospddetesmorts))
+                if category == 'fighter':
+                    self._bees.append(fighter_bee(name, cost, category, [ressource_price,price], required_level, sprite, strength))
 
         
             cur.execute("SELECT Quantite, Production FROM ressources WHERE ruche_id = 1")
@@ -170,6 +175,17 @@ class database():
                 ruche_id = 1
                 territory_name = bee.territory()
                 cur.execute("INSERT INTO abeilles(Nom, Cout, Categorie, Prix, Ressource_Prix, Niveau_Requis, Sprite, Production, Ressource, ruche_id, territoire_nom) VALUES (?,?,?,?,?,?,?,?,?,?,?)",(name, cost, category, price[1], price[0],required_level, sprite, prod, ressource, ruche_id,territory_name))
+                conn.commit()
+            if bee.category() == 'fighter':
+                name = bee.name()
+                cost = bee.cost()
+                category = bee.category()
+                price = bee.price()
+                required_level = bee.required_level()
+                sprite = bee.sprite()
+                ruche_id = 1
+                strength = bee.strength()
+                cur.execute("INSERT INTO abeilles(Nom, Cout, Categorie, Prix, Ressource_Prix, Niveau_Requis, Sprite, Force, ruche_id) VALUES (?,?,?,?,?,?,?,?,?)",(name, cost, category, price[1], price[0],required_level, sprite, strength, ruche_id))
                 conn.commit()
         hive_prod = hive.prod()
         hive_quantity = hive.ressource()
