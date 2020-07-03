@@ -166,6 +166,7 @@ class window():
                         if self._display._button_dic["quit_button"].is_over(event.pos):
                             # for bee in self._hive.bees():
                             save = self._database.save_data(self._hive)
+                            #reboot = self._database.init_hive()
                             run = False
                             pygame.quit()
                             break
