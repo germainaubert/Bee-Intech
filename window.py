@@ -35,7 +35,7 @@ class window():
         
         self._w, self._h = self.getSize()
         self._window = pygame.display.set_mode((self._w, self._h), pygame.FULLSCREEN)
-        self._title = "BEETTHEFUCKOUTOFMYWIFE"
+        self._title = "BEE IT"
         self._display = display()
         pygame.display.set_caption(self._title)
         self._database = database()
