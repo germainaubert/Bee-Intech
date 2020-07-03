@@ -166,6 +166,7 @@ class window():
                         if self._display._button_dic["quit_button"].is_over(event.pos):
                             # for bee in self._hive.bees():
                             save = self._database.save_data(self._hive)
+                            #reboot = self._database.init_hive()
                             run = False
                             pygame.quit()
                             break
@@ -177,7 +178,6 @@ class window():
                             break
                     if "back_button" in self._display._button_dic:
                         if self._display._button_dic["back_button"].is_over(event.pos):
-                            reboot = self._database.init_hive()
                             self._surface = self._display.display_menu(self._w, self._h)
                             self._live = "menu"
                             self._alert = None
