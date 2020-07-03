@@ -17,7 +17,7 @@ class database():
         self._prod = prod
         self._save_count = 1
 
-    def init_hive():
+    def init_hive(self):
         conn = self._conn
         cur = conn.cursor()
         cur.execute("UPDATE ruche SET Experience = 0, Niveau = 0, Verification = 1 WHERE id = 1")
