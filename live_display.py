@@ -61,20 +61,20 @@ class live_display():
 
         font = pygame.font.SysFont('comicsans', 50)
 
-        print("DEBUT", alert, first_time)
+        #print("DEBUT", alert, first_time)
 
         if alert != None:
             if first_time == True:
                 self._temp_buttons = buttons
                 first_time = False
             for up in self._hive._upgrades:
-                if up._name == alert:
+                if up._name == alert[1] and up._lvl == alert[2]:
                     good_up = up
 
             surface.blit(self._black_surface, (0,0))
 
             msg = font.render(good_up._description, 1, (255,255,255))
-            surface.blit(msg, (700,550))
+            surface.blit(msg, (975-len(good_up._description)*9,550))
             
             buttons = {"ok": button((255,180,255), 900, 600, 150, 80, self._w, self._h, 'Ok', font='comicsans', sizeFont=40)}
             buttons["ok"].draw_button(surface)
@@ -104,21 +104,51 @@ class live_display():
                     surface.blit(self._black_surface, (0,0))
                     font = pygame.font.SysFont('comicsans', 50)
                     msg = font.render(territory._display_name, 1, (255,255,255))
-                    surface.blit(msg, (800,500))
+                    surface.blit(msg, (900-len(territory._display_name)*7.5 ,400))
                     msg = font.render(territory._description, 1, (255,255,255))
-                    surface.blit(msg, (800,550))
+                    surface.blit(msg, (900-len(territory._description)*8,450))
                     
                     if territory._possession == False:
-                        buttons["back"] = button((255,180,255), 950, 600, 150, 80, self._w, self._h, 'Retour', font='comicsans', sizeFont=40)
+
+                        msg = font.render("Force: " + str(territory.strength()), 1, (255,255,255))
+                        surface.blit(msg, (810,500))
+                        msg = font.render("Recompenses:", 1, (255,255,255))
+                        surface.blit(msg, (780,550))
+                        msg = font.render("+1 niveau", 1, (255,255,255))
+                        surface.blit(msg, (820,600))
+                        msg = font.render( str(territory.strength()), 1, (255,255,255))
+                        surface.blit(msg, (900-len(str(territory.strength()))*7,650))
+
+                        image = pygame.image.load("./Images/pollen.png")
+                        surface.blit(pygame.transform.scale(image, (30, 30)), ( 890 + 20*len(str(territory.strength())), 650 ))
+
+                        msg = font.render( str(territory.strength()), 1, (255,255,255))
+                        surface.blit(msg, (900-len(str(territory.strength()))*7,700))
+
+                        if territory.ressource() == "honey":
+                            image = pygame.image.load("./Images/honey.png")
+                            surface.blit(pygame.transform.scale(image, (30, 30)), ( 890 + 20*len(str(territory.strength())), 700 ))
+                        elif territory.ressource() == "water":
+                            image = pygame.image.load("./Images/water.png")
+                            surface.blit(pygame.transform.scale(image, (30, 30)), ( 890 + 20*len(str(territory.strength())), 700 ))
+                        elif territory.ressource() == "metal": 
+                            image = pygame.image.load("./Images/metal.png")
+                            surface.blit(pygame.transform.scale(image, (30, 30)), ( 890 + 20*len(str(territory.strength())), 700 ))
+                        elif territory.ressource() == "uranium":
+                            image = pygame.image.load("./Images/uranium.png")
+                            surface.blit(pygame.transform.scale(image, (30, 30)), ( 890 + 20*len(str(territory.strength())), 700 ))
+
+
+                        buttons["back"] = button((255,180,255), 950, 750, 150, 80, self._w, self._h, 'Retour', font='comicsans', sizeFont=40)
                         buttons["back"].draw_button(surface)
 
-                        buttons["attack"] = button((255,180,255), 700, 600, 150, 80, self._w, self._h, 'Attaquer', font='comicsans', sizeFont=40)
+                        buttons["attack"] = button((255,180,255), 700, 750, 150, 80, self._w, self._h, 'Attaquer', font='comicsans', sizeFont=40)
                         buttons["attack"].draw_button(surface)
                     
                     else:
                         msg = font.render('Vous possédez déjà ce territoire !', 1, (255,255,255))
-                        surface.blit(msg, (800,600))
-                        buttons["back"] = button((255,180,255), 950, 700, 150, 80, self._w, self._h, 'Retour', font='comicsans', sizeFont=40)
+                        surface.blit(msg, (650,600))
+                        buttons["back"] = button((255,180,255), 825, 750, 150, 80, self._w, self._h, 'Retour', font='comicsans', sizeFont=40)
                         buttons["back"].draw_button(surface)
 
         elif alert == "Done":
@@ -136,15 +166,15 @@ class live_display():
             font = pygame.font.SysFont('comicsans', 40)
             msg = font.render("Vous avez envahi ce territoire !", 1, (255,255,255))
             surface.blit(msg, (700,550))
-            buttons = {"confirm" : button((255,180,255), 700, 600, 150, 80, self._w, self._h, 'Cool !', font='comicsans', sizeFont=40)}
+            buttons = {"confirm" : button((255,180,255), 825, 600, 150, 80, self._w, self._h, 'Retour', font='comicsans', sizeFont=40)}
             buttons["confirm"].draw_button(surface)
             first_call = True
         elif alert == "cant_win":
             surface.blit(self._black_surface, (0,0))
             font = pygame.font.SysFont('comicsans', 40)
             msg = font.render("Votre armée est trop faible pour envahir le territoire", 1, (255,255,255))
-            surface.blit(msg, (700,550))
-            buttons = {"confirm" : button((255,180,255), 700, 600, 150, 80, self._w, self._h, 'Retourner sur la carte', font='comicsans', sizeFont=40)}
+            surface.blit(msg, (575,550))
+            buttons = {"confirm" : button((255,180,255), 825, 600, 150, 80, self._w, self._h, 'Retour', font='comicsans', sizeFont=40)}
             buttons["confirm"].draw_button(surface)
         elif alert == None and first_call == False:
             buttons = self._temp_buttons

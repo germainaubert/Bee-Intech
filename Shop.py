@@ -11,16 +11,16 @@ class shop():
 		# liste des abeilles dans le shop
 		self._bees = [worker_bee('Abeille', 10, 'worker', [10,"honey"], 1, "./Images/bees/basic_bee.png", 20, "honey", None),
 		fighter_bee('Cogneur', 10, 'fighter', [10,"honey"], 1, "./Images/bees/punch.png",  10),
-		fighter_bee('Epéiste', 20, 'fighter', [10,"honey"], 1, "./Images/bees/sword.png",  3000),
-		worker_bee('Aquabeille', 20, 'worker', [10,"water"], 1, "./Images/bees/water.png",  40 , "water", None),
-		fighter_bee('Tridento', 20, 'fighter', [10,"honey"], 1, "./Images/bees/trident.png",  3000),
-		fighter_bee('Pistoleto', 20, 'fighter', [10,"honey"], 1, "./Images/bees/pistol.png",  3000),
-		worker_bee('Metabeille', 20, 'worker', [10,"metal"], 1, "./Images/bees/metal.png",  40 , "metal", None),
-		fighter_bee('Panpan', 20, 'fighter', [10,"honey"], 1, "./Images/bees/BIMBOUM.png",  3000),
-		fighter_bee('Cutter', 20, 'fighter', [10,"honey"], 1, "./Images/bees/lamesl.png",  3000),
-		worker_bee('Urabeille', 20, 'worker', [10,"uranium"], 1, "./Images/bees/uranium.png",  40 , "uranium", None),
-		fighter_bee('TireurTueur', 20, 'fighter', [10,"honey"], 1, "./Images/bees/missile.png",  3000),
-		fighter_bee('BeeWalker', 20, 'fighter', [10,"honey"], 1, "./Images/bees/BeeWalker.png",  3000),
+		fighter_bee('Epéiste', 20, 'fighter', [20,"honey"], 1, "./Images/bees/sword.png",  20),
+		worker_bee('Aquabeille', 10, 'worker', [10,"water"], 3, "./Images/bees/water.png",  20 , "water", None),
+		fighter_bee('Tridento', 10, 'fighter', [10,"water"], 3, "./Images/bees/trident.png",  30),
+		fighter_bee('Pistoleto', 20, 'fighter', [20,"water"], 3, "./Images/bees/pistol.png",  40),
+		worker_bee('Metabeille', 10, 'worker', [10,"metal"], 5, "./Images/bees/metal.png",  20 , "metal", None),
+		fighter_bee('Panpan', 10, 'fighter', [10,"metal"], 5, "./Images/bees/BIMBOUM.png",  50),
+		fighter_bee('Cutter', 20, 'fighter', [20,"metal"], 5, "./Images/bees/lamesl.png",  60),
+		worker_bee('Urabeille', 10, 'worker', [10,"uranium"], 7, "./Images/bees/uranium.png",  20 , "uranium", None),
+		fighter_bee('TireurTueur', 10, 'fighter', [10,"uranium"], 7, "./Images/bees/missile.png",  100),
+		fighter_bee('BeeWalker', 20, 'fighter', [20,"uranium"], 7, "./Images/bees/BeeWalker.png",  150),
 		]
 #fighter_bee('fighter', 20, 'fighter', [20,"honey"], 1, "./Images/diobrando.jpg", 20)
 		# liste des upgrades dans le shop
